@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  jd_crazy:
+    image: qq1398371419/jd_crazy
+    environment:
+      - JD_COOKIE=
+      - MERGE_WAIT=1800000
+      - PRODUCE_WAIT=1000
+    volumes:
+      - /data/jd_crazy/logs:/scripts/logs
+    hostname: jd_crazy
+    restart: always
+    tty: true
