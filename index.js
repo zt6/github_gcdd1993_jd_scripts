@@ -7,8 +7,7 @@ exports.main_handler = async (event, context, callback) => {
       console.log(v);
       var request = require('request');
       //1.执行自己上传的js文件
-      //require('./'+v+'.js')
-          //delete require.cache[require.resolve('./'+v+'.js')];
+      //delete require.cache[require.resolve('./'+v+'.js')];
       //require('./'+v+'.js')
 
       //2.执行国内gitee远端js文件如果部署，在国内节点，选择1或2的方式

@@ -374,29 +374,29 @@ async function doTask() {
 function jdfactory_collectScore(taskToken) {
     return new Promise(async resolve => {
     await $.wait(1000);
-        $.post(taskPostUrl("jdfactory_collectScore", {taskToken}, "jdfactory_collectScore"), async (err, resp, data) => {
-            try {
-                if (err) {
-                    console.log(`${JSON.stringify(err)}`)
-                    console.log(`${$.name} API请求失败，请检查网路重试`)
-                } else {
-                    if (safeGet(data)) {
-                        data = JSON.parse(data);
-                        if (data.data.bizCode === 0) {
-                            $.taskVos = data.data.result.taskVos;//任务列表
-                            console.log(`领取做完任务的奖励：${JSON.stringify(data.data.result)}`);
-                        } else {
-                            console.log(JSON.stringify(data))
-                        }
-                    }
-                }
-            } catch (e) {
-                $.logErr(e, resp)
-            } finally {
-                resolve(data);
+    $.post(taskPostUrl("jdfactory_collectScore", { taskToken }, "jdfactory_collectScore"), async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (safeGet(data)) {
+            data = JSON.parse(data);
+            if (data.data.bizCode === 0) {
+              $.taskVos = data.data.result.taskVos;//任务列表
+              console.log(`领取做完任务的奖励：${JSON.stringify(data.data.result)}`);
+            } else {
+              console.log(JSON.stringify(data))
             }
-        })
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve(data);
+      }
     })
+  })
 }
 
 //给商品投入电量

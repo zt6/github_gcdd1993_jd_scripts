@@ -24,7 +24,7 @@ const $ = new Env('京东赚赚');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-let helpAuthor = true; // 帮助作者
+let helpAuthor=true; // 帮助作者
 const randomCount = $.isNode() ? 20 : 5;
 let jdNotify = true; // 是否关闭通知，false打开通知推送，true关闭通知推送
 //IOS等用户直接用NobyDa的jd cookie
@@ -36,12 +36,12 @@ if ($.isNode()) {
     if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {
     };
 } else {
-    let cookiesData = $.getdata('CookiesJD') || "[]";
-    cookiesData = jsonParse(cookiesData);
-    cookiesArr = cookiesData.map(item => item.cookie);
-    cookiesArr.reverse();
-    cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
-    cookiesArr.reverse();
+  let cookiesData = $.getdata('CookiesJD') || "[]";
+  cookiesData = jsonParse(cookiesData);
+  cookiesArr = cookiesData.map(item => item.cookie);
+  cookiesArr.reverse();
+  cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
+  cookiesArr.reverse();
   cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';

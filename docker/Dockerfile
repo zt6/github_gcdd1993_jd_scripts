@@ -21,7 +21,7 @@ ENV BUILD_VERSION=0.1.2 \
     DEFAULT_LIST_FILE=crontab_list.sh \
     CUSTOM_LIST_MERGE_TYPE=append
 
-# github action 构建    
+# github action 构建
 COPY ./docker/docker_entrypoint.sh /usr/local/bin
 # 本地构建
 # COPY ./docker_entrypoint.sh /usr/local/bin

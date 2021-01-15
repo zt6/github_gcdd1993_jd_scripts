@@ -25,6 +25,7 @@ cron "0 9,12,18 * * *" script-path=https://raw.githubusercontent.com/lxk0301/jd_
 =========================Surge============================
 京喜农场 = type=cron,cronexp="0 9,12,18 * * *",timeout=60,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_jxnc.js
 京喜农场cookie = type=http-request,pattern=^https\:\/\/wq\.jd\.com\/cubeactive\/farm\/dotask,requires-body=0,max-size=0,script-path= https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_nc.cookie.js
+
 =========================小火箭===========================
 京喜农场 = type=cron,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_jxnc.js, cronexpr="0 9,12,18 * * *", timeout=200, enable=true
 京喜农场APP种子cookie = type=http-request,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_nc.cookie.js,pattern=^https\:\/\/wq\.jd\.com\/cubeactive\/farm\/dotask,max-size=131072,timeout=110,enable=true
@@ -63,98 +64,100 @@ $.helpSelfNum = 0; // 当前账号 助力 ret 1021 cannot help self 次数
 let assistUserShareCode = 0; // 随机助力用户 share code
 
 !(async () => {
-  await requireConfig();
-  if (!cookieArr[0]) {
-    $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-    return;
-  }
-
-  for (let i = 0; i < cookieArr.length; i++) {
-    if (cookieArr[i]) {
-      currentCookie = cookieArr[i];
-      $.UserName = decodeURIComponent(currentCookie.match(/pt_pin=(.+?);/) && currentCookie.match(/pt_pin=(.+?);/)[1])
-      $.index = i + 1;
-      $.isLogin = true;
-      $.nickName = '';
-      $.log(`检查【京东账号${$.index}】${$.UserName} cookie 是否有效`);
-      await TotalBean();
-      $.log(`开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
-      if (!$.isLogin) {
-        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/`, {"open-url": "https://bean.m.jd.com/"});
-        if ($.isNode()) {
-          await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-        }
-        continue
-      }
-      subTitle = '';
-      message = '';
-      option = {};
-      $.answer = 0;
-            $.helpNum = 0;
-      $.helpSelfNum = 0;await tokenFormat(); // 处理当前账号 token
-      await shareCodesFormat(); // 处理当前账号 助力码
-      await jdJXNC(); // 执行当前账号 主代码流程
+    await requireConfig();
+    if (!cookieArr[0]) {
+        $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+        return;
     }
-  }
+
+    for (let i = 0; i < cookieArr.length; i++) {
+        if (cookieArr[i]) {
+            currentCookie = cookieArr[i];
+            $.UserName = decodeURIComponent(currentCookie.match(/pt_pin=(.+?);/) && currentCookie.match(/pt_pin=(.+?);/)[1])
+            $.index = i + 1;
+            $.isLogin = true;
+            $.nickName = '';
+            $.log(`\n************* 检查【京东账号${$.index}】${$.UserName} cookie 是否有效 *************`);
+            await TotalBean();
+            $.log(`开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
+            if (!$.isLogin) {
+                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/`, {"open-url": "https://bean.m.jd.com/"});
+                if ($.isNode()) {
+                    await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
+                }
+                continue
+            }
+            subTitle = '';
+            message = '';
+            option = {};
+            $.answer = 0;
+            $.helpNum = 0;
+            $.helpSelfNum = 0;
+            notifyBool = notifyLevel > 0; // 初始化是否推送
+            await tokenFormat(); // 处理当前账号 token
+            await shareCodesFormat(); // 处理当前账号 助力码
+            await jdJXNC(); // 执行当前账号 主代码流程
+        }
+    }
 })()
-  .catch((e) => {
-    $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
-    console.log(e);
-  })
-  .finally(() => {
-    $.done();
-  })
+    .catch((e) => {
+        $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
+        console.log(e);
+    })
+    .finally(() => {
+        $.done();
+    })
 
 // 加载配置 cookie token shareCode
 function requireConfig() {
-  return new Promise(resolve => {
-    $.log('开始获取配置文件\n')
-    notify = $.isNode() ? require('./sendNotify') : '';
-    notifyBool = notifyLevel > 0; // 初始化是否推送//Node.js用户请在jdCookie.js处填写京东ck;
-    const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-    const jdTokenNode = $.isNode() ? require('./jdJxncTokens.js') : '';
-    const jdJxncShareCodeNode = $.isNode() ? require('./jdJxncShareCodes.js') : '';
-    //IOS等用户直接用NobyDa的jd cookie
-    if ($.isNode()) {
-      Object.keys(jdCookieNode).forEach((item) => {
-        if (jdCookieNode[item]) {
-          cookieArr.push(jdCookieNode[item]);
+    return new Promise(resolve => {
+        $.log('开始获取配置文件\n')
+        notify = $.isNode() ? require('./sendNotify') : '';
+        //Node.js用户请在jdCookie.js处填写京东ck;
+        const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+        const jdTokenNode = $.isNode() ? require('./jdJxncTokens.js') : '';
+        const jdJxncShareCodeNode = $.isNode() ? require('./jdJxncShareCodes.js') : '';
+        //IOS等用户直接用NobyDa的jd cookie
+        if ($.isNode()) {
+            Object.keys(jdCookieNode).forEach((item) => {
+                if (jdCookieNode[item]) {
+                    cookieArr.push(jdCookieNode[item]);
+                }
+            })
+            if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {
+            };
+        } else {
+            cookieArr.push(...[$.getdata('CookieJD'), $.getdata('CookieJD2')]);
         }
-      })
-      if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {
-      };
-    } else {
-      cookieArr.push(...[$.getdata('CookieJD'), $.getdata('CookieJD2')]);
-    }
 
-    $.log(`共${cookieArr.length}个京东账号\n`);
+        $.log(`共${cookieArr.length}个京东账号\n`);
 
-    if ($.isNode()) {
-      Object.keys(jdTokenNode).forEach((item) => {
-        tokenArr.push(jdTokenNode[item] ? JSON.parse(jdTokenNode[item]) : tokenNull)
-      })
-    } else {
-      tokenArr.push(...[$.getdata('jxnc_token1') || tokenNull, $.getdata('jxnc_token2') || tokenNull]);
-    }
-
-    if ($.isNode()) {
-      Object.keys(jdJxncShareCodeNode).forEach((item) => {
-        if (jdJxncShareCodeNode[item]) {
-          jxncShareCodeArr.push(jdJxncShareCodeNode[item])
+        if ($.isNode()) {
+            Object.keys(jdTokenNode).forEach((item) => {
+                tokenArr.push(jdTokenNode[item] ? JSON.parse(jdTokenNode[item]) : tokenNull)
+            })
+        } else {
+            tokenArr.push(...[$.getdata('jxnc_token1') || tokenNull, $.getdata('jxnc_token2') || tokenNull]);
         }
-      })
-    }
 
-    // console.log(`jdFruitShareArr::${JSON.stringify(jdFruitShareArr)}`)
-    // console.log(`jdFruitShareArr账号长度::${jdFruitShareArr.length}`)
-    $.log(`您提供了${jxncShareCodeArr.length}个账号的京喜农场助力码`);
-    resolve()
-  })
+        if ($.isNode()) {
+            Object.keys(jdJxncShareCodeNode).forEach((item) => {
+                if (jdJxncShareCodeNode[item]) {
+                    jxncShareCodeArr.push(jdJxncShareCodeNode[item])
+                }
+            })
+        }
+
+        // console.log(`jdFruitShareArr::${JSON.stringify(jdFruitShareArr)}`)
+        // console.log(`jdFruitShareArr账号长度::${jdFruitShareArr.length}`)
+        $.log(`您提供了${jxncShareCodeArr.length}个账号的京喜农场助力码`);
+        resolve()
+    })
 }
 
 // 查询京东账户信息（检查 cookie 是否有效）
 function TotalBean() {
-  return new Promise(async resolve => {
+    return new Promise(async resolve => {
     const options = {
       "url": `https://wq.jd.com/user/info/QueryJDUserInfo?sceneval=2`,
       "headers": {
@@ -196,7 +199,7 @@ function TotalBean() {
 
 // 处理当前账号token
 function tokenFormat() {
-  return new Promise(async resolve => {
+    return new Promise(async resolve => {
     if (tokenArr[$.index - 1] && tokenArr[$.index - 1].farm_jstoken) {
       currentToken = tokenArr[$.index - 1];
     } else {
@@ -259,63 +262,63 @@ async function jdJXNC() {
                 }
             }
         }
-  }
+    }
   await showMsg()
 }
 
 // 获取任务列表与用户信息
 function getTaskList() {
-  return new Promise(async resolve => {
+    return new Promise(async resolve => {
     $.get(taskUrl('query', `type=1`), async (err, resp, data) => {
       try {
         const res = data.match(/try\{whyour\(([\s\S]*)\)\;\}catch\(e\)\{\}/)[1];
         const {detail, msg, task = [], retmsg, ...other} = JSON.parse(res);
         $.detail = detail;
                 $.helpTask = task.filter(x => x.tasktype === 2)[0] || {eachtimeget: 0, limit: 0};
-        $.allTask = task.filter(x => x.tasktype !== 3 && x.tasktype !== 2 && parseInt(x.left) > 0);
-        $.info = other;
-        $.log(`获取任务列表 ${retmsg} 总共${$.allTask.length}个任务！`);
-        if (!$.info.active) {
-          $.log('账号未选择种子，请先去京喜农场选择种子。\n如果选择 APP 专属种子，必须提供 token。');
-          message += '账号未选择种子，请先去京喜农场选择种子。\n如果选择 APP 专属种子，必须提供 token。\n';
-          notifyBool = notifyBool && notifyLevel >= 3;
-          resolve(false);
-        }
-        resolve(other);
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve(true);
-      }
+                $.allTask = task.filter(x => x.tasktype !== 3 && x.tasktype !== 2 && parseInt(x.left) > 0);
+                $.info = other;
+                $.log(`获取任务列表 ${retmsg} 总共${$.allTask.length}个任务！`);
+                if (!$.info.active) {
+                    $.log('账号未选择种子，请先去京喜农场选择种子。\n如果选择 APP 专属种子，必须提供 token。');
+                    message += '账号未选择种子，请先去京喜农场选择种子。\n如果选择 APP 专属种子，必须提供 token。\n';
+                    notifyBool = notifyBool && notifyLevel >= 3;
+                    resolve(false);
+                }
+                resolve(other);
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve(true);
+            }
+        });
     });
-  });
 }
 
 function browserTask() {
-  return new Promise(async resolve => {
-    const tasks = $.allTask.filter(x => x.tasklevel !== 6);
-    const times = Math.max(...[...tasks].map(x => x.limit));
-    for (let i = 0; i < tasks.length; i++) {
-      const task = tasks[i];
-      $.log(`开始第${i + 1}个任务：${task.taskname}`);
-      const status = [0];
-      for (let i = 0; i < times; i++) {
-        const random = Math.random() * 3;
-        await $.wait(random * 1000);
-        if (status[0] === 0) {
-          status[0] = await doTask(task);
-        }
-        if (status[0] !== 0) {
-          break;
-        }
-      }
-      if (status[0] === 1017) { // ret:1017 retmsg:"score full" 水滴已满，果实成熟，跳过所有任务
+    return new Promise(async resolve => {
+        const tasks = $.allTask.filter(x => x.tasklevel !== 6);
+        const times = Math.max(...[...tasks].map(x => x.limit));
+        for (let i = 0; i < tasks.length; i++) {
+            const task = tasks[i];
+            $.log(`开始第${i + 1}个任务：${task.taskname}`);
+            const status = [0];
+            for (let i = 0; i < times; i++) {
+                const random = Math.random() * 3;
+                await $.wait(random * 1000);
+                if (status[0] === 0) {
+                    status[0] = await doTask(task);
+                }
+                if (status[0] !== 0) {
+                    break;
+                }
+            }
+            if (status[0] === 1017) { // ret:1017 retmsg:"score full" 水滴已满，果实成熟，跳过所有任务
                 $.log('水滴已满，果实成熟，跳过所有任务');
                 resolve(true);
                 break;
             }
             if (status[0] === 1032) {
-        $.log('任务执行失败，种植的 APP 专属种子，请提供 token 或种植非 APP 种子');
+                $.log('任务执行失败，种植的 APP 专属种子，请提供 token 或种植非 APP 种子');
         message += '任务执行失败，种植的 APP 专属种子，请提供 token 或种植非 APP 种子\n';
         resolve(false);
         return;
@@ -359,7 +362,7 @@ function answerTask() {
                         return;
                     }
                     if (((ret !== 0 && ret !== 1029) || retmsg === 'ans err') && $.answer < 4) {
-            $.answer++;
+                        $.answer++;
             await $.wait(1000);
             await answerTask();
           }
@@ -374,8 +377,8 @@ function answerTask() {
 }
 
 function getMessage(endInfo, startInfo) {
-  const need = endInfo.target - endInfo.score;
-  const get = endInfo.modifyscore; // 本次变更获得水滴
+    const need = endInfo.target - endInfo.score;
+    const get = endInfo.modifyscore; // 本次变更获得水滴
     const leaveGet = startInfo.modifyscore; // 离开时获得水滴
     let dayGet = 0; // 今日共获取水滴数
     if ($.detail) {
@@ -386,7 +389,7 @@ function getMessage(endInfo, startInfo) {
             }
         });
     }
-  message += `【水滴】本次获得${get} 离线获得${leaveGet} 今日获得${dayGet} 还需水滴${need}\n`;
+    message += `【水滴】本次获得${get} 离线获得${leaveGet} 今日获得${dayGet} 还需水滴${need}\n`;
     if (need <= 0) {
         notifyBool = true;
         message += `【成熟】水果已成熟请及时收取\n`;
@@ -405,53 +408,60 @@ function getMessage(endInfo, startInfo) {
 
 // 提交助力码
 function submitInviteId(userName) {
-  return new Promise(resolve => {
-    if (!$.info || !$.info.smp) {
-      resolve();
-      return;
-    }
-    try {$.post(
-      {
-        url: `https://api.ninesix.cc/api/jx-nc/${$.info.smp}/${encodeURIComponent(userName)}?active=${$.info.active}`,
-      timeout: 10000},
-      (err, resp, _data) => {
-        try {
-          const {code, data = {}} = JSON.parse(_data);
-          $.log(`邀请码提交：${code}`);
-          if (data.value) {
-            message += '【邀请码】提交成功！\n';
-          }
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve();
+    return new Promise(resolve => {
+        if (!$.info || !$.info.smp) {
+            resolve();
+            return;
         }
-      },
-    );
-  }catch (e) {
-            $.logErr(e, resp);
+        try {
+            $.post(
+                {
+                    url: `https://api.ninesix.cc/api/jx-nc/${$.info.smp}/${encodeURIComponent(userName)}?active=${$.info.active}`,
+                    timeout: 10000
+                },
+                (err, resp, _data) => {
+                    try {
+                        const {code, data = {}} = JSON.parse(_data);
+                        $.log(`邀请码提交：${code}`);
+                        if (data.value) {
+                            message += '【邀请码】提交成功！\n';
+                        }
+                    } catch (e) {
+                        // $.logErr(e, resp);
+                        $.log('邀请码提交失败 API 返回异常');
+                    } finally {
+                        resolve();
+                    }
+                },
+            );
+        } catch (e) {
+            // $.logErr(e, resp);
             resolve();
         }
     });
 }
 
 function getAssistUser() {
-  return new Promise(resolve => {
-    try {$.get({url: `https://api.ninesix.cc/api/jx-nc?active=${$.info.active}`, timeout: 10000}, async (err, resp, _data) => {
-      try {
-        const {code, data = {}} = JSON.parse(_data);if (data.value) {
-        $.log(`获取随机助力码成功 ${code} ${data.value}`);
-        resolve(data.value);
-          } else {
-                    $.log(`获取随机助力码失败 ${code}`);
-        }
-      } catch (e) {
-        $.logErr(e, resp);} finally {
-                resolve(false);
-      }
-    });
-  }catch (e) {
-            $.logErr(e, resp);
+    return new Promise(resolve => {
+        try {
+            $.get({url: `https://api.ninesix.cc/api/jx-nc?active=${$.info.active}`, timeout: 10000}, async (err, resp, _data) => {
+                try {
+                    const {code, data = {}} = JSON.parse(_data);
+                    if (data.value) {
+                        $.log(`获取随机助力码成功 ${code} ${data.value}`);
+                        resolve(data.value);
+                    } else {
+                        $.log(`获取随机助力码失败 ${code}`);
+                    }
+                } catch (e) {
+                    // $.logErr(e, resp);
+                    $.log('获取随机助力码失败 API 返回异常');
+                } finally {
+                    resolve(false);
+                }
+            });
+        } catch (e) {
+            // $.logErr(e, resp);
             resolve(false);
         }
     });
@@ -459,7 +469,7 @@ function getAssistUser() {
 
 // 为好友助力 return true 继续助力  false 助力结束
 async function helpFriends() {
-  for (let code of currentShareCode) {
+    for (let code of currentShareCode) {
     if (!code) {
       continue
     }
@@ -513,7 +523,7 @@ function helpShareCode(code) {
 
 
 function doTask({tasklevel, left, taskname, eachtimeget}) {
-  return new Promise(async resolve => {
+    return new Promise(async resolve => {
     if (parseInt(left) <= 0) {
       $.log(`${taskname}[做任务]： 任务已完成，跳过`);
       resolve(false);
