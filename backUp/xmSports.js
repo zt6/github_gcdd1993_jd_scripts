@@ -35,7 +35,7 @@ let dataJSON = "%5B%7B%22data_hr%22%3A%22%5C%2F%5C%2F%5C%2F%5C%2F%5C%2F%5C%2F9L%
 const headers = {
   'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36'
 }
-let login_token = '';
+let login_token = process.env.XM_LOGIN_TOKEN;
 //需要修改的运动步数波动范围，脚本默认修改步数范围为1w9到2w5
 const step = randomFriendPin($.getdata('xmMinStep')*1 || 19000, $.getdata('xmMaxStep')*1 || 25000);
 function getToken() {
