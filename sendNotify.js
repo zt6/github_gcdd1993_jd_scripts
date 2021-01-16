@@ -1,6 +1,6 @@
 /*
  * @Author: LXK9301 https://github.com/LXK9301
- * @Date: 2020-08-19 16:12:40 
+ * @Date: 2020-08-19 16:12:40
  * @Last Modified by: LXK9301
  * @Last Modified time: 2021-1-7 17:52:54
  */
@@ -130,7 +130,6 @@ if (process.env.PUSH_PLUS_USER) {
 
 async function sendNotify(text, desp, params = {}) {
   //提供7种通知
-  desp += `\n本脚本开源免费使用 By：https://github.com/LXK9301/jd_scripts`;
   await Promise.all([
     serverNotify(text, desp),//微信server酱
     pushPlusNotify(text, desp)//pushplus(推送加)
@@ -464,7 +463,7 @@ function qywxamNotify(text, desp) {
         },
       };
     $.post(options_accesstoken, (err, resp, data) => {
-      html=desp.replace(/\n/g,"<br/>")    
+      html=desp.replace(/\n/g,"<br/>")
       var json = JSON.parse(data);
       accesstoken = json.access_token;
       const options_textcard = {
@@ -495,10 +494,10 @@ function qywxamNotify(text, desp) {
                   articles: [
                   {
             title: `${text}`,
-                  thumb_media_id: `${QYWX_AM_AY[4]}`,  
+                  thumb_media_id: `${QYWX_AM_AY[4]}`,
                   author : `智能助手` ,
                   content_source_url: ``,
-                  content : `${html}`, 
+                  content : `${html}`,
                   digest: `${desp}`
                   }
                   ]
@@ -544,7 +543,7 @@ function iGotNotify(text, desp, params={}){
       if(!IGOT_PUSH_KEY_REGX.test(IGOT_PUSH_KEY)) {
         console.log('您所提供的IGOT_PUSH_KEY无效\n')
         resolve()
-        return 
+        return
       }
       const options = {
         url: `https://push.hellyw.com/${IGOT_PUSH_KEY.toLowerCase()}`,
