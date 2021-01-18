@@ -109,19 +109,19 @@ $.info = {};
       );
 
       //出岛寻宝大作战
-      await $.wait(500);
-      await submitGroupId();
-      await $.wait(500);
-      await joinGroup();
+      // await $.wait(500);
+      // await submitGroupId();
+      // await $.wait(500);
+      // await joinGroup();
       //提交邀请码
-      await $.wait(500);
-      await submitInviteId(userName);
+      // await $.wait(500);
+      // await submitInviteId(userName);
       //超级助力
-      await $.wait(500);
-      await createSuperAssistUser();
+      // await $.wait(500);
+      // await createSuperAssistUser();
       //普通助力
-      await $.wait(500);
-      await createAssistUser();
+      // await $.wait(500);
+      // await createAssistUser();
     }
   }
   await $.wait(500);
