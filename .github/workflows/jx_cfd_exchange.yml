@@ -37,5 +37,6 @@ jobs:
           node jx_cfd_exchange.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
+          JD_IMMORTAL_LATLON: ${{ secrets.JD_IMMORTAL_LATLON }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_USER_ID: ${{ secrets.TG_USER_ID }}
