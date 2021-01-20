@@ -49,7 +49,17 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const inviteCodes = [
-  ''
+  '43xIs4YwE5Z7DsWOzDSFed-Rmphtan4fKSDeqYv2eemhJccZB9wkZV2TtSF37BZAFE-w@' +
+  '40xIs4YwE5Z7DsWOzDOO_x3WzTiLEtEF7ugQjRgS6DFcZB9sAMi1m_j9sjzDHym@' +
+  '43xIs4YwE5Z7HhgulOU0Py81vkCAq0ThyOoB2j5ijUoHvUKMIQz0ZWiTyEKsIIn4Y-SA@' +
+  '43xIs4YwE5Z7HhgvhqW-ui61zovaypna4HkEx9N0WLGmuAKMMUxU1UjDfk0lZlBCcgSg@' +
+  '40xIs4YwE5Z7DsWOzDCOuRUXxx_2Zrfd3xD-B1VcryPcZB9gDEBx3ppU1ff2On5@' +
+  '43xIs4YwE5Z7DsWOzDSPPhUdn0zzFr9gC7N6mDZq_J0mnccZB9wBIBhz65Mn4uZRC5Iw@' +
+  '40xIs4YwE5Z7DsWOzDPZPxaRQdkPLyiwF49DLUNQTOYcZB9vSML7kfT0W3o6YpC@' +
+  '24xIs4YwE5Z7G9W22_XAn9e_Lvu_ECvEcXA@' +
+  '43xIs4YwE5Z7DsWOzDSBaBJEecXnoaUmit5zQcVNRlTbeEcZB9w0daij7GIvWHWy9Htw@' +
+  '43xIs4YwE5Z7DsWOzDSBfd7dmBWgJEg3ga-m7FbTFqZW0kcZB9w0JWhzgxq15JPRZVAA@' +
+  '43xIs4YwE5Z7DsWOzDSL6VWEIL6IZbBREDSf8sJlFw8gLUcZB9wUQHjz9TF2L7sNmIMw'
 ];
 !(async () => {
   await requireConfig();
@@ -227,25 +237,7 @@ function getTaskList(body={}) {
             if (data.retCode === '200') {
               $.tasks = data.result.tasks
               for(let vo of $.tasks){
-                if(vo.taskType==="1" || vo.taskType==="2" || vo.taskType==="5" || vo.taskType==="3") {
-                  // 签到，逛一逛
-                  for (let i = vo.times, j = 0; i < vo.maxTimes && j < vo.subItem.length; ++i, ++j) {
-                    console.log(`去做${vo.taskName}任务，${i + 1}/${vo.maxTimes}`)
-                    let item = vo['subItem'][j]
-                    await doTask(item['itemToken'])
-                    await $.wait((vo.waitDuration?vo.waitDuration:5 + 1) * 1000)
-                  }
-                }else if(vo.taskType==="7" || vo.taskType==="9") {
-                  // 浏览店铺，会场
-                  for (let i = vo.times, j = 0; i < vo.maxTimes; ++i, ++j) {
-                    console.log(`去做${vo.taskName}任务，${i + 1}/${vo.maxTimes}`)
-                    let item = vo['subItem'][j]
-                    $.duration = vo.waitDuration + 1
-                    await doTask(item['itemToken'])
-                    await $.wait((vo.waitDuration + 1) * 1000)
-                    await doTask2(item['taskToken'])
-                  }
-                }else if(vo.taskType==="6") {
+                if(vo.taskType==="6") {
                   // 邀请好友
                   if (vo.subItem.length){
                     console.log(`您的好友助力码为${vo.subItem[0].itemToken}`)
@@ -253,6 +245,32 @@ function getTaskList(body={}) {
                     console.log(`无法查询您的好友助力码`)
                   }
                 }
+                // if(vo.taskType==="1" || vo.taskType==="2" || vo.taskType==="5" || vo.taskType==="3") {
+                //   // 签到，逛一逛
+                //   for (let i = vo.times, j = 0; i < vo.maxTimes && j < vo.subItem.length; ++i, ++j) {
+                //     console.log(`去做${vo.taskName}任务，${i + 1}/${vo.maxTimes}`)
+                //     let item = vo['subItem'][j]
+                //     await doTask(item['itemToken'])
+                //     await $.wait((vo.waitDuration?vo.waitDuration:5 + 1) * 1000)
+                //   }
+                // }else if(vo.taskType==="7" || vo.taskType==="9") {
+                //   // 浏览店铺，会场
+                //   for (let i = vo.times, j = 0; i < vo.maxTimes; ++i, ++j) {
+                //     console.log(`去做${vo.taskName}任务，${i + 1}/${vo.maxTimes}`)
+                //     let item = vo['subItem'][j]
+                //     $.duration = vo.waitDuration + 1
+                //     await doTask(item['itemToken'])
+                //     await $.wait((vo.waitDuration + 1) * 1000)
+                //     await doTask2(item['taskToken'])
+                //   }
+                // }else if(vo.taskType==="6") {
+                //   // 邀请好友
+                //   if (vo.subItem.length){
+                //     console.log(`您的好友助力码为${vo.subItem[0].itemToken}`)
+                //   }else{
+                //     console.log(`无法查询您的好友助力码`)
+                //   }
+                // }
               }
             }
           }
@@ -299,7 +317,8 @@ function shareCodesFormat() {
       $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-      const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
+      // const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
+      const tempIndex = 0;
       $.newShareCodes = inviteCodes[tempIndex].split('@');
     }
     const readShareCodeRes = null // await readShareCode();
