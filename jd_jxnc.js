@@ -147,17 +147,6 @@ function requireConfig() {
         } else {
             tokenArr.push(...[JSON.parse($.getdata('jxnc_token1')) || tokenNull, JSON.parse($.getdata('jxnc_token2')) || tokenNull])
         }
-
-        if ($.isNode()) {
-            Object.keys(jdJxncShareCodeNode).forEach((item) => {
-                if (jdJxncShareCodeNode[item]) {
-                    jxncShareCodeArr.push(jdJxncShareCodeNode[item])
-                }
-            })
-        }
-
-        // console.log(`jdFruitShareArr::${JSON.stringify(jdFruitShareArr)}`)
-        // console.log(`jdFruitShareArr账号长度::${jdFruitShareArr.length}`)
         $.log(`您提供了${jxncShareCodeArr.length}个账号的京喜农场助力码`);
         resolve()
     })
@@ -518,6 +507,7 @@ async function jdJXNC() {
 // 执行助力 return true 继续助力  false 助力结束
   function helpShareCode(smp, active, joinnum) {
     return new Promise(async resolve => {
+      let code = ''
         if (code === $.info.smp) { // 自己的助力码，跳过，继续执行
             $.log('助力码与当前账号相同，跳过助力。准备进行下一个助力');
             resolve(true);
