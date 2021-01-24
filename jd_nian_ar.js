@@ -46,8 +46,18 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const inviteCodes = [
-  `cgxZaDXWZPCmiUa2akPVmFMI27K6antJzucULQPYNim_BPEW1Dwd@cgxZdTXtIrPYuAqfDgSpusxr97nagU6hwFa3TXxnqM95u3ib-xt4nWqZdz8@cgxZdTXtIO-O6QmYDVf67KCEJ19JcybuMB2_hYu8NSNQg0oS2Z_FpMce45g@cgxZdTXtILiLvg7OAASp61meehou4OeZvqbjghsZlc3rI5SBk7b3InUqSQ0@cgxZ9_MZ8gByP7FZ368dN8oTZBwGieaH5HvtnvXuK1Epn_KK8yol8OYGw7h3M2j_PxSZvYA`,
-  `cgxZaDXWZPCmiUa2akPVmFMI27K6antJzucULQPYNim_BPEW1Dwd@cgxZdTXtIrPYuAqfDgSpusxr97nagU6hwFa3TXxnqM95u3ib-xt4nWqZdz8@cgxZdTXtIO-O6QmYDVf67KCEJ19JcybuMB2_hYu8NSNQg0oS2Z_FpMce45g@cgxZdTXtILiLvg7OAASp61meehou4OeZvqbjghsZlc3rI5SBk7b3InUqSQ0@cgxZdTXtIumO4w2cDgSqvYcqHwjaAzLxu0S371Dh_fctFJtN0tXYzdR7JaY`
+  'cgxZdTXtILjcvAvBDQSpvCsPBH0L-4ZbfWBSdfx37B65XFFH8sG7ys1VTyA@' +
+  'cgxZdTXtUv2rs1-fVVr0przbcoZg8Fkkd4PAnPUYi0lEUtM1i-ep6TQ@' +
+  'cgxZLGeALbjf7AzBFQag6aQeOEtW5NiE4sKnhluMp_wOTCO_Hn8OTbVvbFQ@' +
+  'cgxZLGaEJ7Pd6QfAFQau6jMeHvH1oxSN8vC4jOOlfJz4QgiWL1KLDqU7nN0@' +
+  'cgxZdTXtYs-IokqacEfArCTVr2DpJjkaTmAHgJiD7ZFscBTfH3h3vV8@' +
+  'cgxZdTXtIuyI4g7LAFD471nFbepJh9UfNkyLcBLRIPnQZ06EUSD3febUWPU@' +
+  'cgxZdTXtX92Ci3eMbEHwp8z3s23QNMFQmTylppoISUBGFaxqvI0CPZk@' +
+  'cgxZ-OU_8ztJpkKqWW33kPDE6wM@' +
+  'cgxZdTXtIbnT7w6bCwOtuWCa1Oi-uMQVyR34XXL_BXdstcJw2fqwC8_nRRY@' +
+  'cgxZdTXtIbzf4gjNDVb7vA-jqKKdBpKlBJoNz-eI6seawTFlasPaNr5RwX8@' +
+  'cgxZdTXtI7qO6g_IAAWq7QhMnNauqn8oGKWlSHb-M0KwbhPPKbBe2p7xYEQ@' +
+  'cgxZdzTfdbnY6w6FRGasrr0evMz1c6nNyA'
 ];
 !(async () => {
   await requireConfig();
@@ -370,19 +380,8 @@ function readShareCode() {
 //格式化助力码
 function shareCodesFormat() {
   return new Promise(async resolve => {
-    // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
-    $.newShareCodes = [];
-    if ($.shareCodesArr[$.index - 1]) {
-      $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
-    } else {
-      console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-      const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
-    }
-    const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
-    }
+    const tempIndex = 0;
+    $.newShareCodes = inviteCodes[tempIndex].split('@');
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
