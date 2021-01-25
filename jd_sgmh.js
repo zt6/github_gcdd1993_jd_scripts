@@ -43,6 +43,7 @@ const inviteCodes = [
   'T0115qguER0b9FQCjVWmIaW5kRrbA'
 ];
 const randomCount = $.isNode() ? 20 : 5;
+const notify = $.isNode() ? require('./sendNotify') : '';
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
