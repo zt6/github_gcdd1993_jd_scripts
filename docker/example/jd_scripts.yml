@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  jd_scripts:
+    image: qq1398371419/jd_scripts:1.0.0
+    container_name: jd_scripts
+    restart: always
+    volumes:
+      - ./logs:/scripts/logs
+    tty: true
+    # 因为更换仓库地址可能git pull的dns解析不到，可以在配置追加hosts
+    extra_hosts:
+      - "gitee.com:180.97.125.228"
+      - "github.com:13.229.188.59"
+      - "raw.githubusercontent.com:151.101.228.133"
+    environment:
+      - REPO_URL=https://github.com/gcdd1993/left1.git
+      - JD_COOKIE='pt_key=AAJf6v4dADD6AObgxHw3iuF2y3IYL-DTZLo2Z-sxAGHQtdKe8fPpwaiIiG7kMahxriJCY4FiUPU; pt_pin=jd_426f58510cab6;&pt_key=AAJf60KqADDruW1MqpzlR3UPFGyWpQ-zuRGAsSVt104ZrF9OKa1OLEJP7yCeY36Hng7olGdBYUQ; pt_pin=jd_FwAiafmomyDn;&pt_key=AAJf7sTeADA9XXWzsYY-IZjrJiOdpomimRsSW6jGRjRQwUgkN4aO2CfSfJrKsZmkDEX3uMxpjUE; pt_pin=362925628-396582;&pt_key=AAJf7sWvADDLEAIexxVzNQ7hwIg6Nrb6MpVG5kti40YhKdqYYU_N7zocM61ZsWolx_DypYLjPbU; pt_pin=376397399-375171;&pt_key=AAJf7sScADDZg9n1oYHA6clWlz8neNEujzm7mqRIjLqdKBhuNIATbGq79kJPsOtZzUouwk9Zmzc; pt_pin=jd_vEbxtcHrYstL;&pt_key=AAJf60PJADCpebCRWfJBbCQ5b3N5F9gxNH1uCHlWnWwUVU7D81Qv4M1xNJdlv1RTUAIRzP8HCy0; pt_pin=jd_6fb8028ea0e2e;&pt_key=AAJf7sP0ADD-GbDGb_vu2AMLitKZiRYlSFOaJqW1yJQjk6dKmXufY_o76Jqg_GN93zNX-PUi4Jc; pt_pin=jd_KWhQIuTtixQJ;&pt_key=AAJf6yjoADAoJKgvozw5K6FSGELH572cHeymeIU_CIG-yzZ-PqLfb5LXLwHrrjm8s8aTlvia-3Y; pt_pin=%E7%B4%8D%E7%B1%A3;&pt_key=AAJf7ACnADCErt1bKSXP947mRXxUUMtvAuxYf0osaLcRiMf40OQ3kCYcDByfg_nRBA74Ob8xqfM; pt_pin=jd_53950b364fabd;&pt_pin=jd_5658645cbcb2f;pt_key=AAJf7AiFADBDGw22-H_RZ5WqCs_uyBQyrwXCXVtmAqbqI6_MWKMpQWWsnxbRrk8p6Hye5igQ5C0;&pt_key=AAJf6yxgADA9QrWmDHHjxyOM0WH6p641Audghczt7Ast4nC-Vbtxb8Dh2-QN_dhAmmgssQCvdfk; pt_pin=jd_70d0118032b6f;'
+      - PUSH_KEY='SCU138193T2b2331d7d6b3da86610a44e6a49a4de65fe2bf9c86265'
