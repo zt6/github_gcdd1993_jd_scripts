@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   jd_scripts:
-    image: qq1398371419/jd_scripts:1.0.0
+    image: registry.cn-shanghai.aliyuncs.com/gcdd1993/jd_scripts:1.0.0
     container_name: jd_scripts
     restart: always
     volumes:

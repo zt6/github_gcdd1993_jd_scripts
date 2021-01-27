@@ -24,4 +24,4 @@ jobs:
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
           push: true
           tags: |
-            qq1398371419/jd_scripts:1.0.0
+            registry.cn-shanghai.aliyuncs.com/gcdd1993/jd_scriptss:1.0.0
