@@ -16,4 +16,5 @@ services:
       - REPO_URL=https://github.com/gcdd1993/left1.git
       - JD_COOKIE=''
       - JD_JX_COOKIE=''
+      - XM_LOGIN_TOKEN=''
       - PUSH_KEY='SCU138193T2b2331d7d6b3da86610a44e6a49a4de65fe2bf9c86265'
