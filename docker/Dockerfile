@@ -19,7 +19,7 @@ RUN git clone https://github.com/gcdd1993/left1 /scripts \
         && cd /tmp \
         && npm install request
 
-ENV BUILD_VERSION=0.1.2 \
+ENV BUILD_VERSION=0.1.3 \
     DEFAULT_LIST_FILE=crontab_list.sh \
     CUSTOM_LIST_MERGE_TYPE=append
 
