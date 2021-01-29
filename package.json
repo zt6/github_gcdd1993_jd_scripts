@@ -1,5 +1,5 @@
 {
-  "name": "LXK9301",
+  "name": "jd_scripts",
   "version": "1.0.0",
   "description": "{**When you're done, you can delete the content in this README and update the file with details for others getting started with your repository**}",
   "main": "AlipayManor.js",
@@ -18,7 +18,7 @@
   "author": "LXK9301",
   "license": "ISC",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.3",
+    "cheerio": "^1.0.0-rc.5",
     "crypto-js": "^4.0.0",
     "download": "^8.0.0",
     "got": "^11.8.1",
