@@ -120,8 +120,6 @@
 5 7 * * * node /scripts/jd_xg.js >> /scripts/logs/jd_xg.log 2>&1
 # 京东超级盒子
 20 7 * * * node /scripts/jd_super_box.js >> /scripts/logs/jd_super_box.log 2>&1
-# 京东超级盒子
-20 7 * * * node /scripts/jd_super_box.js >> /scripts/logs/jd_super_box.log 2>&1
 
 ##############其他自定义任务##############
 0 17 * * * node /scripts/backUp/xmSports.js |ts >> /scripts/logs/xmSport.log 2>&1
