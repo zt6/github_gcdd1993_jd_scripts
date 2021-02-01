@@ -233,6 +233,7 @@ async function jdCrazyJoy() {
       await $.wait(1000)
       await getJoyList()
       await $.wait(1000)
+      await getCoin();
     }
   }
 
@@ -262,7 +263,6 @@ async function jdCrazyJoy() {
       }
     }
     if (idx === '34' && vo.length >= 8) {
-      await getCoin()
       if ($.coin >= 6000000000000000) {
         //当存在8个34级JOY，并且剩余金币可为后面继续合成两只新的34级JOY(按全部用30级JOY合成一只34级JOY计算需:1.66T * 2 * 2 * 2 * 2 = 26.56T = 2.6Q)时,则此条件下合并两个34级JOY
         $.log(`开始合并两只${idx}级joy\n`)
@@ -456,13 +456,13 @@ function mergeJoy(x, y) {
                     case 1006:
                       return '省钱JOY'
                     case 1007:
-                      return '咚咚JOY'
+                      return '东东JOY'
                     default:
                       return '未知JOY'
                   }
                 }
                 console.log(`合并成功，获得${level(data.data.newJoyId)}级Joy`)
-                if (level(data.data.newJoyId) === '咚咚JOY' && $.isNode()) await notify.sendNotify($.name, `京东账号${$.index} ${$.nickName}\n合并成功，获得${level(data.data.newJoyId)}级Joy`)
+                if (data.data.newJoyId === 1007 && $.isNode()) await notify.sendNotify($.name, `京东账号${$.index} ${$.nickName}\n合并成功，获得${level(data.data.newJoyId)}级Joy`)
               } else {
                 console.log(`合并成功，获得${data.data.newJoyId}级Joy`)
               }
@@ -609,6 +609,7 @@ function getCoin() {
             }
             if (data.data && data.data.totalCoinAmount) {
               $.coin = data.data.totalCoinAmount;
+              $.log(`当前金币:${$.coin}\n`)
             } else {
               $.coin = `获取当前金币数量失败`
             }
