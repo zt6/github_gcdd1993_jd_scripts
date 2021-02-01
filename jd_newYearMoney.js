@@ -48,8 +48,14 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const inviteCodes = [
-  `vcZlG6w0w8MoYaRNQO88s64MRrPevSiBlZZmrnhvIYCEMQ@oMZeXe9K8o8BBeMxYrEk_m16ERwOhASbAsCDDExyAjBScoVo@IgCqjVzgdTTH1EiF7y7wKtNNekKIwZI_m613kzU40leY64MXeqIV4A@oMZeXbUcqYgCBeMyZbAl-satYdK21PuqgGHNWJe9ioYocKg7`,
-  `vcZlG6w0w8MoYaRNQO88s64MRrPevSiBlZZmrnhvIYCEMQ@oMZeXe9K8o8BBeMxYrEk_m16ERwOhASbAsCDDExyAjBScoVo@IgCqjVzgdTTH1EiF7y7wKtNNekKIwZI_m613kzU40leY64MXeqIV4A@oMZeXbUcqYgCBeMyZbAl-satYdK21PuqgGHNWJe9ioYocKg7`,
+  'oMZeX-RO9o5fBuMxZOEi-UhkW4CJXmbMhD4O3zuWQv5PQ8Xl@' +
+  'oMZeLaE5-doBXr1sfsQusxUp_ay7hgj8aiMPqeYg8gmGWhU@' +
+  '-ZQzUuRNpolfHuE4MbV4_e9-yY9zTabCz7xvZYH5pOVnSCBU@' +
+  '-ZU3WO9Po4JeHuE2MrF3_i78yPQ-BLg1ajM-10dPex9Y8DhG@' +
+  'oMZeHZMa6M8Ee6BYdPQMs5pHo6OqNENeFn8lmeP3c-VP1dg@' +
+  'oMZeXbAaqItVC7dgN-VyqjhiJdgnBd7w7JKYLR5tqoZ3ID_9@' +
+  'LRaMjGfb7McbA659e7F2_vgEY1uzAMzDMNs@' +
+  'oMZeXOYcoIpWC-IyNeJ2qXRCFEQP7oFBp2BajT-E0KGxwVqL'
 ];
 !(async () => {
   await requireConfig();
@@ -324,17 +330,7 @@ function shareCodesFormat() {
   return new Promise(async resolve => {
     // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
     $.newShareCodes = [];
-    if ($.shareCodesArr[$.index - 1]) {
-      $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
-    } else {
-      console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-      const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
-    }
-    const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
-    }
+    $.newShareCodes = inviteCodes[0].split('@');
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
