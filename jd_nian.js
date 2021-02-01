@@ -60,8 +60,9 @@ const inviteCodes = [
   'cgxZdzTfdbnY6w6FRGasrr0evMz1c6nNyA'
 ];
 const pkInviteCodes = [
-  'IgNWdiLGaPadvlqJQnnKp27-YpAvKvSYNTSkTGvZylf_0wcvqD9EMkohENg@IgNWdiLGaPaZskfACQyhgLSpZWps-WtQEW3McibS@IgNWdiLGaPaAvmHPAQf769XqjJjMyRirPzN9-AS-WHY9Y_G7t9Cwe5gdiI2qEvDe@IgNWdiLGaPYCeJUfsq18UNi5ln9xEZSPRdOue8Wl3hJTS2SQzU0vulL0fHeULJaIfgqHFd7f_aw@IgNWdiLGaPYCeJUfsq18UNi5ln9xEZSPRdOue8Wl3hLRjZBAJLHzBpcl18AeskNYctp_9Q',
-  'IgNWdiLGaPadvlqJQnnKp27-YpAvKvSYNTSkTGvZylf_0wcvqD9EMkohENg@IgNWdiLGaPaZskfACQyhgLSpZWps-WtQEW3McibS@IgNWdiLGaPaAvmHPAQf769XqjJjMyRirPzN9-AS-WHY9Y_G7t9Cwe5gdiI2qEvDe@IgNWdiLGaPYCeJUfsq18UNi5ln9xEZSPRdOue8Wl3hJTS2SQzU0vulL0fHeULJaIfgqHFd7f_aw@IgNWdiLGaPYCeJUfsq18UNi5ln9xEZSPRdOue8Wl3hLRjZBAJLHzBpcl18AeskNYctp_9Q'
+  'IgNWdiLGaPaAvmHNCgP_6spIgDsYNrEELWZj1zFGpOs5d_lW75x2yt0xsjg05U2J&IgNWdiLGaPaAvmG_T3TwvozT1tLWoPkHQjLzne91jxowndbg-ZwrEE2QB4MybQ&IgNWdiLGaPbZ7AzACgCv7cXl0rpOo0A6wO9yoCTc0YyZatX5WZeElEAX-v8RvuEv&IgNWdiLGaPbZ7QjKAQKq5g-lUTLshCL' +
+  'wwOhux6ZCbuSAKVGhSV1oX4CV5_g2T5-4&IgNWdiLGaPaAvmGPfVfhq9CLg9YjGsEZz2rxPLRxoqJ2oWGGnFhfUgd56hlf6w&IgNWdiLGaPaAvmHPXleh78De3jlpfg8ZGChQb-vbBxFgEaDZmo9_hmMqC_IqBGBR&IgNWdiLGaPaAvmGyb13IljUrlYk2noKmdzhIwyDOggBkLtJ56lt_qx2xWg3CAQ&IgNWdiL' +
+  'GaPYNbrMeiZbG7zVJQrZx_lBWW16jCQ&IgNWdiLGaPaAvmHOCFGp7iFInFfGdr8nhMLIrlFeiLqJ03Q1WEqoYE1vQruslJgz&IgNWdiLGaPaAvmHMCwys78jWXK0bIIOKeuddgjurmI188m9kCMmnFg2DCA9V6_LV&IgNWdiLGaPaAvmHMDgCh6exoRBmhpGyeUuRvJlgKUQ-W1m0dY_h6s7NkuH4Ix9PG'
 ]
 !(async () => {
   await requireConfig();
@@ -1320,21 +1321,7 @@ function shareCodesFormat() {
 
 function shareCodesFormatPk() {
   return new Promise(async resolve => {
-    // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
-    $.newShareCodesPk = [];
-    if ($.shareCodesPkArr[$.index - 1]) {
-      $.newShareCodesPk = $.shareCodesPkArr[$.index - 1].split('@');
-    } else {
-      console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-      const tempIndex = $.index > pkInviteCodes.length ? (pkInviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodesPk = pkInviteCodes[tempIndex].split('@');
-    }
-    let readShareCodeRes = null
-    if (new Date().getUTCHours() >= 12)
-      readShareCodeRes = await readShareCodePk();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodesPk = [...new Set([...$.newShareCodesPk, ...(readShareCodeRes.data || [])])];
-    }
+    $.newShareCodesPk = pkInviteCodes[0].split('@');
     console.log(`第${$.index}个京东账号将要助力的PK好友${JSON.stringify($.newShareCodesPk)}`)
     resolve();
   })
