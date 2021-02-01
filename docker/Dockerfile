@@ -11,7 +11,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
         && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
         && echo "Asia/Shanghai" > /etc/timezone
 
-RUN git clone https://github.com/gcdd1993/left1 /scripts \
+RUN git clone https://gitee.com/qq1398371419/left1 /scripts \
         && cd /scripts \
         && git checkout master \
         && mkdir logs \
