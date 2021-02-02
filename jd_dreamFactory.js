@@ -49,7 +49,7 @@ const inviteCodes = [
   'zYIEDEHCXJFDBsg_WN9Ptg==@' +
   'gXRQATVGJXE9dwO1eH2tuw=='
 ];
-const jdCookieNode = process.env.JD_COOKIE.split('&');
+const jdCookieNode = process.env.JD_JX_COOKIE.split('&');
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])

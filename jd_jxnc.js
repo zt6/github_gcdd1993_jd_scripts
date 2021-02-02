@@ -53,6 +53,25 @@ const openUrl = `openjd://virtual?params=${encodeURIComponent('{ "category": "ju
 let subTitle = '', message = '', option = {'open-url': openUrl}; // 消息副标题，消息正文，消息扩展参数
 const JXNC_API_HOST = 'https://wq.jd.com/';
 
+const jdCookieNode = process.env.JD_JX_COOKIE.split('&');
+if ($.isNode()) {
+  Object.keys(jdCookieNode).forEach((item) => {
+    cookieArr.push(jdCookieNode[item])
+  })
+  if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
+  if (process.env.DREAMFACTORY_FORBID_ACCOUNT) process.env.DREAMFACTORY_FORBID_ACCOUNT.split('&').map((item, index) => Number(item) === 0 ? cookieArr = [] : cookieArr.splice(Number(item) - 1 - index, 1))
+} else {
+  let cookiesData = $.getdata('CookiesJD') || "[]";
+  cookiesData = jsonParse(cookiesData);
+  cookieArr = cookiesData.map(item => item.cookie);
+  cookieArr.reverse();
+  cookieArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
+  cookieArr.reverse();
+  cookieArr = cookieArr.filter(item => item !== "" && item !== null && item !== undefined);
+}
+
+$.log(`共${cookieArr.length}个京东账号\n`);
+
 $.detail = []; // 今日明细列表
 $.helpTask = null;
 $.allTask = []; // 任务列表
@@ -123,24 +142,7 @@ function requireConfig() {
   return new Promise(async resolve => {
     $.log('开始获取配置文件\n')
     notify = $.isNode() ? require('./sendNotify') : '';
-    //Node.js用户请在jdCookie.js处填写京东ck;
-    const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
     const jdTokenNode = $.isNode() ? require('./jdJxncTokens.js') : '';
-    //IOS等用户直接用NobyDa的jd cookie
-    if ($.isNode()) {
-      Object.keys(jdCookieNode).forEach((item) => {
-        if (jdCookieNode[item]) {
-          cookieArr.push(jdCookieNode[item]);
-        }
-      })
-      if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {
-      };
-    } else {
-      cookieArr.push(...[$.getdata('CookieJD'), $.getdata('CookieJD2')]);
-    }
-
-    $.log(`共${cookieArr.length}个京东账号\n`);
-
         if ($.isNode()) {
             Object.keys(jdTokenNode).forEach((item) => {
                 tokenArr.push(jdTokenNode[item] ? JSON.parse(jdTokenNode[item]) : tokenNull)
