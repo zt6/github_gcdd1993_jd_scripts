@@ -89,8 +89,7 @@ const JD_API_HOST = 'https://lkyl.dianpusoft.cn/api';
       await smallHome();
     }
   }
-  // 获取到每个账号的助力码，开始助力
-  console.log(`获取到${$.newShareCodes.length}个助力码，开始助力`)
+  await updateInviteCodeCDN('https://gitee.com/lxk0301/updateTeam/raw/master/shareCodes/jd_updateSmallHomeInviteCode.json');
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -153,9 +152,8 @@ async function doChannelsListTask(taskId, taskType) {
   }
 }
 async function helpFriends() {
-  await updateInviteCode();
+  // await updateInviteCode();
   // if (!$.inviteCodes) await updateInviteCodeCDN();
-  await updateInviteCodeCDN('https://gitee.com/lxk0301/updateTeam/raw/master/jd_updateSmallHomeInviteCode.json');
   if ($.inviteCodes && $.inviteCodes['inviteCode']) {
     for (let item of $.inviteCodes.inviteCode) {
       if (!item) continue
@@ -826,7 +824,7 @@ function updateInviteCode(url = 'https://raw.githubusercontent.com/LXK9301/updat
 }
 function updateInviteCodeCDN(url) {
   return new Promise(async resolve => {
-    $.get({url}, async (err, resp, data) => {
+    $.get({url, headers:{"User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0")}}, async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
