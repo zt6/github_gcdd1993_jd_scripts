@@ -15,6 +15,7 @@ RUN git clone https://gitee.com/qq1398371419/left1 /scripts \
         && cd /scripts \
         && git checkout master \
         && mkdir logs \
+        && npm config set registry https://registry.npm.taobao.org \
         && npm install \
         && cd /tmp \
         && npm install request
