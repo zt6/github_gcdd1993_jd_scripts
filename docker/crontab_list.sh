@@ -14,14 +14,6 @@
 20 8,12 * * * node /scripts/jd_newYearMoney.js >> /scripts/logs/jd_newYearMoney.log 2>&1
 # 京东压岁钱抢百元卡(活动时间：2021-2-1至2021-2-11)
 0 9,12,16,20 * * * node /scripts/jd_newYearMoney_lottery.js >> /scripts/logs/jd_newYearMoney_lottery.log 2>&1
-# 专门收集每秒产生的爆竹(1小时运行一次)
-30 * * * * node /scripts/jd_nianCollect.js >> /scripts/logs/jd_nianCollect.log 2>&1
-# 京东炸年兽签到任务🧨
-50 0,1 * * * node /scripts/activity/jd_nian_sign.js >> /scripts/logs/jd_nian_sign.log 2>&1
-# 京东炸年兽AR
-50 0,1,8 * * * node /scripts/activity/jd_nian_ar.js >> /scripts/logs/jd_nian_ar.log 2>&1
-# 京东炸年兽小程序
-50 0,1,8 * * * node /scripts/activity/jd_nian_wechat.js >> /scripts/logs/jd_nian_wechat.log 2>&1
 
 ##############长期活动##############
 # 签到
