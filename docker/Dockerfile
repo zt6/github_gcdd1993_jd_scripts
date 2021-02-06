@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.12
 LABEL AUTHOR="Akira <e.akimoto.akira@gmail.com>" \
         VERSION=0.1.2 \
         UPDATE_CONTENT="更新内容较多，重新阅读仓库[Readme](https://github.com/lxk0301/jd_scripts/tree/master/docker)，更新镜像并更新配置后使用。"
