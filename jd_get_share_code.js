@@ -189,6 +189,7 @@ if ($.isNode()) {
   console.log(`/jdnh ${nianhuoShareCodes.slice(0,5).join('&')}`)
   console.log(`/jdnian ${nianShareCodes.slice(0,5).join('&')}`)
   console.log(`nian PK ${nianPkShareCodes.join('&')}`)
+  console.log(`global ${globalShareCodes.join('&')}`)
 })()
   .catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
@@ -896,6 +897,37 @@ function pkInfo() {
   })
 }
 
+let globalShareCodes = []
+async function getGlobal() {
+  return new Promise(resolve => {
+    $.get(taskUrl("myTask", {"activityCode": 'visa-card-001'}), async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (safeGet(data)) {
+            data = JSON.parse(data);
+            if (data['code'] === '0') {
+              const {timeLimitTask, commonTask} = data.result.data
+              let task = [...timeLimitTask, ...commonTask]
+              for (let vo of task) {
+                if (vo['taskName'] === '每日邀请好友') {
+                  globalShareCodes.push(${vo['jingCommand']['keyOpenapp'].match(/masterPin":"(.*)","/)[1]})
+                }
+              }
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve(data);
+      }
+    })
+  })
+}
+
 async function getShareCode() {
   console.log(`======账号${$.index}开始======`)
   await getJdFactory()
@@ -912,6 +944,7 @@ async function getShareCode() {
   await getActContent()
   await getNain()
   await pkInfo()
+  await getGlobal()
   console.log(`======账号${$.index}结束======\n`)
 }
 
