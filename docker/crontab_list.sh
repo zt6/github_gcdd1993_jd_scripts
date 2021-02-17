@@ -12,6 +12,8 @@
 #环球挑战赛 活动时间：2021-02-02 至 2021-02-22
 0 9,12,20,21 2-22 2 * node /scripts/jd_global.js >> /scripts/logs/jd_global.log 2>&1
 
+# 百变大咖秀
+10 10,11 * * 2-5 node /scripts/jd_entertainment.js >> /scripts/logs/jd_entertainment.log 2>&1
 
 ##############长期活动##############
 # 签到
