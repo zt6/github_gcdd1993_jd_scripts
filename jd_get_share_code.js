@@ -176,20 +176,20 @@ if ($.isNode()) {
       await getShareCode()
     }
   }
-  console.log(`/submit_ddfactory_code ${jdFactoryShareCodes.slice(0,5).join('&')}`)
-  console.log(`/submit_jxfactory_code ${jxFactoryShareCodes.slice(0,5).join('&')}`)
-  console.log(`/submit_pet_code ${jdPetShareCodes.slice(0,5).join('&')}`)
+  // console.log(`/submit_ddfactory_code ${jdFactoryShareCodes.slice(0,5).join('&')}`)
+  // console.log(`/submit_jxfactory_code ${jxFactoryShareCodes.slice(0,5).join('&')}`)
+  // console.log(`/submit_pet_code ${jdPetShareCodes.slice(0,5).join('&')}`)
   console.log(`/jdzz ${jdZZShareCodes.slice(0,5).join('&')}`)
-  console.log(`/submit_bean_code ${plantBeanShareCodes.slice(0,5).join('&')}`)
-  console.log(`/submit_farm_code ${jdFruitShareCodes.slice(0,5).join('&')}`)
-  console.log(`/jdcrazyjoy ${joyShareCodes.slice(0,5).join('&')}`)
-  console.log(`/ ${sgmhShareCodes.slice(0,5).join('&')}`)
-  console.log(`/year ${newYearMoneyShareCodes.slice(0,5).join('&')}`)
-  console.log(`/jdcash ${cashShareCodes.slice(0,5).join('&')}`)
-  console.log(`/jdnh ${nianhuoShareCodes.slice(0,5).join('&')}`)
-  console.log(`/jdnian ${nianShareCodes.slice(0,5).join('&')}`)
-  console.log(`nian PK ${nianPkShareCodes.join('&')}`)
-  console.log(`global ${globalShareCodes.join('&')}`)
+  // console.log(`/submit_bean_code ${plantBeanShareCodes.slice(0,5).join('&')}`)
+  // console.log(`/submit_farm_code ${jdFruitShareCodes.slice(0,5).join('&')}`)
+  // console.log(`/jdcrazyjoy ${joyShareCodes.slice(0,5).join('&')}`)
+  // console.log(`/submit_activity_codes sgmh ${sgmhShareCodes.slice(0,5).join('&')}`)
+  // console.log(`/year ${newYearMoneyShareCodes.slice(0,5).join('&')}`)
+  // console.log(`/jdcash ${cashShareCodes.slice(0,5).join('&')}`)
+  // console.log(`/jdnh ${nianhuoShareCodes.slice(0,5).join('&')}`)
+  // console.log(`/jdnian ${nianShareCodes.slice(0,5).join('&')}`)
+  // console.log(`nian PK ${nianPkShareCodes.join('&')}`)
+  // console.log(`/submit_activity_codes jdglobal ${globalShareCodes.join('&')}`)
 })()
   .catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
@@ -197,6 +197,26 @@ if ($.isNode()) {
   .finally(() => {
     $.done();
   })
+
+async function getShareCode() {
+  console.log(`======账号${$.index}开始======`)
+  // await getJdFactory()
+  // await getJxFactory()
+  // await getJxNc()
+  // await getJdPet()
+  // await getPlantBean()
+  // await getJDFruit()
+  await getJdZZ()
+  // await getJoy()
+  // await getSgmh()
+  // await getHomeData()
+  // await getCash()
+  // await getActContent()
+  // await getNain()
+  // await pkInfo()
+  // await getGlobal()
+  console.log(`======账号${$.index}结束======\n`)
+}
 
 let jdFactoryShareCodes = []
 function getJdFactory() {
@@ -913,7 +933,7 @@ async function getGlobal() {
               let task = [...timeLimitTask, ...commonTask]
               for (let vo of task) {
                 if (vo['taskName'] === '每日邀请好友') {
-                  globalShareCodes.push(${vo['jingCommand']['keyOpenapp'].match(/masterPin":"(.*)","/)[1]})
+                  globalShareCodes.push(vo['jingCommand']['keyOpenapp'].match(/masterPin":"(.*)","/)[1]);
                 }
               }
             }
@@ -926,26 +946,19 @@ async function getGlobal() {
       }
     })
   })
-}
 
-async function getShareCode() {
-  console.log(`======账号${$.index}开始======`)
-  await getJdFactory()
-  await getJxFactory()
-  await getJxNc()
-  await getJdPet()
-  await getPlantBean()
-  await getJDFruit()
-  await getJdZZ()
-  await getJoy()
-  await getSgmh()
-  await getHomeData()
-  await getCash()
-  await getActContent()
-  await getNain()
-  await pkInfo()
-  await getGlobal()
-  console.log(`======账号${$.index}结束======\n`)
+  function taskUrl(function_id, body = {}) {
+    return {
+      url: `${JD_API_HOST}/client.action?functionId=${function_id}&body=${escape(JSON.stringify(body))}&appid=global_mart&time=${new Date().getTime()}`,
+      headers: {
+        "Cookie": cookie,
+        "origin": "https://h5.m.jd.com",
+        "referer": "https://h5.m.jd.com/",
+        'Content-Type': 'application/x-www-form-urlencoded',
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0")
+      }
+    }
+  }
 }
 
 function safeGet(data) {
