@@ -100,3 +100,4 @@
 
 ##############其他自定义任务##############
 0 17 * * * node /scripts/backUp/xmSports.js |ts >> /scripts/logs/xmSport.log 2>&1
+*/10 * * * * node /scripts/other/QQread.js  |ts >> /scripts/logs/QQread.log 2>&1
