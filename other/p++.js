@@ -8,11 +8,11 @@ const typeid = 1001; //识别类型（不清楚可以联系客服）
 const lzusername = process.env.LZ_USERNAME  //账号
 const lzpassword = process.env.LZ_PASSWORD  //密码
 const num = process.env.NUMBER // 刷的次数
+const inviterCode = process.env.INVITER_CODE || 'WEWP7B' // 邀请码
 const softwareId = '23730'
 const softwareSecret = 'nXvAh7k9561c5m2743wk8v9HbE6lTr9tU39GjXJi'
 
 const defaultPassword = '1123lovewm'
-const inviterCode = 'WEEWWX'
 
 !(async () => {
   for (let i = 0; i < num; i++) {
