@@ -1,3 +1,4 @@
+const random = require('string-random')
 const name = 'p++刷邀请'
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
 
@@ -20,7 +21,7 @@ const inviterCode = 'WEEWWX'
       console.log(`可用点数不足10，即将退出程序`)
       process.exit(-1)
     }
-    let email = randomStr(10)
+    let email = random(10, {specials: false})
     console.log(`随机邮箱为 : ${email}`)
     // 获取图形验证码
     let image = await getImageCaptcha()
@@ -234,7 +235,7 @@ function register(email, password, captcha, inviterCode) {
       "appId": 1013,
       "channelId": "",
       "inviterCode": inviterCode,
-      "deviceId": "7fcdbb7ab5122a438e72af43c8530b1b",
+      "deviceId": random(32, {letters: 'abcdefghijklmn'}),
       "version": "1.1.1",
       "userIp": "",
       "email": `${email}@MailTemp.top`,
@@ -402,7 +403,11 @@ function checkpoints() {
 }
 
 function randomStr() {
-  return Math.random().toString(36).substring(2)
+  return random
+}
+
+function randomDeviceId() {
+  return
 }
 
 // prettier-ignore
