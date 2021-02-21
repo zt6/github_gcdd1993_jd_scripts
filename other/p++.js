@@ -2,16 +2,16 @@ const name = 'p++刷邀请'
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
 
 const $ = new Env(name)
-const num = 30 // 刷的次数
 
 const typeid = 1001; //识别类型（不清楚可以联系客服）
 const lzusername = process.env.LZ_USERNAME  //账号
 const lzpassword = process.env.LZ_PASSWORD  //密码
+const num = process.env.NUMBER // 刷的次数
 const softwareId = '23730'
 const softwareSecret = 'nXvAh7k9561c5m2743wk8v9HbE6lTr9tU39GjXJi'
 
 const defaultPassword = '1123lovewm'
-const inviterCode = 'WEEWQJ'
+const inviterCode = 'WEEWWX'
 
 !(async () => {
   for (let i = 0; i < num; i++) {
@@ -27,18 +27,23 @@ const inviterCode = 'WEEWQJ'
     console.log(`获取图形验证码成功，图形验证码token: ${image.data.token}`)
     // 联众打码
     let imageCode = await uploadImage(image.data.image.replace('data:image/gif;base64,', ''))
-    console.log(`联众自动打码成功，验证码为: ${imageCode.recognition}`)
-    let imageToken = image.data.token
-    let res = await sendEmail(email, imageCode.recognition, imageToken, imageCode.captchaId)
-    if (res.code === 0) {
-      let code = await getEmailCode(email) // 循环获取随机邮箱
-      if (code) {
-        await register(email, defaultPassword, code, inviterCode)
-      } else {
-        console.log('等待邮箱验证码超时...')
+    console.log(imageCode)
+    if (imageCode.recognition) {
+      console.log(`联众自动打码成功，验证码为: ${imageCode.recognition}`)
+      let imageToken = image.data.token
+      let res = await sendEmail(email, imageCode.recognition, imageToken, imageCode.captchaId)
+      if (res.code === 0) {
+        let code = await getEmailCode(email) // 循环获取随机邮箱
+        if (code) {
+          await register(email, defaultPassword, code, inviterCode)
+        } else {
+          console.log('等待邮箱验证码超时...')
+        }
       }
+      await $.wait(1000 * 5) // 等待5秒
+    } else {
+      console.log(`联众打码失败，${imageCode.message}`)
     }
-    await $.wait(1000 * 5) // 等待5秒
   }
 })()
   .catch((e) => {
