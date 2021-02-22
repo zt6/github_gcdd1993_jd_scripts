@@ -1,3 +1,9 @@
+/**
+ * p++机场刷邀请
+ *
+ * 由于加了腾讯防水墙，此方法失效
+ */
+
 const random = require('string-random')
 const name = 'p++刷邀请'
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
@@ -17,8 +23,8 @@ const defaultPassword = '1123lovewm'
 !(async () => {
   for (let i = 0; i < num; i++) {
     let available = await checkpoints()
-    if (available <= 10) {
-      console.log(`可用点数不足10，即将退出程序`)
+    if (available <= 0) {
+      console.log(`可用点数不足，即将退出程序`)
       process.exit(-1)
     }
     let email = random(10, {specials: false})
@@ -240,7 +246,7 @@ function register(email, password, captcha, inviterCode) {
       "userIp": "",
       "email": `${email}@MailTemp.top`,
       "password": password,
-      "captcha": captcha
+      "captcha": captcha,
     })
   }
   return new Promise((resolve) => {
@@ -400,14 +406,6 @@ function checkpoints() {
       }
     })
   })
-}
-
-function randomStr() {
-  return random
-}
-
-function randomDeviceId() {
-  return
 }
 
 // prettier-ignore
