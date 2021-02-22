@@ -6,7 +6,7 @@
 
 const random = require('string-random')
 const name = 'p++刷邀请'
-const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36 Edg/88.0.705.74'
 
 const $ = new Env(name)
 
@@ -21,36 +21,45 @@ const softwareSecret = 'nXvAh7k9561c5m2743wk8v9HbE6lTr9tU39GjXJi'
 const defaultPassword = '1123lovewm'
 
 !(async () => {
+  // for (let i = 0; i < num; i++) {
+  //   let available = await checkpoints()
+  //   if (available <= 0) {
+  //     console.log(`可用点数不足，即将退出程序`)
+  //     process.exit(-1)
+  //   }
+  //   let email = random(10, {specials: false})
+  //   console.log(`随机邮箱为 : ${email}`)
+  //   // 获取图形验证码
+  //   let image = await getImageCaptcha()
+  //   console.log(`获取图形验证码成功，图形验证码token: ${image.data.token}`)
+  //   // 联众打码
+  //   let imageCode = await uploadImage(image.data.image.replace('data:image/gif;base64,', ''))
+  //   console.log(imageCode)
+  //   if (imageCode.recognition) {
+  //     console.log(`联众自动打码成功，验证码为: ${imageCode.recognition}`)
+  //     let imageToken = image.data.token
+  //     let res = await sendEmail(email, imageCode.recognition, imageToken, imageCode.captchaId)
+  //     if (res.code === 0) {
+  //       let code = await getEmailCode(email) // 循环获取随机邮箱
+  //       if (code) {
+  //         await register(email, defaultPassword, code, inviterCode)
+  //       } else {
+  //         console.log('等待邮箱验证码超时...')
+  //       }
+  //     }
+  //     await $.wait(1000 * 5) // 等待5秒
+  //   } else {
+  //     console.log(`联众打码失败，${imageCode.message}`)
+  //   }
+  // }
   for (let i = 0; i < num; i++) {
-    let available = await checkpoints()
-    if (available <= 0) {
-      console.log(`可用点数不足，即将退出程序`)
-      process.exit(-1)
-    }
-    let email = random(10, {specials: false})
-    console.log(`随机邮箱为 : ${email}`)
-    // 获取图形验证码
-    let image = await getImageCaptcha()
-    console.log(`获取图形验证码成功，图形验证码token: ${image.data.token}`)
-    // 联众打码
-    let imageCode = await uploadImage(image.data.image.replace('data:image/gif;base64,', ''))
-    console.log(imageCode)
-    if (imageCode.recognition) {
-      console.log(`联众自动打码成功，验证码为: ${imageCode.recognition}`)
-      let imageToken = image.data.token
-      let res = await sendEmail(email, imageCode.recognition, imageToken, imageCode.captchaId)
-      if (res.code === 0) {
-        let code = await getEmailCode(email) // 循环获取随机邮箱
-        if (code) {
-          await register(email, defaultPassword, code, inviterCode)
-        } else {
-          console.log('等待邮箱验证码超时...')
-        }
-      }
-      await $.wait(1000 * 5) // 等待5秒
+    let res = await login()
+    if (res.code === 0) {
+      console.log(`邀请成功，当前第${i + 1}次`)
     } else {
-      console.log(`联众打码失败，${imageCode.message}`)
+      console.log(`注册失败，原因：${res.message}`)
     }
+    await $.wait(1000)
   }
 })()
   .catch((e) => {
@@ -262,6 +271,48 @@ function register(email, password, captcha, inviterCode) {
           } else {
             console.log(data)
           }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve(data);
+      }
+    })
+  })
+}
+
+function login() {
+  const options = {
+    url: 'https://pjj.one/api/app/email/login',
+    headers: {
+      'Accept': '*/*',
+      'Content-Type': 'application/json',
+      'Connection': ' keep-alive',
+      'User-Agent': UA,
+      'Accept-Language': 'zh-cn',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Referer': 'https://pjj.one/account/login',
+      'Cookie': 'JSESSIONID=8BEA5ACCB7FBA870F279C9865378D014',
+      'signature': '2174ff1a4facd0582b88746b49caa94b'
+    },
+    body: JSON.stringify({
+      "appId": 1013,
+      "channelId": "",
+      "inviterCode": inviterCode,
+      "deviceId": random(32, {letters: 'abcdefghijklmn'}),
+      "version": "1.1.1",
+      "email": `${random(8, {letters: 'abcdefghijklmn'})}@163.com`,
+      "password": defaultPassword
+    })
+  }
+  return new Promise((resolve) => {
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          data = JSON.parse(data)
         }
       } catch (e) {
         $.logErr(e, resp);
