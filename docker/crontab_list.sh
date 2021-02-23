@@ -12,6 +12,8 @@
 
 #京东极速版天天领红包 活动时间：2021-1-18至2021-3-3
 5 0,23 * * * node /scripts/jd_speed_redpocke.js >> /scripts/logs/jd_speed_redpocke.log 2>&1
+#超级直播间红包雨 仅2月23日
+30,31 20-23/1 23 2 * node /scripts/activity/live_redrain.js >> /scripts/logs/live_redrain.log 2>&1
 ##############长期活动##############
 # 签到
 3 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
