@@ -288,8 +288,8 @@ function readShareCode() {
 //格式化助力码
 function shareCodesFormat() {
   return new Promise(async resolve => {
-    const tempIndex = 0;
-    $.newShareCodes = inviteCodes[tempIndex].split('@');
+    $.newShareCodes = inviteCodes[0].split('@');
+    $.newShareCodes.map((item, index) => $.newShareCodes[index] = { "inviteCode": item, "shareDate": $.shareDate })
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
