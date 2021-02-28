@@ -623,7 +623,7 @@ async function jdJXNC() {
       $.msg($.name, subTitle, message, option);
       if ($.isNode()) {
         //await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `${subTitle}\n${message}`);
-      allMessage += `${subTitle}\n${message}${$.index !== cookiesArr.length ? '\n\n' : ''}`}
+      allMessage += `${subTitle}\n${message}${$.index !== cookieArr.length ? '\n\n' : ''}`}
     }
   }
 // prettier-ignore
