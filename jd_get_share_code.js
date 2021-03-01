@@ -699,145 +699,58 @@ async function getSgmh(timeout = 0) {
     },timeout)
   })
 }
-
-let nianhuoShareCodes = []
-async function getActContent() {
-  return new Promise(resolve => {
-    $.post(taskPostUrl('dingzhi/vm/template/activityContent',
-      `activityId=${ACT_ID}&pin=${encodeURIComponent($.pin)}&pinImg=${$.pinImg}&nick=${$.nick}&cjyxPin=&cjhyPin=&shareUuid=`), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${err}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (safeGet(data)) {
-            data = JSON.parse(data);
-            if (data.data) {
-              $.userInfo = data.data
-              $.actorUuid = $.userInfo.actorUuid
-              nianhuoShareCodes.push($.actorUuid)
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-  })
-}
-
-let nianShareCodes = []
-function getTaskList(body = {}) {
-  return new Promise(resolve => {
-    $.post(taskPostUrl("nian_getTaskDetail", body, "nian_getTaskDetail"), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (safeGet(data)) {
-            data = JSON.parse(data);
-            if (data.data.bizCode === 0) {
-              if (JSON.stringify(body) === "{}") {
-                $.taskVos = data.data.result.taskVos;//任务列表
-                console.log(`您的好友助力码为${data.data.result.inviteId}`)
-              }
-              // $.userInfo = data.data.result.userInfo;
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve();
-      }
-    })
-  })
-}
-async function getNain() {
-  await getTaskList()
-  for (let item of $.taskVos) {
-    if (item.taskType === 14) {
-      console.log(`您的好友助力码为${item.assistTaskDetailVo.taskToken}`)
-      nianShareCodes.push(item.assistTaskDetailVo.taskToken)
-    }
-  }
-}
-
-let nianPkShareCodes = []
-function pkInfo() {
-  return new Promise(resolve => {
-    $.post(taskPostUrl("nian_pk_getHomeData", {}, "nian_pk_getHomeData"), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          $.group = true
-          if (safeGet(data)) {
-            data = JSON.parse(data);
-            if (data.code === 0 && data.data && data.data.bizCode === 0) {
-              console.log(`\n您的好友PK助力码为${data.data.result.groupInfo.groupAssistInviteId}\n注：此pk邀请码每天都变！`)
-              nianPkShareCodes.push(data.data.result.groupInfo.groupAssistInviteId)
-            } else {
-              $.group = false
-              console.log(`获取组队信息失败，请检查`)
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve();
-      }
-    })
-  })
-}
-
-let globalShareCodes = []
-async function getGlobal() {
-  return new Promise(resolve => {
-    $.get(taskUrl("myTask", {"activityCode": 'visa-card-001'}), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (safeGet(data)) {
-            data = JSON.parse(data);
-            if (data['code'] === '0') {
-              const {timeLimitTask, commonTask} = data.result.data
-              let task = [...timeLimitTask, ...commonTask]
-              for (let vo of task) {
-                if (vo['taskName'] === '每日邀请好友') {
-                  globalShareCodes.push(vo['jingCommand']['keyOpenapp'].match(/masterPin":"(.*)","/)[1]);
-                }
-              }
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-  })
-
-  function taskUrl(function_id, body = {}) {
+//财富岛
+function getCFD(showInvite = true) {
+  function taskUrl(function_path, body) {
     return {
-      url: `${JD_API_HOST}/client.action?functionId=${function_id}&body=${escape(JSON.stringify(body))}&appid=global_mart&time=${new Date().getTime()}`,
+      url: `https://m.jingxi.com/jxcfd/${function_path}?strZone=jxcfd&bizCode=jxcfd&source=jxcfd&dwEnv=7&_cfd_t=${Date.now()}&ptag=138631.26.55&${body}&_ste=1&_=${Date.now()}&sceneval=2&g_login_type=1&g_ty=ls`,
       headers: {
-        "Cookie": cookie,
-        "origin": "https://h5.m.jd.com",
-        "referer": "https://h5.m.jd.com/",
-        'Content-Type': 'application/x-www-form-urlencoded',
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0")
-      }
-    }
+        Cookie: cookie,
+        Accept: "*/*",
+        Connection: "keep-alive",
+        Referer:"https://st.jingxi.com/fortune_island/index.html?ptag=138631.26.55",
+        "Accept-Encoding": "gzip, deflate, br",
+        Host: "m.jingxi.com",
+        "User-Agent":`jdpingou;iPhone;3.15.2;14.2.1;ea00763447803eb0f32045dcba629c248ea53bb3;network/wifi;model/iPhone13,2;appBuild/100365;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/0;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2015_311210;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_2_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`,
+        "Accept-Language": "zh-cn",
+      },
+    };
   }
+  return new Promise(async (resolve) => {
+    $.get(taskUrl(`user/QueryUserInfo`), (err, resp, data) => {
+      try {
+        const {
+          iret,
+          SceneList = {},
+          XbStatus: { XBDetail = [], dwXBRemainCnt } = {},
+          ddwMoney,
+          dwIsNewUser,
+          sErrMsg,
+          strMyShareId,
+          strPin,
+        } = JSON.parse(data);
+        console.log(`【账号${$.index}（${$.nickName || $.UserName}）财富岛】${strMyShareId}`)
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function getShareCode() {
+  console.log(`======账号${$.index}开始======`)
+  await getJdFactory()
+  await getJxFactory()
+  await getJxNc()
+  await getJdPet()
+  await getPlantBean()
+  await getJDFruit()
+  await getJdZZ()
+  await getJoy()
+  await getSgmh()
+  await getCFD()
+  console.log(`======账号${$.index}结束======\n`)
 }
 
 function safeGet(data) {
