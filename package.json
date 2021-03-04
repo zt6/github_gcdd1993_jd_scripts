@@ -21,7 +21,7 @@
     "cheerio": "^1.0.0-rc.5",
     "crypto-js": "^4.0.0",
     "download": "^8.0.0",
-    "got": "^11.8.1",
+    "got": "^11.8.2",
     "http-server": "^0.12.3",
     "iconv-lite": "^0.6.2",
     "moment": "^2.29.1",
