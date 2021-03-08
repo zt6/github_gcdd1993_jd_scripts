@@ -12,6 +12,10 @@
 
 #京东国际盲盒活动时间】2021年02月23日 起至 2021年03月31日 18:00:00
 5 7,12,23 * * * node /scripts/jd_global_mh.js >> /scripts/logs/jd_global_mh.log 2>&1
+#环球挑战赛 第二季(活动时间：2021-03-08 至 2021-03-31)
+35 6,22 * * * node /scripts/jd_global.js >> /scripts/logs/jd_global.log 2>&1
+#京东极速版红包(活动时间：2021-3-8至2021-3-25)
+15 0,23 * * * node /scripts/jd_speed_redpocke.js >> /scripts/logs/jd_speed_redpocke.log 2>&1
 
 #直播红包雨，3.2和3.5日
 30,31,32,33,34,35 20-23/1 2,5 3 * node activity/jd_live_redrain.js >> /scripts/logs/jd_live_redrain.log 2>&1
@@ -113,6 +117,8 @@
 20 6,7 * * * node /scripts/jd_family.js >> /scripts/logs/jd_family.log 2>&1
 #京东直播（又回来了）
 10-20/5 12,23 * * * node /scripts/jd_live.js >> /scripts/logs/jd_live.log 2>&1
+#京小兑
+23 5,23 * * * node /scripts/jd_jxd.js >> /scripts/logs/jd_jxd.log 2>&1
 
 ##############其他自定义任务##############
 0 17 * * * node /scripts/backUp/xmSports.js |ts >> /scripts/logs/xmSport.log 2>&1
