@@ -1,9 +1,9 @@
 #必须要的默认定时任务请勿删除
 52 */1 * * * docker_entrypoint.sh >> /scripts/logs/default_task.log 2>&1
 # 每3天的23:50分清理一次日志(互助码不清理，proc_file.sh对该文件进行了去重)
-50 23 */3 * * find /scripts/logs -name '*.log' | grep -v 'sharecode' | xargs rm -rf
+50 23 */3 * * find /scripts/logs -name '*.log' | grep -v 'sharecodeCollection' | xargs rm -rf
 #收集助力码
-30 * * * * sh +x /scripts/docker/auto_help.sh collect >> /scripts/logs/auto_help.log 2>&1
+30 * * * * sh +x /scripts/docker/auto_help.sh collect >> /scripts/logs/auto_help_collect.log 2>&1
 
 ##############短期活动##############
 
