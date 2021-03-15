@@ -175,11 +175,16 @@ async function JD_XTG(flag = false) {
       productList,
       addCart,
       orderSkuList,
+      supporterVoList,
       shareId,
     } = $.homeData.data[0];
     if (flag) {
       console.log(`\n===========活动${$.j + 1}-[${starID[$.j]}] 助力码==========\n${shareId}\n`);
       $.shareID.push(shareId);
+    }
+    if (supporterVoList && supporterVoList.length >= 5) {
+      console.log(`去做任务五。好友助力领京豆`)
+      await shareTask(shareId);
     }
     for (let item of addCart) {
       console.log(
@@ -297,7 +302,47 @@ function doTask(type, id, status) {
     });
   });
 }
-
+function shareTask(shareId) {
+  let r = Date.now().toString();
+  let hi = "352f5149282f44d5aed9061003341bbe";
+  let o = hi + r;
+  let t = "/guardianstar/shareTask";
+  let a = `starId=${$.activeId}&shareId=${shareId}`;
+  return new Promise(async (resolve) => {
+    const options = {
+      url: `https://urvsaggpt.m.jd.com/guardianstar/shareTask`,
+      body: `shareId=${shareId}&starId=${$.activeId}`,
+      headers: {
+        Accept: "application/json,text/plain, */*",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-cn",
+        Connection: "keep-alive",
+        Cookie: cookie,
+        origin: "https://urvsaggpt.m.jd.com",
+        Referer: "https://urvsaggpt.m.jd.com/static/index.html",
+        sign: za(a, o, t).toString(),
+        timestamp: r,
+        "User-Agent": "jdapp;android;9.4.4;10;3b78ecc3f490c7ba;network/UNKNOWN;model/M2006J10C;addressid/138543439;aid/3b78ecc3f490c7ba;oaid/7d5870c5a1696881;osVer/29;appBuild/85576;psn/3b78ecc3f490c7ba|541;psq/2;uid/3b78ecc3f490c7ba;adk/;ads/;pap/JA2015_311210|9.2.4|ANDROID 10;osv/10;pv/548.2;jdv/0|iosapp|t_335139774|appshare|CopyURL|1606277982178|1606277986;ref/com.jd.lib.personal.view.fragment.JDPersonalFragment;partner/xiaomi001;apprpd/MyJD_Main;Mozilla/5.0 (Linux; Android 10; M2006J10C Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045227 Mobile Safari/537.36",
+      },
+    }
+    $.post(options, (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`);
+          console.log(`${$.name} API请求失败，请检查网路重试`);
+        } else {
+          // console.log(`好友助力领京豆结果:${data}`);
+          // data = JSON.parse(data);
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
 function doSupport(shareId) {
   let r = Date.now().toString();
   let hi = "352f5149282f44d5aed9061003341bbe";
@@ -317,15 +362,9 @@ function doSupport(shareId) {
         Cookie: cookie,
         Host: "urvsaggpt.m.jd.com",
         Referer: "https://urvsaggpt.m.jd.com/static/index.html",
-        sign: za(a, o, t),
+        sign: za(a, o, t).toString(),
         timestamp: r,
-        "User-Agent": $.isNode()
-            ? process.env.JD_USER_AGENT
-                ? process.env.JD_USER_AGENT
-                : require("./USER_AGENTS").USER_AGENT
-            : $.getdata("JDUA")
-                ? $.getdata("JDUA")
-                : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0",
+        "User-Agent": "jdapp;android;9.4.4;10;3b78ecc3f490c7ba;network/UNKNOWN;model/M2006J10C;addressid/138543439;aid/3b78ecc3f490c7ba;oaid/7d5870c5a1696881;osVer/29;appBuild/85576;psn/3b78ecc3f490c7ba|541;psq/2;uid/3b78ecc3f490c7ba;adk/;ads/;pap/JA2015_311210|9.2.4|ANDROID 10;osv/10;pv/548.2;jdv/0|iosapp|t_335139774|appshare|CopyURL|1606277982178|1606277986;ref/com.jd.lib.personal.view.fragment.JDPersonalFragment;partner/xiaomi001;apprpd/MyJD_Main;Mozilla/5.0 (Linux; Android 10; M2006J10C Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045227 Mobile Safari/537.36",
       },
     };
     $.post(options, (err, resp, data) => {
@@ -357,13 +396,7 @@ function TotalBean() {
         Connection: "keep-alive",
         Cookie: cookie,
         Referer: "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-        "User-Agent": $.isNode()
-            ? process.env.JD_USER_AGENT
-                ? process.env.JD_USER_AGENT
-                : require("./USER_AGENTS").USER_AGENT
-            : $.getdata("JDUA")
-                ? $.getdata("JDUA")
-                : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0",
+        "User-Agent": "jdapp;android;9.4.4;10;3b78ecc3f490c7ba;network/UNKNOWN;model/M2006J10C;addressid/138543439;aid/3b78ecc3f490c7ba;oaid/7d5870c5a1696881;osVer/29;appBuild/85576;psn/3b78ecc3f490c7ba|541;psq/2;uid/3b78ecc3f490c7ba;adk/;ads/;pap/JA2015_311210|9.2.4|ANDROID 10;osv/10;pv/548.2;jdv/0|iosapp|t_335139774|appshare|CopyURL|1606277982178|1606277986;ref/com.jd.lib.personal.view.fragment.JDPersonalFragment;partner/xiaomi001;apprpd/MyJD_Main;Mozilla/5.0 (Linux; Android 10; M2006J10C Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045227 Mobile Safari/537.36",
       },
     };
     $.post(options, (err, resp, data) => {
@@ -414,15 +447,9 @@ function getDayPrizeStatus(prizeType, prizeId, status) {
         Cookie: cookie,
         Host: "urvsaggpt.m.jd.com",
         Referer: "https://urvsaggpt.m.jd.com/static/index.html",
-        sign: za(a, o, t),
+        sign: za(a, o, t).toString(),
         timestamp: r,
-        "User-Agent": $.isNode()
-            ? process.env.JD_USER_AGENT
-                ? process.env.JD_USER_AGENT
-                : require("./USER_AGENTS").USER_AGENT
-            : $.getdata("JDUA")
-                ? $.getdata("JDUA")
-                : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0",
+        "User-Agent": "jdapp;android;9.4.4;10;3b78ecc3f490c7ba;network/UNKNOWN;model/M2006J10C;addressid/138543439;aid/3b78ecc3f490c7ba;oaid/7d5870c5a1696881;osVer/29;appBuild/85576;psn/3b78ecc3f490c7ba|541;psq/2;uid/3b78ecc3f490c7ba;adk/;ads/;pap/JA2015_311210|9.2.4|ANDROID 10;osv/10;pv/548.2;jdv/0|iosapp|t_335139774|appshare|CopyURL|1606277982178|1606277986;ref/com.jd.lib.personal.view.fragment.JDPersonalFragment;partner/xiaomi001;apprpd/MyJD_Main;Mozilla/5.0 (Linux; Android 10; M2006J10C Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045227 Mobile Safari/537.36",
       },
     };
     $.post(options, (err, resp, data) => {
@@ -460,15 +487,9 @@ function taskPostUrl(type, id, status) {
       Cookie: cookie,
       Host: "urvsaggpt.m.jd.com",
       Referer: "https://urvsaggpt.m.jd.com/static/index.html",
-      sign: za(a, o, t),
+      sign: za(a, o, t).toString(),
       timestamp: r,
-      "User-Agent": $.isNode()
-          ? process.env.JD_USER_AGENT
-              ? process.env.JD_USER_AGENT
-              : require("./USER_AGENTS").USER_AGENT
-          : $.getdata("JDUA")
-              ? $.getdata("JDUA")
-              : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0",
+      "User-Agent": "jdapp;android;9.4.4;10;3b78ecc3f490c7ba;network/UNKNOWN;model/M2006J10C;addressid/138543439;aid/3b78ecc3f490c7ba;oaid/7d5870c5a1696881;osVer/29;appBuild/85576;psn/3b78ecc3f490c7ba|541;psq/2;uid/3b78ecc3f490c7ba;adk/;ads/;pap/JA2015_311210|9.2.4|ANDROID 10;osv/10;pv/548.2;jdv/0|iosapp|t_335139774|appshare|CopyURL|1606277982178|1606277986;ref/com.jd.lib.personal.view.fragment.JDPersonalFragment;partner/xiaomi001;apprpd/MyJD_Main;Mozilla/5.0 (Linux; Android 10; M2006J10C Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045227 Mobile Safari/537.36",
     },
   };
 }
@@ -499,15 +520,9 @@ function taskUrl(function_id) {
       Cookie: cookie,
       Host: "urvsaggpt.m.jd.com",
       Referer: "https://urvsaggpt.m.jd.com/static/index.html",
-      sign: za(a, o, t),
+      sign: za(a, o, t).toString(),
       timestamp: r,
-      "User-Agent": $.isNode()
-          ? process.env.JD_USER_AGENT
-              ? process.env.JD_USER_AGENT
-              : require("./USER_AGENTS").USER_AGENT
-          : $.getdata("JDUA")
-              ? $.getdata("JDUA")
-              : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0",
+      "User-Agent": "jdapp;android;9.4.4;10;3b78ecc3f490c7ba;network/UNKNOWN;model/M2006J10C;addressid/138543439;aid/3b78ecc3f490c7ba;oaid/7d5870c5a1696881;osVer/29;appBuild/85576;psn/3b78ecc3f490c7ba|541;psq/2;uid/3b78ecc3f490c7ba;adk/;ads/;pap/JA2015_311210|9.2.4|ANDROID 10;osv/10;pv/548.2;jdv/0|iosapp|t_335139774|appshare|CopyURL|1606277982178|1606277986;ref/com.jd.lib.personal.view.fragment.JDPersonalFragment;partner/xiaomi001;apprpd/MyJD_Main;Mozilla/5.0 (Linux; Android 10; M2006J10C Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045227 Mobile Safari/537.36",
     },
   };
 }
