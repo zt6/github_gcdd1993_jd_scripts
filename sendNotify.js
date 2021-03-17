@@ -2,7 +2,7 @@
  * @Author: lxk0301 https://gitee.com/lxk0301
  * @Date: 2020-08-19 16:12:40
  * @Last Modified by: lxk0301
- * @Last Modified time: 2021-3-15 9:52:54
+ * @Last Modified time: 2021-3-16 9:52:54
  */
 const querystring = require("querystring");
 const $ = new Env();
@@ -174,7 +174,7 @@ function serverNotify(text, desp, timeout = 2100) {
               data = JSON.parse(data);
               //server酱和Server酱·Turbo版的返回json格式不太一样
               if (data.errno === 0 || data.data.errno === 0 ) {
-                console.log('server酱发送通知消息成功\n')
+                console.log('server酱发送通知消息成功🎉\n')
               } else if (data.errno === 1024) {
                 // 一分钟内发送相同的内容会触发
                 console.log(`server酱发送通知消息异常: ${data.errmsg}\n`)
@@ -190,7 +190,7 @@ function serverNotify(text, desp, timeout = 2100) {
         })
       }, timeout)
     } else {
-      console.log('您未提供server酱的SCKEY，取消微信推送消息通知\n');
+      console.log('您未提供server酱的SCKEY，取消微信推送消息通知🚫\n');
       resolve()
     }
   })
@@ -248,7 +248,7 @@ function CoolPush(text, desp) {
           } else {
             data = JSON.parse(data);
             if (data.code === 200) {
-              console.log(`酷推发送${pushMode(QQ_MODE)}通知消息成功\n`)
+              console.log(`酷推发送${pushMode(QQ_MODE)}通知消息成功🎉\n`)
             } else if (data.code === 400) {
               console.log(`QQ酷推(Cool Push)发送${pushMode(QQ_MODE)}推送失败：${data.msg}\n`)
             } else if (data.code === 503) {
@@ -264,7 +264,7 @@ function CoolPush(text, desp) {
         }
       })
     } else {
-      console.log('您未提供酷推的SKEY，取消QQ推送消息通知\n');
+      console.log('您未提供酷推的SKEY，取消QQ推送消息通知🚫\n');
       resolve()
     }
   })
@@ -287,7 +287,7 @@ function BarkNotify(text, desp, params={}) {
           } else {
             data = JSON.parse(data);
             if (data.code === 200) {
-              console.log('Bark APP发送通知消息成功\n')
+              console.log('Bark APP发送通知消息成功🎉\n')
             } else {
               console.log(`${data.message}\n`);
             }
@@ -299,7 +299,7 @@ function BarkNotify(text, desp, params={}) {
         }
       })
     } else {
-      console.log('您未提供Bark的APP推送BARK_PUSH，取消Bark推送消息通知\n');
+      console.log('您未提供Bark的APP推送BARK_PUSH，取消Bark推送消息通知🚫\n');
       resolve()
     }
   })
@@ -308,20 +308,21 @@ function BarkNotify(text, desp, params={}) {
 function tgBotNotify(text, desp) {
   return  new Promise(resolve => {
     if (TG_BOT_TOKEN && TG_USER_ID) {
+      desp = `${desp.replace(/_/g, "\\_")}`;//支持markdown后，带有_会导致推送失败，转义一下
       const options = {
         url: `https://${TG_API_HOST}/bot${TG_BOT_TOKEN}/sendMessage`,
-        body: `chat_id=${TG_USER_ID}&text=${text}\n\n${desp}&disable_web_page_preview=true`,
+        body: `chat_id=${TG_USER_ID}&text=${text}\n\n${desp}&disable_web_page_preview=true&parse_mode=Markdown`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }
-      if (process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {
+      if (TG_PROXY_HOST && TG_PROXY_PORT) {
         const tunnel = require("tunnel");
         const agent = {
           https: tunnel.httpsOverHttp({
             proxy: {
-              host: process.env.TG_PROXY_HOST,
-              port: process.env.TG_PROXY_PORT * 1
+              host: TG_PROXY_HOST,
+              port: TG_PROXY_PORT * 1
             }
           })
         }
@@ -335,7 +336,7 @@ function tgBotNotify(text, desp) {
           } else {
             data = JSON.parse(data);
             if (data.ok) {
-              console.log('Telegram发送通知消息完成。\n')
+              console.log('Telegram发送通知消息成功🎉。\n')
             } else if (data.error_code === 400) {
               console.log('请主动给bot发送一条消息并检查接收用户ID是否正确。\n')
             } else if (data.error_code === 401){
@@ -349,7 +350,7 @@ function tgBotNotify(text, desp) {
         }
       })
     } else {
-      console.log('您未提供telegram机器人推送所需的TG_BOT_TOKEN和TG_USER_ID，取消telegram推送消息通知\n');
+      console.log('您未提供telegram机器人推送所需的TG_BOT_TOKEN和TG_USER_ID，取消telegram推送消息通知🚫\n');
       resolve()
     }
   })
@@ -383,7 +384,7 @@ function ddBotNotify(text, desp) {
           } else {
             data = JSON.parse(data);
             if (data.errcode === 0) {
-              console.log('钉钉发送通知消息完成。\n')
+              console.log('钉钉发送通知消息成功🎉。\n')
             } else {
               console.log(`${data.errmsg}\n`)
             }
@@ -415,7 +416,7 @@ function ddBotNotify(text, desp) {
         }
       })
     } else {
-      console.log('您未提供钉钉机器人推送所需的DD_BOT_TOKEN或者DD_BOT_SECRET，取消钉钉推送消息通知\n');
+      console.log('您未提供钉钉机器人推送所需的DD_BOT_TOKEN或者DD_BOT_SECRET，取消钉钉推送消息通知🚫\n');
       resolve()
     }
   })
@@ -444,7 +445,7 @@ function qywxBotNotify(text, desp) {
           } else {
             data = JSON.parse(data);
             if (data.errcode === 0) {
-              console.log('企业微信发送通知消息完成。\n');
+              console.log('企业微信发送通知消息成功🎉。\n');
             } else {
               console.log(`${data.errmsg}\n`);
             }
@@ -456,7 +457,7 @@ function qywxBotNotify(text, desp) {
         }
       });
     } else {
-      console.log('您未提供企业微信机器人推送所需的QYWX_KEY，取消企业微信推送消息通知\n');
+      console.log('您未提供企业微信机器人推送所需的QYWX_KEY，取消企业微信推送消息通知🚫\n');
       resolve();
     }
   });
@@ -570,7 +571,7 @@ function qywxamNotify(text, desp) {
             } else {
               data = JSON.parse(data);
               if (data.errcode === 0) {
-                console.log('成员ID:' + ChangeUserId(desp) + '企业微信应用消息发送通知消息完成。\n');
+                console.log('成员ID:' + ChangeUserId(desp) + '企业微信应用消息发送通知消息成功🎉。\n');
               } else {
                 console.log(`${data.errmsg}\n`);
               }
@@ -583,7 +584,7 @@ function qywxamNotify(text, desp) {
         });
       });
     } else {
-      console.log('您未提供企业微信应用消息推送所需的QYWX_AM，取消企业微信应用消息推送消息通知\n');
+      console.log('您未提供企业微信应用消息推送所需的QYWX_AM，取消企业微信应用消息推送消息通知🚫\n');
       resolve();
     }
   });
@@ -614,7 +615,7 @@ function iGotNotify(text, desp, params={}){
           } else {
             if(typeof data === 'string') data = JSON.parse(data);
             if (data.ret === 0) {
-              console.log('iGot发送通知消息成功\n')
+              console.log('iGot发送通知消息成功🎉\n')
             } else {
               console.log(`iGot发送通知消息失败：${data.errMsg}\n`)
             }
@@ -626,7 +627,7 @@ function iGotNotify(text, desp, params={}){
         }
       })
     } else {
-      console.log('您未提供iGot的推送IGOT_PUSH_KEY，取消iGot推送消息通知\n');
+      console.log('您未提供iGot的推送IGOT_PUSH_KEY，取消iGot推送消息通知🚫\n');
       resolve()
     }
   })
@@ -669,7 +670,7 @@ function pushPlusNotify(text, desp) {
         }
       })
     } else {
-      console.log('您未提供push+推送所需的PUSH_PLUS_TOKEN，取消push+推送消息通知\n');
+      console.log('您未提供push+推送所需的PUSH_PLUS_TOKEN，取消push+推送消息通知🚫\n');
       resolve()
     }
   })
