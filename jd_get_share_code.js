@@ -115,7 +115,7 @@ function getJdFactory() {
                 $.taskVos.map((item) => {
                   if (item.taskType === 14) {
                     console.log(
-                      `【京东账号${$.index}（${$.nickName || $.UserName}）东东工厂】${item.assistTaskDetailVo.taskToken}`
+                      `【京东账号${$.index}（${$.UserName}）东东工厂】${item.assistTaskDetailVo.taskToken}`
                     );
                     jdFactoryShareCodes.push(item.assistTaskDetailVo.taskToken)
                   }
@@ -182,7 +182,7 @@ function getJxFactory(){
                   $.commodityDimId = production.commodityDimId;
                   $.encryptPin = data.user.encryptPin;
                   // subTitle = data.user.pin;
-                  console.log(`【京东账号${$.index}（${$.nickName || $.UserName}）京喜工厂】${data.user.encryptPin}`);
+                  console.log(`【京东账号${$.index}（${$.UserName}）京喜工厂】${data.user.encryptPin}`);
                   jxFactoryShareCodes.push(data.user.encryptPin)
                 }
               } else {
@@ -249,9 +249,9 @@ function getJxNc(){
                     'joinnum': data.joinnum,
                   };
                   console.log(`注意：京喜农场 种植种子发生变化的时候，互助码也会变！！`);
-                  console.log(`【京东账号${$.index}（${$.nickName || $.UserName}）京喜农场】` + JSON.stringify(shareCodeJson));
+                  console.log(`【京东账号${$.index}（${$.UserName}）京喜农场】` + JSON.stringify(shareCodeJson));
                 } else {
-                  console.log(`【京东账号${$.index}（${$.nickName || $.UserName}）京喜农场】未选择种子，请先去京喜农场选择种子`);
+                  console.log(`【京东账号${$.index}（${$.UserName}）京喜农场】未选择种子，请先去京喜农场选择种子`);
                 }
               }
             } else {
@@ -321,7 +321,7 @@ function getJdPet(){
             }
 
             console.log(
-              `【京东账号${$.index}（${$.nickName || $.UserName}）京东萌宠】${$.petInfo.shareCode}`
+              `【京东账号${$.index}（${$.UserName}）京东萌宠】${$.petInfo.shareCode}`
             );
             jdPetShareCodes.push($.petInfo.shareCode)
           } else if (initPetTownRes.code === "0") {
@@ -354,7 +354,7 @@ async function getJdZZ() {
               data = JSON.parse(data);
               $.taskList = data.data.taskDetailResList;
               if ($.taskList.filter(item => !!item && item['taskId']=== 3) && $.taskList.filter(item => !!item && item['taskId']=== 3).length) {
-                console.log(`【京东账号${$.index}（${$.nickName || $.UserName}）的京东赚赚好友互助码】${$.taskList.filter(item => !!item && item['taskId']=== 3)[0]['itemId']}`);
+                console.log(`【京东账号${$.index}（${$.UserName}）的京东赚赚好友互助码】${$.taskList.filter(item => !!item && item['taskId']=== 3)[0]['itemId']}`);
               }
             }
           }
@@ -455,7 +455,7 @@ async function getPlantBean() {
     if ($.plantBeanIndexResult.code === "0") {
       const shareUrl = $.plantBeanIndexResult.data.jwordShareInfo.shareUrl;
       $.myPlantUuid = getParam(shareUrl, "plantUuid");
-      console.log(`【京东账号${$.index}（${$.nickName || $.UserName}）种豆得豆】${$.myPlantUuid}`);
+      console.log(`【京东账号${$.index}（${$.UserName}）种豆得豆】${$.myPlantUuid}`);
       plantBeanShareCodes.push($.myPlantUuid)
     } else {
       console.log(
@@ -522,7 +522,7 @@ async function getJDFruit() {
     await initForFarm();
     if ($.farmInfo.farmUserPro) {
       console.log(
-        `【京东账号${$.index}（${$.nickName || $.UserName}）京东农场】${$.farmInfo.farmUserPro.shareCode}`
+        `【京东账号${$.index}（${$.UserName}）京东农场】${$.farmInfo.farmUserPro.shareCode}`
       );
       jdFruitShareCodes.push($.farmInfo.farmUserPro.shareCode)
     } else {
@@ -570,7 +570,7 @@ async function getJoy(){
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data.success && data.data && data.data.userInviteCode) {
-              console.log(`【京东账号${$.index}（${$.nickName || $.UserName}）crazyJoy】${data.data.userInviteCode}`)
+              console.log(`【京东账号${$.index}（${$.UserName}）crazyJoy】${data.data.userInviteCode}`)
               joyShareCodes.push(data.data.userInviteCode)
             }
           }
@@ -678,7 +678,7 @@ async function getSgmh(timeout = 0) {
           data = JSON.parse(data);
           if (data.data.bizCode === 0) {
             const invites  = data.data.result.taskVos.filter(item => item['taskName'] === '邀请好友助力');
-            console.log(`【京东账号${$.index}（${$.nickName || $.UserName}）闪购盲盒】${invites && invites[0]['assistTaskDetailVo']['taskToken']}`)
+            console.log(`【京东账号${$.index}（${$.UserName}）闪购盲盒】${invites && invites[0]['assistTaskDetailVo']['taskToken']}`)
           }
         } catch (e) {
           $.logErr(e, resp);
@@ -719,7 +719,7 @@ function getCFD(showInvite = true) {
           strMyShareId,
           strPin,
         } = JSON.parse(data);
-        console.log(`【京东账号${$.index}（${$.nickName || $.UserName}）财富岛】${strMyShareId}`)
+        console.log(`【京东账号${$.index}（${$.UserName}）财富岛】${strMyShareId}`)
       } catch (e) {
         $.logErr(e, resp);
       } finally {
@@ -755,7 +755,7 @@ function getJdCash() {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if(data.code===0 && data.data.result){
-              console.log(`【京东账号${$.index}（${$.nickName || $.UserName}）签到领现金】${data.data.result.inviteCode}`);
+              console.log(`【京东账号${$.index}（${$.UserName}）签到领现金】${data.data.result.inviteCode}`);
             }
           }
         }
