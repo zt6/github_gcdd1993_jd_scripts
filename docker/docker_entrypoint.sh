@@ -1,90 +1,55 @@
 #!/bin/sh
 set -e
 
-export LANG="zh_CN.UTF-8"
-
-if [ $1 ]; then
-    echo "Currently does not support specifying startup parameters"
-    echo "Please delete the last command attached to $(docker run) or the configured $(command:) parameter in $(docker-compose.yml)"
-    echo "暂时不支持指定启动参数，请删除 docker run时最后附带的命令 或者 docker-compose.yml中的配置的command:指令 "
+#获取配置的自定义参数
+if [ -n "$1" ]; then
+  run_cmd=$1
 fi
 
-echo "##############################################################################"
-echo "Container start , Pull the latest code..."
-echo "容器启动，git 拉取最新代码..."
-git reset --hard
-git -C /scripts pull
-npm install --prefix /scripts
-echo "##############################################################################"
-
-##兼容旧镜像的环境变量
-if [ !$DEFAULT_LIST_FILE ]; then
-    defaultListFile="/scripts/docker/crontab_list.sh"
+if [ -f "/scripts/logs/pull.lock" ]; then
+  echo "存在更新锁定文件，跳过git pull操作..."
 else
-    defaultListFile="/scripts/docker/$DEFAULT_LIST_FILE"
+  echo "设定远程仓库地址..."
+  cd /scripts
+  git remote set-url origin "$REPO_URL"
+  git reset --hard
+  echo "git pull拉取最新代码..."
+  git -C /scripts pull --rebase
+  echo "npm install 安装最新依赖"
+  npm install --prefix /scripts
 fi
 
-customListFile="/scripts/docker/$CUSTOM_LIST_FILE"
-mergedListFile="/scripts/docker/merged_list_file.sh"
-
-if type ts >/dev/null 2>&1; then
-    echo 'moreutils tools installed, default task append |ts output'
-    echo '系统已安装moreutils工具包，默认定时任务增加｜ts 输出'
-    ##复制一个新文件来追加|ts，防止git pull的时候冲突
-    cp $defaultListFile /scripts/docker/default_list.sh
-    defaultListFile="/scripts/docker/default_list.sh"
-
-    sed -i 's/>>/|ts >>/g' $defaultListFile
-fi
-
-#判断 自定义文件是否存在 是否存在
-if [ $CUSTOM_LIST_FILE ]; then
-    echo "You have configured a custom list file: $CUSTOM_LIST_FILE, custom list merge type: $CUSTOM_LIST_MERGE_TYPE..."
-    echo "您配置了自定义任务文件：$CUSTOM_LIST_FILE，自定义任务类型为：$CUSTOM_LIST_MERGE_TYPE..."
-    if [ -f "$customListFile" ]; then
-        if [ $CUSTOM_LIST_MERGE_TYPE == "append" ]; then
-            echo "merge default list file: $DEFAULT_LIST_FILE and custom list file: $CUSTOM_LIST_FILE"
-            echo "合并默认定时任务文件：$DEFAULT_LIST_FILE 和 自定义定时任务文件：$CUSTOM_LIST_FILE"
-            cat $defaultListFile >$mergedListFile
-            echo -e "" >>$mergedListFile
-            cat $customListFile >>$mergedListFile
-        elif [ $CUSTOM_LIST_MERGE_TYPE == "overwrite" ]; then
-            cat $customListFile >$mergedListFile
-            echo "merge custom list file: $CUSTOM_LIST_FILE..."
-            echo "合并自定义任务文件：$CUSTOM_LIST_FILE"
-            touch "$customListFile"
-        else
-            echo "配置配置了错误的自定义定时任务类型：$CUSTOM_LIST_MERGE_TYPE，自定义任务类型为只能为append或者overwrite..."
-            cat $defaultListFile >$mergedListFile
-        fi
-    else
-        echo "Not found custom list file: $CUSTOM_LIST_FILE ,use default list file: $DEFAULT_LIST_FILE"
-        echo "自定义任务文件：$CUSTOM_LIST_FILE 未找到，使用默认配置$DEFAULT_LIST_FILE..."
-        cat $defaultListFile >$mergedListFile
-    fi
+# 默认启动telegram交互机器人的条件
+# 确认容器启动时调用的docker_entrypoint.sh
+# 必须配置TG_BOT_TOKEN、TG_USER_ID，
+# 且未配置DISABLE_BOT_COMMAND禁用交互，
+# 且未配置自定义TG_API_HOST，因为配置了该变量，说明该容器环境可能并能科学的连到telegram服务器
+if [[ -n "$run_cmd" && -n "$TG_BOT_TOKEN" && -n "$TG_USER_ID" && -z "$DISABLE_BOT_COMMAND" && -z "$TG_API_HOST" ]]; then
+  ENABLE_BOT_COMMAND=True
 else
-    echo "The currently used is the default crontab task file: $DEFAULT_LIST_FILE ..."
-    echo "当前使用的为默认定时任务文件 $DEFAULT_LIST_FILE ..."
-    cat $defaultListFile >$mergedListFile
+  ENABLE_BOT_COMMAND=False
 fi
 
-# 判断最后要加载的定时任务是否包含默认定时任务，不包含的话就加进去
-if [ $(grep -c "default_task.sh" $mergedListFile) -eq '0' ]; then
-    echo "Merged crontab task file，the required default task is not included, append default task..."
-    echo "合并后的定时任务文件，未包含必须的默认定时任务，增加默认定时任务..."
-    echo -e >>$mergedListFile
-    echo "52 */1 * * * sh /scripts/docker/default_task.sh |ts >> /scripts/logs/default_task.log 2>&1" >>$mergedListFile
+echo "------------------------------------------------执行定时任务任务shell脚本------------------------------------------------"
+#测试
+# sh /jd_docker/docker/default_task.sh "$ENABLE_BOT_COMMAND" "$run_cmd"
+#合并
+sh /scripts/docker/default_task.sh "$ENABLE_BOT_COMMAND" "$run_cmd"
+echo "--------------------------------------------------默认定时任务执行完成---------------------------------------------------"
+
+if [ -n "$run_cmd" ]; then
+  # 增加一层jd_bot指令已经正确安装成功校验
+  # 以上条件都满足后会启动jd_bot交互，否还是按照以前的模式启动，最大程度避免现有用户改动调整
+  if [[ "$ENABLE_BOT_COMMAND" == "True" && -f /usr/bin/jd_bot ]]; then
+    echo "启动crontab定时任务主进程..."
+    crond
+    echo "启动telegram bot指令交主进程..."
+    jd_bot
+  else
+    echo "启动crontab定时任务主进程..."
+    crond -f
+  fi
+
+else
+  echo "默认定时任务执行结束。"
 fi
-
-if [ $RANDOM_DELAY_MAX -ge 1 ]; then
-    echo "已设置随机延迟为 $RANDOM_DELAY_MAX , 设置延迟任务中... "
-    sed -i "/\(jd_bean_sign.js\|jd_blueCoin.js\|jd_joy_reward.js\|jd_joy_steal.js\|jd_joy_feedPets.js\)/!s/node/sleep \$((RANDOM % \$RANDOM_DELAY_MAX)); node/g" $mergedListFile
-fi
-
-echo "Load the latest crontab task file..."
-echo "加载最新的定时任务文件..."
-crontab $mergedListFile
-
-echo "Start crontab task main process..."
-echo "启动crondtab定时任务主进程..."
-crond -f

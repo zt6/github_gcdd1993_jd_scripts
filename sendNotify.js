@@ -1,8 +1,8 @@
 /*
  * @Author: lxk0301 https://gitee.com/lxk0301
- * @Date: 2020-08-19 16:12:40
+ * @Date: 2020-08-19 16:12:40 
  * @Last Modified by: lxk0301
- * @Last Modified time: 2021-3-16 9:52:54
+ * @Last Modified time: 2021-3-29 11:52:54
  */
 const querystring = require("querystring");
 const $ = new Env();
@@ -137,6 +137,7 @@ if (process.env.PUSH_PLUS_USER) {
 
 async function sendNotify(text, desp, params = {}) {
   //提供6种通知
+  desp += `\n\n本脚本免费使用 By：https://gitee.com/lxk0301/jd_docker`;
   await Promise.all([
     serverNotify(text, desp),//微信server酱
     pushPlusNotify(text, desp)//pushplus(推送加)
@@ -164,7 +165,8 @@ function serverNotify(text, desp, timeout = 2100) {
         body: `text=${text}&desp=${desp}`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        },
+        timeout: 10000
       }
       setTimeout(() => {
         $.post(options, (err, resp, data) => {
@@ -192,7 +194,7 @@ function serverNotify(text, desp, timeout = 2100) {
         })
       }, timeout)
     } else {
-      console.log('您未提供server酱的SCKEY，取消微信推送消息通知🚫\n');
+      console.log('\n\n您未提供server酱的SCKEY，取消微信推送消息通知🚫\n');
       resolve()
     }
   })
@@ -279,7 +281,8 @@ function BarkNotify(text, desp, params={}) {
         url: `${BARK_PUSH}/${encodeURIComponent(text)}/${encodeURIComponent(desp)}?sound=${BARK_SOUND}&${querystring.stringify(params)}`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        },
+        timeout: 10000
       }
       $.get(options, (err, resp, data) => {
         try {
@@ -315,7 +318,8 @@ function tgBotNotify(text, desp) {
         body: `chat_id=${TG_USER_ID}&text=${text}\n\n${desp}&disable_web_page_preview=true`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        },
+        timeout: 10000
       }
       if (TG_PROXY_HOST && TG_PROXY_PORT) {
         const tunnel = require("tunnel");
@@ -369,7 +373,8 @@ function ddBotNotify(text, desp) {
       },
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      timeout: 10000
     }
     if (DD_BOT_TOKEN && DD_BOT_SECRET) {
       const crypto = require('crypto');
@@ -437,6 +442,7 @@ function qywxBotNotify(text, desp) {
       headers: {
         'Content-Type': 'application/json',
       },
+      timeout: 10000
     };
     if (QYWX_KEY) {
       $.post(options, (err, resp, data) => {
@@ -497,6 +503,7 @@ function qywxamNotify(text, desp) {
         headers: {
           'Content-Type': 'application/json',
         },
+        timeout: 10000
       };
       $.post(options_accesstoken, (err, resp, data) => {
         html = desp.replace(/\n/g, "<br/>")
@@ -600,14 +607,15 @@ function iGotNotify(text, desp, params={}){
       if(!IGOT_PUSH_KEY_REGX.test(IGOT_PUSH_KEY)) {
         console.log('您所提供的IGOT_PUSH_KEY无效\n')
         resolve()
-        return
+        return 
       }
       const options = {
         url: `https://push.hellyw.com/${IGOT_PUSH_KEY.toLowerCase()}`,
         body: `title=${text}&content=${desp}&${querystring.stringify(params)}`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        },
+        timeout: 10000
       }
       $.post(options, (err, resp, data) => {
         try {
@@ -650,7 +658,8 @@ function pushPlusNotify(text, desp) {
         body: JSON.stringify(body),
         headers: {
           'Content-Type': ' application/json'
-        }
+        },
+        timeout: 10000
       }
       $.post(options, (err, resp, data) => {
         try {

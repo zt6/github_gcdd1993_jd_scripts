@@ -112,6 +112,9 @@ EOF
 
 fi
 
+#echo "暂停更新配置，不要尝试删掉这个文件，你的容器可能会起不来"
+#echo '' >/scripts/logs/pull.lock
+
 echo "定义定时任务合并处理用到的文件路径..."
 defaultListFile="/scripts/docker/$DEFAULT_LIST_FILE"
 echo "默认文件定时任务文件路径为 ${defaultListFile}"
@@ -247,3 +250,6 @@ echo "发送通知"
 export NOTIFY_CONTENT="2021-03-21更新 增加bot交互，spnode指令，功能是否开启自动根据你的配置判断，详见 https://gitee.com/lxk0301/jd_docker/pulls/18"
 cd /scripts/docker
 node notify_docker_user.js
+=======
+node notify_docker_user.js
+>>>>>>> f27c1d141e34d33b7c7bb079b6ddd56733d9dd0c
