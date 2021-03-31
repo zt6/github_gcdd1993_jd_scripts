@@ -250,6 +250,3 @@ echo "发送通知"
 export NOTIFY_CONTENT="2021-03-21更新 增加bot交互，spnode指令，功能是否开启自动根据你的配置判断，详见 https://gitee.com/lxk0301/jd_docker/pulls/18"
 cd /scripts/docker
 node notify_docker_user.js
-=======
-node notify_docker_user.js
->>>>>>> f27c1d141e34d33b7c7bb079b6ddd56733d9dd0c
