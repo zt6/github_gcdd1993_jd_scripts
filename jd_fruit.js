@@ -127,7 +127,7 @@ async function jdFruit() {
     $.logErr(e);
     const errMsg = `京东账号${$.index} ${$.nickName || $.UserName}\n任务执行异常，请检查执行日志 ‼️‼️`;
     if ($.isNode()) await notify.sendNotify(`${$.name}`, errMsg);
-    $.msg($.name, '', `京东账号${$.index} ${$.nickName || $.UserName}\n${errMsg}`)
+    $.msg($.name, '', `${errMsg}`)
   }
   await showMsg();
 }
@@ -827,7 +827,6 @@ async function doFriendsWater() {
           }
         }
       });
-      //TODO ,发现bug,github action运行发现有些账号第一次没有给3个好友浇水
       console.log(`需要浇水的好友列表shareCodes:${JSON.stringify(needWaterFriends)}`);
       let waterFriendsCount = 0, cardInfoStr = '';
       for (let index = 0; index < needWaterFriends.length; index ++) {
