@@ -1,6 +1,6 @@
-// 闪电签到
+// 几鸡签到
 // https://freemycloud.pw
-const HOST_NAME = 'https://j01.best'
+const HOST_NAME = 'https://j01.space'
 const $ = new Env('几鸡签到')
 const notify = $.isNode() ? require('../sendNotify') : '';
 
@@ -25,14 +25,14 @@ const login = (username, password) => {
     $.post(option, (err, resp, data) => {
       try {
         if (err) {
-          console.log('\n闪电登录失败')
+          console.log('\n几鸡登录失败')
         } else {
           data = JSON.parse(data)
           console.log(data)
           if (data.code === 200) {
             data = resp.headers['set-cookie']
           } else {
-            console.log(`\n闪电登录失败 --> ${data.msg}`)
+            console.log(`\n几鸡登录失败 --> ${data.msg}`)
           }
         }
       } catch (e) {
@@ -61,7 +61,7 @@ const checkin = (cookies) => {
     $.post(option, (err, resp, data) => {
       try {
         if (err) {
-          console.log('\n闪电签到失败')
+          console.log('\n几鸡签到失败')
         } else {
           data = JSON.parse(data)
         }
