@@ -1,10 +1,7 @@
 /*
 超级直播间红包雨
-下一场直播时间:04月14日  20:00，ID：3861625
-30,31 20-23/1 14 4 *
-下一场直播时间:04月13日  20:00，ID：3866703
-30,31 20-23/1 13 4 *
-下一场直播时间:04月09日  20:00，ID：3863492
+下一场超级直播间时间:04月28日  20:00，直播间地址：https://h5.m.jd.com/dev/3pbY8ZuCx4ML99uttZKLHC2QcAMn/live.html?id=3932303
+下一场超级直播间时间:04月23日  20:00，直播间地址：https://h5.m.jd.com/dev/3pbY8ZuCx4ML99uttZKLHC2QcAMn/live.html?id=3934999
 脚本兼容: Quantumult X, Surge, Loon, JSBox, Node.js
 ==============Quantumult X==============
 [task_local]
@@ -22,46 +19,20 @@ cron "0,30,31 20-23/1 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/ra
 超级直播间红包雨 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_live_redrain.js, cronexpr="0,30,31 20-23/1 * * *", timeout=3600, enable=true
 */
 const $ = new Env('超级直播间红包雨');
-let allMessage = '';
+let allMessage = '', id = 'RRA4RhWMc159kA62qLbaEa88evE7owb';
 let bodyList = {
-  "9": {
-    "url": "https://api.m.jd.com/client.action?functionId=liveActivityV946&uuid=8888888&client=apple&clientVersion=9.4.1&st=1617851039013&sign=75a906562a942575139e871715e5e95f&sv=122",
-    "body": "body=%7B%22liveId%22%3A%223863492%22%7D"
+  "23": {
+    "url": "https://api.m.jd.com/client.action?functionId=liveActivityV946&uuid=8888888&client=apple&clientVersion=9.4.1&st=1618812729053&sign=c083fc8440496d9ed52007210a70b481&sv=100",
+    "body": "body=%7B%22liveId%22%3A%223934999%22%7D"
   },
-  "13": {
-    "url": "https://api.m.jd.com/client.action?functionId=liveActivityV946&uuid=8888888&client=apple&clientVersion=9.4.1&st=1617851035011&sign=ce3542c09121b1474c0beba1413fec13&sv=112",
-    "body": "body=%7B%22liveId%22%3A%223866703%22%7D"
-  },
-  "14": {
-    "url": "https://api.m.jd.com/client.action?functionId=liveActivityV946&uuid=8888888&client=apple&clientVersion=9.4.1&st=1617851034027&sign=811dcdb1ef6f4e775f7ccf4f42d73a7a&sv=111",
-    "body": "body=%7B%22liveId%22%3A%223861625%22%7D"
+  "28": {
+    "url": "https://api.m.jd.com/client.action?functionId=liveActivityV946&uuid=8888888&client=apple&clientVersion=9.4.1&st=1618812726015&sign=5d3a62a61aeaba5acdb0e7a4f375227e&sv=112",
+    "body": "body=%7B%22liveId%22%3A%223932303%22%7D"
   }
 }
-let ids = {
-  '0': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '1': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '2': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '3': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '4': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '5': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '6': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '7': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '8': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '9': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '10': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '11': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '12': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '13': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '14': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '15': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '16': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '17': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '18': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '19': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '20': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '21': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '22': 'RRA4RhWMc159kA62qLbaEa88evE7owb', 
-  '23': 'RRA4RhWMc159kA62qLbaEa88evE7owb'
+let ids = {}
+for (let i = 0; i < 24; i++) {
+  ids[i] = id;
 }
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -84,16 +55,13 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
   }
-  console.log('下一场直播时间:04月14日  20:00，ID：3861625\n' +
-      '30,31 20-23/1 14 4 *\n' +
-      '下一场直播时间:04月13日  20:00，ID：3866703\n' +
-      '30,31 20-23/1 13 4 *\n' +
-      '下一场直播时间:04月09日  20:00，ID：3863492')
+  console.log('下一场超级直播间时间:04月28日  20:00，直播间地址：https://h5.m.jd.com/dev/3pbY8ZuCx4ML99uttZKLHC2QcAMn/live.html?id=3932303\n' +
+      '下一场超级直播间时间:04月23日  20:00，直播间地址：https://h5.m.jd.com/dev/3pbY8ZuCx4ML99uttZKLHC2QcAMn/live.html?id=3934999')
   await getRedRain();
 
   let nowTs = new Date().getTime()
   if (!($.st <= nowTs && nowTs < $.ed)) {
-    $.log(`远程红包雨配置获取错误，从本地读取配置`)
+    $.log(`\n远程红包雨配置获取错误，从本地读取配置`)
     let hour = (new Date().getUTCHours() + 8) %24
     if (ids[hour]){
       $.activityId = ids[hour]
