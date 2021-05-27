@@ -80,9 +80,9 @@ function collectScore() {
 						if (data.data.result.produceScore)
 							console.log(`任务完成成功，获得：${data.data.result.produceScore}能量`);
 						else
-							console.log(`任务领取结果：${data.data.bizMsg ? JSON.stringify(data)}`);
+							console.log(`任务领取结果：${data.data.bizMsg}`);
 					} else {
-						console.log(`任务完成失败：${data.data.bizMsg ? JSON.stringify(data)}`);
+						console.log(`任务完成失败：${data.data.bizMsg}`);
 					}
 				}
 			} catch (e) {
