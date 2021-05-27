@@ -76,19 +76,19 @@ function collectScore() {
 			try {
 				if (safeGet(data)) {
 					data = $.toObj(data);
-					if (data?.data?.bizCode === 0) {
-						if (data?.data?.result?.produceScore)
+					if (data.data.bizCode === 0) {
+						if (data.data.result.produceScore)
 							console.log(
 								`任务完成成功，获得：${
-									data?.data?.result?.produceScore ?? "未知"
+									data.data.result.produceScore ? "未知"
 								}能量`
 							);
 						else
 							console.log(
-								`任务领取结果：${data?.data?.bizMsg ?? JSON.stringify(data)}`
+								`任务领取结果：${data.data.bizMsg ? JSON.stringify(data)}`
 							);
 					} else {
-						console.log(`任务完成失败：${data?.data?.bizMsg ?? JSON.stringify(data)}`);
+						console.log(`任务完成失败：${data.data.bizMsg ? JSON.stringify(data)}`);
 					}
 				}
 			} catch (e) {
