@@ -9,22 +9,22 @@ PK互助：内部账号自行互助(排名靠前账号得到的机会多),多余
 地图任务：已添加，下午2点到5点执行,抽奖已添加(基本都是优惠券)
 金融APP任务：已完成
 活动时间：2021-05-24至2021-06-20
-脚本更新时间：2021-05-28 9:20
+脚本更新时间：2021-05-31 23:00
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ===================quantumultx================
 [task_local]
 #618动物联萌
-13 * * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_zoo.js, tag=618动物联萌, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+33 0,6-23/2 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_zoo.js, tag=618动物联萌, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 =====================Loon================
 [Script]
-cron "13 * * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_zoo.js, tag=618动物联萌
+cron "33 0,6-23/2 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_zoo.js, tag=618动物联萌
 
 ====================Surge================
-618动物联萌 = type=cron,cronexp="13 * * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_zoo.js
+618动物联萌 = type=cron,cronexp="33 0,6-23/2 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_zoo.js
 
 ============小火箭=========
-618动物联萌 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_zoo.js, cronexpr="13 * * * *", timeout=3600, enable=true
+618动物联萌 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_zoo.js, cronexpr="33 0,6-23/2 * * *", timeout=3600, enable=true
  */
 const $ = new Env('618动物联萌');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -35,16 +35,12 @@ const pKHelpAuthorFlag = true;//是否助力作者PK  true 助力，false 不助
 let cookiesArr = [];
 $.cookie = '';
 $.inviteList = [];
-$.pkInviteList = [];
+$.pkInviteList = [
+  'sSKNX-MpqKOJsNu8mJ7RA9BJMup4tAAmPcPPPhBUWYKUJ19UKeC8EAoKeUXELi4o',
+];
 $.secretpInfo = {};
 $.innerPkInviteList = [
-  'sSKNX-MpqKOJsNu8mJ7RA9BJMup4tAAmPcPPPhBUWYKUJ19UKeC8EAoKeUXELiQ',
-  'sSKNX-MpqKOJsNu-ys_QB8uQqFkCdEeVDMGDHRryF8QHDHxAgiHVjUPNuVNIzLc',
-  'sSKNX-MpqKMLdi9uIzMMu0DX2-jTz_DN5BqTx0HCuqsE9Vbm3Suv-7CbY91siKVHgbu1vfsBbQ',
-  'sSKNX-MpqKOJsNv74MOnRO1-y24JzNJfEGle1Ooa7gtNStMf5n0b6pOxJ2-I',
-  'sSKNX-MpqKOJsNu-n83cV-ztwhdGVt6kY02nHU7jkp0qAsASu9tIW4Ny-i1OMVA',
 ];
-$.hotFlag = false; //是否火爆
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -68,8 +64,7 @@ if ($.isNode()) {
       '地图任务：已添加，下午2点到5点执行,抽奖已添加\n' +
       '金融APP任务：已完成\n' +
       '活动时间：2021-05-24至2021-06-20\n' +
-      '脚本更新时间：2021-05-28 9:20\n' +
-      '火爆账户暂时不做任务，找到解决办法后再做任务'
+      '脚本更新时间：2021-05-31 23:00\n'
       );
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
@@ -78,6 +73,7 @@ if ($.isNode()) {
       $.index = i + 1;
       $.isLogin = true;
       $.nickName = $.UserName;
+      $.hotFlag = false; //是否火爆
       await TotalBean();
       console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
       console.log(`\n如有未完成的任务，请多执行几次\n`);
@@ -88,16 +84,19 @@ if ($.isNode()) {
         }
         continue
       }
-      await zoo()
+      await zoo();
+      if($.hotFlag)$.secretpInfo[$.UserName] = false;//火爆账号不执行助力
     }
   }
-  let res = [], res2 = [];
-  if (new Date().getUTCHours() + 8 >= 17) {
+  let res = [], res2 = [], res3 = [];
+  res3 = await getAuthorShareCode('https://raw.githubusercontent.com/gitupdate/updateTeam/master/shareCodes/jd_zoo.json');
+  if (!res3) await getAuthorShareCode('https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_zoo.json')
+  if (new Date().getHours()>= 17) {
     res = await getAuthorShareCode() || [];
     res2 = await getAuthorShareCode('http://cdn.trueorfalse.top/e528ffae31d5407aac83b8c37a4c86bc/') || [];
   }
   if (pKHelpAuthorFlag) {
-    $.innerPkInviteList = getRandomArrayElements([...$.innerPkInviteList, ...res, ...res2], [...$.innerPkInviteList, ...res, ...res2].length);
+    $.innerPkInviteList = getRandomArrayElements([...$.innerPkInviteList, ...res, ...res2, ...res3], [...$.innerPkInviteList, ...res, ...res2, ...res3].length);
     $.pkInviteList.push(...$.innerPkInviteList);
   }
   for (let i = 0; i < cookiesArr.length; i++) {
@@ -111,12 +110,13 @@ if ($.isNode()) {
     $.index = i + 1;
     //console.log($.inviteList);
     //pk助力
-    if (new Date().getUTCHours() + 8 >= 9) {
+    if (new Date().getHours() >= 9) {
       console.log(`\n******开始内部京东账号【怪兽大作战pk】助力*********\n`);
       for (let i = 0; i < $.pkInviteList.length && pKHelpFlag && $.canHelp; i++) {
         console.log(`${$.UserName} 去助力PK码 ${$.pkInviteList[i]}`);
         $.pkInviteId = $.pkInviteList[i];
         await takePostRequest('pkHelp');
+        await $.wait(2000);
       }
       $.canHelp = true;
     }
@@ -208,7 +208,6 @@ async function zoo() {
             await $.wait(3000);
           }
         }
-        await takePostRequest('zoo_getHomeData');
       }else if ($.oneTask.taskType === 2 && $.oneTask.status === 1){
         console.log(`做任务：${$.oneTask.taskName};等待完成 (实际不会添加到购物车)`);
         $.taskId = $.oneTask.taskId;
@@ -226,17 +225,18 @@ async function zoo() {
           await $.wait(1500);
           needTime --;
         }
-        await takePostRequest('zoo_getHomeData');
-      }
-      let raiseInfo = $.homeData.result.homeMainInfo.raiseInfo;
-      if (Number(raiseInfo.totalScore) > Number(raiseInfo.nextLevelScore) && raiseInfo.buttonStatus === 1) {
-        console.log(`满足升级条件，去升级`);
-        await $.wait(1000);
-        await takePostRequest('zoo_raise');
       }
     }
+    await $.wait(1000);
+    await takePostRequest('zoo_getHomeData');
+    raiseInfo = $.homeData.result.homeMainInfo.raiseInfo;
+    if (Number(raiseInfo.totalScore) > Number(raiseInfo.nextLevelScore) && raiseInfo.buttonStatus === 1) {
+      console.log(`满足升级条件，去升级`);
+      await $.wait(1000);
+      await takePostRequest('zoo_raise');
+    }
     //===================================图鉴里的店铺====================================================================
-    if (new Date().getUTCHours() + 8 >= 17 && new Date().getUTCHours() + 8 <= 18 && !$.hotFlag) {//分享
+    if (new Date().getHours()>= 17 && new Date().getHours()<= 18 && !$.hotFlag) {//分享
       $.myMapList = [];
       await takePostRequest('zoo_myMap');
       for (let i = 0; i < $.myMapList.length; i++) {
@@ -248,7 +248,7 @@ async function zoo() {
         }
       }
     }
-    if (new Date().getUTCHours() + 8 >= 14 && new Date().getUTCHours() + 8 <= 17 && !$.hotFlag){//30个店铺，为了避免代码执行太久，下午2点到5点才做店铺任务
+    if (new Date().getHours() >= 14 && new Date().getHours() <= 17 && !$.hotFlag){//30个店铺，为了避免代码执行太久，下午2点到5点才做店铺任务
       console.log(`去做店铺任务`);
       $.shopInfoList = [];
       await takePostRequest('qryCompositeMaterials');
@@ -564,6 +564,7 @@ async function dealReturn(type, data) {
       }
       if(data.code === 0 && data.data && data.data.bizCode === -1002){
         $.hotFlag = true;
+        console.log(`该账户脚本执行任务火爆，暂停执行任务，请手动做任务或者等待解决脚本火爆问题`)
       }
       break;
     case 'zoo_getTaskDetail':
@@ -819,25 +820,21 @@ async function getPostRequest(type, body) {
 }
 
 function getBody(type) {
-  let rnd = Math.round(Math.random() * 1e6)
-  let nonstr = randomWord(false, 10)
-  let time = Date.now()
-  let key = minusByByte(nonstr.slice(0, 5), String(time).slice(-5))
-  let msg = `random=${rnd}&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
-  let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase();
+  let rnd = Math.floor(1e6 + 9e6 * Math.random()).toString()
+  let ss = JSON.stringify({"extraData" : {"log": "-1", "sceneid": "QD216hPageh5"}, "secretp": $.secretp, "random": rnd.toString()});
   let taskBody = '';
   if (type === 'help') {
-    taskBody = `functionId=zoo_collectScore&body={"taskId":2,"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"cf_v\\":\\"1.0.2\\",\\"client_version\\":\\"2.2.1\\",\\"buttonid\\":\\"jmdd-react-smash_62\\",\\"sceneid\\":\\"homePageh5\\"},\\"secretp\\":\\"${$.secretp}\\",\\"random\\":\\"${rnd}\\"}","inviteId":"${$.inviteId}","actionType":1}&client=wh5&clientVersion=1.0.0`
+    taskBody = `functionId=zoo_collectScore&body=${JSON.stringify({"taskId": 2,"inviteId":$.inviteId,"actionType":1,"ss" :ss})}&client=wh5&clientVersion=1.0.0`
   } else if (type === 'pkHelp') {
-    taskBody = `functionId=zoo_pk_assistGroup&body={"taskId":2,"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"cf_v\\":\\"1.0.2\\",\\"client_version\\":\\"2.2.1\\",\\"buttonid\\":\\"jmdd-react-smash_62\\",\\"sceneid\\":\\"homePageh5\\"},\\"secretp\\":\\"${$.secretp}\\",\\"random\\":\\"${rnd}\\"}","inviteId":"${$.pkInviteId}","actionType":1}&client=wh5&clientVersion=1.0.0`;
+    taskBody = `functionId=zoo_pk_assistGroup&body=${JSON.stringify({"confirmFlag": 1,"inviteId" : $.pkInviteId,"ss" : ss})}&client=wh5&clientVersion=1.0.0`;
   } else if (type === 'zoo_collectProduceScore') {
-    taskBody = `functionId=zoo_collectProduceScore&body={"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"cf_v\\":\\"1.0.2\\",\\"client_version\\":\\"2.2.1\\",\\"buttonid\\":\\"jmdd-react-smash_0\\",\\"sceneid\\":\\"homePageh5\\"},\\"secretp\\":\\"${$.secretp}\\",\\"random\\":\\"${rnd}\\"}"}&client=wh5&clientVersion=1.0.0`;
+    taskBody = `functionId=zoo_collectProduceScore&body=${JSON.stringify({"ss" :ss})}&client=wh5&clientVersion=1.0.0`;
   } else if(type === 'zoo_getWelfareScore'){
-    taskBody = `functionId=zoo_getWelfareScore&body={"type":2,"currentScence":${$.currentScence},"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"cf_v\\":\\"1.0.2\\",\\"client_version\\":\\"2.2.1\\",\\"buttonid\\":\\"jmdd-react-smash_62\\",\\"sceneid\\":\\"homePageh5\\"},\\"secretp\\":\\"${$.secretp}\\",\\"random\\":\\"${rnd}\\"}"}&client=wh5&clientVersion=1.0.0`;
+    taskBody = `functionId=zoo_getWelfareScore&body=${JSON.stringify({"type": 2,"currentScence":$.currentScence,"ss" : ss})}&client=wh5&clientVersion=1.0.0`;
   } else if(type === 'add_car'){
-    taskBody = `functionId=zoo_collectScore&body={"taskId":"${$.taskId}","taskToken":"${$.taskToken}","actionType":1,"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"cf_v\\":\\"1.0.2\\",\\"client_version\\":\\"2.2.1\\",\\"buttonid\\":\\"jmdd-react-smash_62\\",\\"sceneid\\":\\"homePageh5\\"},\\"secretp\\":\\"${$.secretp}\\",\\"random\\":\\"${rnd}\\"}"}&client=wh5&clientVersion=1.0.0`
+    taskBody = `functionId=zoo_collectScore&body=${JSON.stringify({"taskId": $.taskId,"taskToken":$.taskToken,"actionType":1,"ss" : ss})}&client=wh5&clientVersion=1.0.0`
   }else{
-    taskBody = `functionId=${type}&body={"taskId":"${$.oneTask.taskId}","taskToken":"${$.oneActivityInfo.taskToken}","actionType":1,"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"cf_v\\":\\"1.0.2\\",\\"client_version\\":\\"2.2.1\\",\\"buttonid\\":\\"jmdd-react-smash_62\\",\\"sceneid\\":\\"homePageh5\\"},\\"secretp\\":\\"${$.secretp}\\",\\"random\\":\\"${rnd}\\"}","itemId":"${$.oneActivityInfo.itemId}","shopSign":"${$.shopSign}"}&client=wh5&clientVersion=1.0.0`
+    taskBody = `functionId=${type}&body=${JSON.stringify({"taskId": $.oneTask.taskId,"actionType":1,"taskToken" : $.oneActivityInfo.taskToken,"ss" : ss})}&client=wh5&clientVersion=1.0.0`
   }
   return taskBody
 }
@@ -860,9 +857,26 @@ function getRandomArrayElements(arr, count) {
 }
 function getAuthorShareCode(url = "http://cdn.annnibb.me/eb6fdc36b281b7d5eabf33396c2683a2.json") {
   return new Promise(async resolve => {
-    $.get({url,headers:{
+    const options = {
+      "url": `${url}?${new Date()}`,
+      "timeout": 10000,
+      "headers": {
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-      }, "timeout": 10000}, async (err, resp, data) => {
+      }
+    };
+    if ($.isNode() && process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {
+      const tunnel = require("tunnel");
+      const agent = {
+        https: tunnel.httpsOverHttp({
+          proxy: {
+            host: process.env.TG_PROXY_HOST,
+            port: process.env.TG_PROXY_PORT * 1
+          }
+        })
+      }
+      Object.assign(options, { agent })
+    }
+    $.get(options, async (err, resp, data) => {
       try {
         if (err) {
         } else {
@@ -919,122 +933,6 @@ function TotalBean() {
       }
     })
   })
-}
-
-function randomWord(randomFlag, min, max) {
-  let str = "",
-    range = min,
-    arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-  // 随机产生
-  if (randomFlag) {
-    range = Math.round(Math.random() * (max - min)) + min;
-  }
-  for (let i = 0; i < range; i++) {
-    pos = Math.round(Math.random() * (arr.length - 1));
-    str += arr[pos];
-  }
-  return str;
-}
-
-function minusByByte(t, n) {
-  var e = t.length
-    , r = n.length
-    , o = Math.max(e, r)
-    , i = toAscii(t)
-    , a = toAscii(n)
-    , s = ""
-    , u = 0;
-  for (e !== r && (i = add0(i, o),
-    a = this.add0(a, o)); u < o;)
-    s += Math.abs(i[u] - a[u]),
-      u++;
-  return s
-}
-
-function toAscii(t) {
-  var n = "";
-  for (var e in t) {
-    var r = t[e]
-      , o = /[a-zA-Z]/.test(r);
-    if (t.hasOwnProperty(e))
-      if (o)
-        n += getLastAscii(r);
-      else
-        n += r
-  }
-  return n
-}
-
-function add0(t, n) {
-  return (Array(n).join("0") + t).slice(-n)
-}
-
-function getLastAscii(t) {
-  var n = t.charCodeAt(0).toString();
-  return n[n.length - 1]
-}
-
-function wordsToBytes(t) {
-  for (var n = [], e = 0; e < 32 * t.length; e += 8)
-    n.push(t[e >>> 5] >>> 24 - e % 32 & 255);
-  return n
-}
-
-function bytesToHex(t) {
-  for (var n = [], e = 0; e < t.length; e++)
-    n.push((t[e] >>> 4).toString(16)),
-      n.push((15 & t[e]).toString(16));
-  return n.join("")
-}
-
-function stringToBytes(t) {
-  t = unescape(encodeURIComponent(t))
-  for (var n = [], e = 0; e < t.length; e++)
-    n.push(255 & t.charCodeAt(e));
-  return n
-}
-
-function bytesToWords(t) {
-  for (var n = [], e = 0, r = 0; e < t.length; e++,
-    r += 8)
-    n[r >>> 5] |= t[e] << 24 - r % 32;
-  return n
-}
-
-function getSign(t) {
-  t = stringToBytes(t)
-  var e = bytesToWords(t)
-    , i = 8 * t.length
-    , a = []
-    , s = 1732584193
-    , u = -271733879
-    , c = -1732584194
-    , f = 271733878
-    , h = -1009589776;
-  e[i >> 5] |= 128 << 24 - i % 32,
-    e[15 + (i + 64 >>> 9 << 4)] = i;
-  for (var l = 0; l < e.length; l += 16) {
-    for (var p = s, g = u, v = c, d = f, y = h, m = 0; m < 80; m++) {
-      if (m < 16)
-        a[m] = e[l + m];
-      else {
-        var w = a[m - 3] ^ a[m - 8] ^ a[m - 14] ^ a[m - 16];
-        a[m] = w << 1 | w >>> 31
-      }
-      var _ = (s << 5 | s >>> 27) + h + (a[m] >>> 0) + (m < 20 ? 1518500249 + (u & c | ~u & f) : m < 40 ? 1859775393 + (u ^ c ^ f) : m < 60 ? (u & c | u & f | c & f) - 1894007588 : (u ^ c ^ f) - 899497514);
-      h = f,
-        f = c,
-        c = u << 30 | u >>> 2,
-        u = s,
-        s = _
-    }
-    s += p,
-      u += g,
-      c += v,
-      f += d,
-      h += y
-  }
-  return [s, u, c, f, h]
 }
 
 // prettier-ignore
