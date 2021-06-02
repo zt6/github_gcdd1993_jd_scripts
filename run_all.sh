@@ -93,7 +93,3 @@ node jd_festival.js
 node jd_mh.js
 # 京东秒秒币
 node jd_ms.js
-# 小鸽有礼
-node jd_xg.js
-# 京东超级盒子
-node jd_super_box.js
