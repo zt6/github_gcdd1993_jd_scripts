@@ -27,10 +27,6 @@ const $ = new Env('明星小店');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 $.inviteCodeList = [];
-$.authorCodeList = [
-  'rQI0TkBIzVwHI4fxBQnt6v0doiabNQfNdJglrUVhOP0','Rcl-dpjMZKyZUzie7lg4ow','lqU3wfq2eBw8N6pRbRBGHg','xsK-EVpDVVszF0j95pGD6g',
-  'r3yIDGE86HSsdtyFlrPHJHu_0mNpX_AnBREYO-c3BFY', 'Mve7TKmP8UKnC9IULuBrQHzgY54j_0U5BLm5Ox6aigY',
-];
 let cookiesArr = [];
 let uniqueIdList = [
      {'id':'637BQA','name':'成毅'},{'id':'XLDYRJ','name':'白宇'},{'id':'94FEDQ','name':'任嘉伦'},{'id':'GN949D','name':'刘宇宁'},{'id':'WG73ME','name':'李光洁'},{'id':'5JFCD6','name':'李纹翰'},
@@ -133,7 +129,6 @@ if ($.isNode()) {
     }
     await main();
   }
-  $.inviteCodeList.push(...getRandomArrayElements($.authorCodeList, $.authorCodeList.length));
   for (let i = 0; i < cookiesArr.length; i++) {
     $.cookie = cookiesArr[i];
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
@@ -212,36 +207,41 @@ async function xdz(){
     return ;
   }
   let tasksList =  $.xdzUseInfo.tasks;
-  for (let i = 0; i < tasksList.length; i++) {
-    $.oneTask = tasksList[i];
-    if($.oneTask.status !== 1){
-      continue;
-    }
-    if($.oneTask.taskType !== '22' && $.oneTask.taskType !== '6'){
-      console.log(`执行任务：${$.oneTask.taskName}`);
-      let subItem = $.oneTask.subItem;
-      for (let j = 0; j < subItem.length; j++) {
-        $.subItemInfo = subItem[j];
-        if(!$.subItemInfo.itemToken &&  $.subItemInfo.status !==1 ){
-          continue;
-        }
-        await doXdzTask();
-        await $.wait(2000);
+  console.log($.xdzUseInfo)
+  if(tasksList) {
+    for (let i = 0; i < tasksList.length; i++) {
+      $.oneTask = tasksList[i];
+      if($.oneTask.status !== 1){
+        continue;
       }
-    }else if($.oneTask.taskType === '6'){
-      if($.oneTask.subItem && $.oneTask.subItem.length>0 && $.oneTask.times === 0){
-        $.xdzHelpCodeList.push($.oneTask.subItem[0].itemToken);
-        console.log(`助力码：${$.oneTask.subItem[0].itemToken}`);
+      if($.oneTask.taskType !== '22' && $.oneTask.taskType !== '6'){
+        console.log(`执行任务：${$.oneTask.taskName}`);
+        let subItem = $.oneTask.subItem;
+        for (let j = 0; j < subItem.length; j++) {
+          $.subItemInfo = subItem[j];
+          if(!$.subItemInfo.itemToken &&  $.subItemInfo.status !==1 ){
+            continue;
+          }
+          await doXdzTask();
+          await $.wait(2000);
+        }
+      }else if($.oneTask.taskType === '6'){
+        if($.oneTask.subItem && $.oneTask.subItem.length>0 && $.oneTask.times === 0){
+          $.xdzHelpCodeList.push($.oneTask.subItem[0].itemToken);
+          console.log(`助力码：${$.oneTask.subItem[0].itemToken}`);
+        }
       }
     }
   }
   let awardVoList = $.xdzInfo.awardVoList;
-  for (let i = 0; i < awardVoList.length; i++) {
-    $.oneAwardInfo = awardVoList[i];
-    if($.oneAwardInfo.status === 1 && $.oneAwardInfo.grade === 1){
-      console.log(`执行抽奖`);
-      drawAward();
-      await $.wait(2000);
+  if(awardVoList){
+    for (let i = 0; i < awardVoList.length; i++) {
+      $.oneAwardInfo = awardVoList[i];
+      if($.oneAwardInfo.status === 1 && $.oneAwardInfo.grade === 1){
+        console.log(`执行抽奖`);
+        drawAward();
+        await $.wait(2000);
+      }
     }
   }
 }
