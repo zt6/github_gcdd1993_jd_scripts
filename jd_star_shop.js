@@ -207,7 +207,6 @@ async function xdz(){
     return ;
   }
   let tasksList =  $.xdzUseInfo.tasks;
-  console.log($.xdzUseInfo)
   if(tasksList) {
     for (let i = 0; i < tasksList.length; i++) {
       $.oneTask = tasksList[i];
