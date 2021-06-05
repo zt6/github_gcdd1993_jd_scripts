@@ -14,7 +14,8 @@ RUN set -ex \
   && sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
   && apk update \
   && apk upgrade \
-  && apk add --no-cache bash tzdata git moreutils curl jq openssh-client \
+  && apk add --no-cache bash tzdata git moreutils curl jq openssh-client make gcc g++ python3 \
+  && ln -sf python3 /usr/bin/python \
   && rm -rf /var/cache/apk/* \
   && ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
   && echo "$TZ" > /etc/timezone \
@@ -25,7 +26,8 @@ RUN set -ex \
   && npm install -g npm \
   && npm install \
   && cp /scripts/docker/docker_entrypoint.sh /usr/local/bin \
-  && chmod +x /usr/local/bin/docker_entrypoint.sh
+  && chmod +x /usr/local/bin/docker_entrypoint.sh \
+  && apk del make gcc g++ python3
 
 WORKDIR /scripts
 
