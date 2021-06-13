@@ -154,7 +154,7 @@ async function pasture() {
       await $.wait(2000);
       await doTask(j);
       await $.wait(2000);
-      if (j === 2 && 1===2) {
+      if (j === 2) {
         //割草
         console.log(`\n开始进行割草`);
         $.runFlag = true;
