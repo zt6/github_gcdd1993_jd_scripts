@@ -85,8 +85,8 @@ if ($.isNode()) {
     res2 = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_zoo.json');
     res3 = await getAuthorShareCode('http://cdn.trueorfalse.top/e528ffae31d5407aac83b8c37a4c86bc/');
     if (pKHelpAuthorFlag) {
-        if([...$.innerPkInviteList, ...res, ...res2, ...res3].length > 3){
-            $.innerPkInviteList = getRandomArrayElements([...$.innerPkInviteList, ...res, ...res2, ...res3],3);
+        if([...$.innerPkInviteList, ...res, ...res2, ...res3].length > 6){
+            $.innerPkInviteList = getRandomArrayElements([...$.innerPkInviteList, ...res, ...res2, ...res3],6);
         }else{
             $.innerPkInviteList = getRandomArrayElements([...$.innerPkInviteList, ...res, ...res2, ...res3], [...$.innerPkInviteList, ...res, ...res2, ...res3].length);
         }
