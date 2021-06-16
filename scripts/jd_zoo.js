@@ -631,6 +631,7 @@ async function dealReturn(type, data) {
           break;
         default:
           console.log(`怪兽大作战助力失败：${JSON.stringify(data)}`);
+          $.canHelp = false;
       }
       break;
     case 'zoo_pk_getHomeData':
