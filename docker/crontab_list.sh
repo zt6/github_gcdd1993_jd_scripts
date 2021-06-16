@@ -53,6 +53,7 @@
 # 领现金兑换红包
 0,1,2 0 * * * node /scripts/jd_cash_exchange.js >> /scripts/logs/jd_cash_exchange.log 2>&1
 # 财富岛提现
+0 0 * * * node /scripts/jd_cfdtx.js >> /scripts/logs/jd_cfdtx.log 2>&1
 # 京享值PK
 15 0,6,13,19,21 * * * node /scripts/jd_ddo_pk.js >> /scripts/logs/jd_ddo_pk.log 2>&1
 # 半点京豆雨
@@ -68,16 +69,14 @@
 3 0,10,23 * * * node /scripts/jd_monk_shop_lottery.js >> /scripts/logs/jd_monk_shop_lottery.log 2>&1
 # 整点京豆雨，每天8*16豆
 1 0-23/1 * * * node /scripts/jd_super_redrain.js >> /scripts/logs/jd_super_redrain.log 2>&1
-# 压岁钱
-0 0 9,12,16,20 * * * node /scripts/jd_try.js >> /scripts/logs/jd_try.log 2>&1
+# 试用
+# 0 0 9,12,16,20 * * * node /scripts/jd_try.js >> /scripts/logs/jd_try.log 2>&1
 # 粉丝互动
 3 10 * * * node /scripts/jd_z_fanslove.js >> /scripts/logs/jd_z_fanslove.log 2>&1
 # 健康社区
 25 10-22/3 * * * node /scripts/jd_z_health_community.js >> /scripts/logs/jd_z_health_community.log 2>&1
 # 健康社区-收能量
 25 * * * * node /scripts/jd_z_health_energy.js >> /scripts/logs/jd_z_health_energy.log 2>&1
-# 超级无线组队分奖品
-25 3 * * 2 node /scripts/jd_z_shop_captain.js >> /scripts/logs/jd_z_shop_captain.log 2>&1
 
 ##############长期活动##############
 # 签到
