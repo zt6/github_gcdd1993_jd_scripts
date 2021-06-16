@@ -29,7 +29,7 @@ cron "0 9,12,18 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/mast
 
 const $ = new Env('京喜农场');
 let notify = ''; // nodejs 发送通知脚本
-let notifyLevel = $.isNode() ? process.env.JXNC_NOTIFY_LEVEL || 1 : 1; // 通知级别 0=只通知成熟;1=本次获得水滴>0;2=任务执行;3=任务执行+未种植种子;
+let notifyLevel = $.isNode() ? process.env.JXNC_NOTIFY_LEVEL || 0 : 0; // 通知级别 0=只通知成熟;1=本次获得水滴>0;2=任务执行;3=任务执行+未种植种子;
 let notifyBool = true; // 代码内部使用，控制是否通知
 let cookieArr = []; // 用户 cookie 数组
 let currentCookie = ''; // 当前用户 cookie
@@ -187,7 +187,7 @@ function requireConfig() {
 
     try {
       let options = {
-        "url": `https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jxnc.txt`,
+        "url": `https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jxnc.txt`,
         "headers": {
           "Accept": "application/json,text/plain, */*",
           "Content-Type": "application/x-www-form-urlencoded",
@@ -527,7 +527,7 @@ function getAssistUser() {
   return new Promise(resolve => {
     try {
       $.get({
-        url: `https://api.ninesix.cc/api/jx-nc?active=${$.info.active}`,
+        url: `https://api.ninesix.cc/`,
         timeout: 10000
       }, async (err, resp, _data) => {
         try {

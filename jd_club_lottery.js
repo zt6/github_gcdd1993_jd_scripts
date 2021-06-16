@@ -1,5 +1,10 @@
 /*
-Last Modified time: 2021-5-11 09:27:09
+* @Author: lxk0301
+* @Date: 2020-11-03 20:35:07
+* @Last Modified by: lxk0301
+* @Last Modified time: 2021-5-11 09:27:09
+*/
+/*
 活动入口：京东APP首页-领京豆-摇京豆/京东APP首页-我的-京东会员-摇京豆
 增加京东APP首页超级摇一摇(不定时有活动)
 增加超级品牌日做任务及抽奖
@@ -80,7 +85,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
         continue
       }
       await clubLottery();
-      await showMsg();
+      // await showMsg();
     }
   }
   for (let v = 0; v < cookiesArr.length; v++) {

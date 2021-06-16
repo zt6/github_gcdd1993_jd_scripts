@@ -17,10 +17,10 @@
 cron "0 7 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_speed_sign.js,tag=京东极速版
 
 ===============Surge=================
-京东极速版 = type=cron,cronexp="0 7 * * *",wake-system=1,timeout=33600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_speed_sign.js
+京东极速版 = type=cron,cronexp="0 7 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_speed_sign.js
 
 ============小火箭=========
-京东极速版 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_speed_sign.js, cronexpr="0 7 * * *", timeout=33600, enable=true
+京东极速版 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_speed_sign.js, cronexpr="0 7 * * *", timeout=3600, enable=true
 */
 
 const $ = new Env('京东极速版');
@@ -89,8 +89,8 @@ async function jdGlobal() {
 
     await signInit()
     await sign()
-    await invite()
-    await invite2()
+    // await invite()
+    // await invite2()
     $.score = 0
     $.total = 0
     await taskList()
@@ -117,7 +117,7 @@ async function signInit() {
     $.get(taskUrl('speedSignInit', {
       "activityId": "8a8fabf3cccb417f8e691b6774938bc2",
       "kernelPlatform": "RN",
-      "inviterId":"gCBrvPfINCZc+dotfvHPlA=="
+      "inviterId":"zQ3Flv2e9PjWTXjBdPaiv4On8bJjlhOf"
     }), async (err, resp, data) => {
       try {
         if (err) {

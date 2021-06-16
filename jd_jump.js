@@ -3,7 +3,7 @@ author:star
 跳跳乐瓜分京豆脚本
 更新时间：2021-05-21
 活动入口：来客有礼(微信小程序)=>跳跳乐或京东APP=》首页=》母婴馆=》底部中间
-注：脚本好像还是会加商品到购物车，慎使用
+注：默认不做添加物品至购物车任务，守护京东APP最后一片净土。
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ================QuantumultX==================
 [task_local]
@@ -41,7 +41,7 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-  console.log(`注：脚本好像还是会加商品到购物车，慎使用。\n`);
+  console.log(`注：脚本默认不做添加物品至购物车任务，守护京东APP最后一片净土。\n`);
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -75,7 +75,7 @@ async function jump() {
   $.jumpList = [];
   await getGameList();
   if ($.jumpList.length === 0) {
-    console.log(`获取活动列表失败，请等待下一期活动\n`);
+    console.log(`获取活动列表失败`);
     return;
   }
   await $.wait(1000);

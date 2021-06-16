@@ -2,7 +2,7 @@
 签到领现金，每日2毛～5毛
 可互助，助力码每日不变，只变日期
 活动入口：京东APP搜索领现金进入
-更新时间：2021-06-07
+更新时间：2021-04-28
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ============Quantumultx===============
@@ -28,21 +28,11 @@ let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭�
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 let helpAuthor = true;
-const randomCount = $.isNode() ? 5 : 5;
+const randomCount = $.isNode() ? 0 : 5;
 let cash_exchange = false;//是否消耗2元红包兑换200京豆，默认否
 const inviteCodes = [
-  'eU9YaO60MPku9G_VmCJB0A@' +
-  'eU9YGqvDP61wrDGIggdN@' +
-  'IB01Ze63YP4u7G3czXYb1A@' +
-  'IBwxb-W1ZfUv7G3SznIU1w@' +
-  'eU9YKpngLrh1iSy8iDdv@' +
-  'eU9Yarrgbvwk-TuEyyYRgw@' +
-  'eU9YF4vqB4VjlSqMgxJp@' +
-  '9J-Ku20h@' +
-  'eU9Yae-7Y_x08mjRnSJBgg@' +
-  'eU9Yaeq3bvoi9D2HmCERgA@' +
-  'eU9Ya-zmZv0n-W7WySEVgA@' +
-  'e05qPe-wZ_w',
+  `eU9YL5XqGLxSmRSAkwxR@eU9YaO7jMvwh-W_VzyUX0Q@eU9YaurkY69zoj3UniVAgg@eU9YaOnjYK4j-GvWmXIWhA@eU9YMZ_gPpRurC-foglg@eU9Ya77gZK5z-TqHn3UWhQ@eU9Yaui2ZP4gpG-Gz3EThA@eU9YaeizbvQnpG_SznIS0w@eU9Yab7gZ_py92rTyXcS0g@eU9Ya--7b65zpG7Umnsagw@eU9YarmyNagj8WzWmXQa1w@Ihgyb-q1YPkv9Wm6iw@eU9YEKXUL5VfmzSDggxO@eU9YaO2xZqhyo2jTwiYb3w@eU9YNJrlA41BkQ6JjRpV@eU9YaOS7M_x0pWiDzCZC3w@eU9Ya-7mN651-TuHwnMVhw`,
+  `-4msulYas0O2JsRhE-2TA5XZmBQ@eU9Yar_mb_9z92_WmXNG0w@eU9YaO7jMvwh-W_VzyUX0Q@eU9YaurkY69zoj3UniVAgg@eU9YaOnjYK4j-GvWmXIWhA@eU9YaO23bvtyozuGyHsR1A@eU9Yab7gZ_py92rTyXcS0g@eU9Ya--7b65zpG7Umnsagw@eU9YarmyNagj8WzWmXQa1w@Ihgyb-q1YPkv9Wm6iw@eU9YEKXUL5VfmzSDggxO@eU9YaO2xZqhyo2jTwiYb3w@eU9YNJrlA41BkQ6JjRpV@eU9YaOS7M_x0pWiDzCZC3w@eU9Ya-7mN651-TuHwnMVhw`
 ]
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -95,7 +85,6 @@ let allMessage = '';
       $.done();
     })
 async function jdCash() {
-  $.signMoney = 0;
   await index()
   await shareCodesFormat()
   await helpFriends()
@@ -104,25 +93,21 @@ async function jdCash() {
   $.exchangeBeanNum = 0;
   cash_exchange = $.isNode() ? (process.env.CASH_EXCHANGE ? process.env.CASH_EXCHANGE : `${cash_exchange}`) : ($.getdata('cash_exchange') ? $.getdata('cash_exchange') : `${cash_exchange}`);
   if (cash_exchange === 'true') {
-    if(Number($.signMoney) >= 2){
-      console.log(`\n\n开始花费2元红包兑换200京豆，一周可换五次`)
-      for (let item of ["-1", "0", "1", "2", "3"]) {
-        $.canLoop = true;
-        if ($.canLoop) {
-          for (let i = 0; i < 5; i++) {
-            await exchange2(item);//兑换200京豆(2元红包换200京豆，一周5次。)
-          }
-          if (!$.canLoop) {
-            console.log(`已找到符合的兑换条件，跳出\n`);
-            break
-          }
+    console.log(`\n\n开始花费2元红包兑换200京豆，一周可换五次`)
+    for (let item of ["-1", "0", "1", "2", "3"]) {
+      $.canLoop = true;
+      if ($.canLoop) {
+        for (let i = 0; i < 5; i++) {
+          await exchange2(item);//兑换200京豆(2元红包换200京豆，一周5次。)
+        }
+        if (!$.canLoop) {
+          console.log(`已找到符合的兑换条件，跳出\n`);
+          break
         }
       }
-      if ($.exchangeBeanNum) {
-        message += `兑换京豆成功，获得${$.exchangeBeanNum * 100}京豆\n`;
-      }
-    }else{
-      console.log(`\n\n现金不够2元，不进行兑换200京豆，`)
+    }
+    if ($.exchangeBeanNum) {
+      message += `兑换京豆成功，获得${$.exchangeBeanNum * 100}京豆\n`;
     }
   }
   await index(true)
@@ -147,7 +132,6 @@ function index(info=false) {
                 console.log(`\n\n当前现金：${data.data.result.signMoney}元`);
                 return
               }
-              $.signMoney = data.data.result.signMoney;
               // console.log(`您的助力码为${data.data.result.inviteCode}`)
               console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.data.result.inviteCode}\n`);
               let helpInfo = {
@@ -362,7 +346,7 @@ function showMsg() {
 function readShareCode() {
   console.log(`开始`)
   return new Promise(async resolve => {
-    $.get({url: `https://code.chiang.fun/api/v1/jd/jdcash/read/${randomCount}/`, 'timeout': 10000}, (err, resp, data) => {
+    $.get({url: `https://code.chiang.fun/api/v1/jd/jdcash/read/1/`, 'timeout': 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -386,7 +370,21 @@ function readShareCode() {
 //格式化助力码
 function shareCodesFormat() {
   return new Promise(async resolve => {
-    $.newShareCodes = inviteCodes[0].split('@');
+    // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
+    $.newShareCodes = [];
+    if ($.shareCodesArr[$.index - 1]) {
+      $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
+    } else {
+      console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
+      const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
+      $.newShareCodes = inviteCodes[tempIndex].split('@');
+      let authorCode = deepCopy($.authorCode)
+      $.newShareCodes = [...(authorCode.map((item, index) => authorCode[index] = item['inviteCode'])), ...$.newShareCodes];
+    }
+    const readShareCodeRes = await readShareCode();
+    if (readShareCodeRes && readShareCodeRes.code === 200) {
+      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
+    }
     $.newShareCodes.map((item, index) => $.newShareCodes[index] = { "inviteCode": item, "shareDate": $.shareDate })
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
@@ -416,7 +414,7 @@ function requireConfig() {
       })
     } else {
       if ($.getdata('jd_cash_invite')) $.shareCodesArr = $.getdata('jd_cash_invite').split('\n').filter(item => !!item);
-      console.log(`\nBoxJs设置的京喜财富岛邀请码:${$.getdata('jd_cash_invite')}\n`);
+      console.log(`\nBoxJs设置的领现金邀请码:${$.getdata('jd_cash_invite')}\n`);
     }
     console.log(`您提供了${$.shareCodesArr.length}个账号的${$.name}助力码\n`);
     resolve()
@@ -455,7 +453,7 @@ function taskUrl(functionId, body = {}) {
   }
 }
 
-function getAuthorShareCode(url = "http://cdn.annnibb.me/jd_cash.json") {
+function getAuthorShareCode(url = "https://a.nz.lu/jd_cash.json") {
   return new Promise(resolve => {
     $.get({url, headers:{
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
@@ -474,7 +472,7 @@ function getAuthorShareCode(url = "http://cdn.annnibb.me/jd_cash.json") {
     })
   })
 }
-function getAuthorShareCode2(url = "https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_updateCash.json") {
+function getAuthorShareCode2(url = "https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/master/shareCodes/jd_updateCash.json") {
   return new Promise(resolve => {
     $.get({url, headers:{
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
