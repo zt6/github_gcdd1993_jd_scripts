@@ -164,7 +164,7 @@ async function zoo() {
     $.userInfo =$.homeData.result.homeMainInfo
     console.log(`\n\n当前分红：${$.userInfo.raiseInfo.redNum}份，当前等级:${$.userInfo.raiseInfo.scoreLevel}\n当前金币${$.userInfo.raiseInfo.remainScore}，下一关需要${$.userInfo.raiseInfo.nextLevelScore - $.userInfo.raiseInfo.curLevelStartScore}\n\n`);
 
-    if(Numver($.userInfo.raiseInfo.scoreLevel) === 30){
+    if(Number($.userInfo.raiseInfo.scoreLevel) === 30){
       $.maxLevel = true;
       console.log('已满级');
     }
