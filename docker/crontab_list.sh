@@ -40,6 +40,45 @@
 30 1,6,12,21 * * * node /scripts/jd_jxlhb.js >> /scripts/logs/jd_jxlhb.log 2>&1
 #省钱大赢家之翻翻乐
 10,40 * * * * node /scripts/jd_big_winner.js >> /scripts/logs/jd_big_winner.log 2>&1
+# 飞利浦电视成长记
+15 9 * 5,6 * node /scripts/jd_adolf_flp.js >> /scripts/logs/jd_adolf_flp.log 2>&1
+# 京喜阶梯红包
+15 9 * 5,6 * node /scripts/jd_adolf_jxhb.js >> /scripts/logs/jd_adolf_jxhb.log 2>&1
+# 618大势新品赏
+15 9,20 * 5,6 * node /scripts/jd_adolf_newInteraction.js >> /scripts/logs/jd_adolf_newInteraction.log 2>&1
+# 赢一加新品手机
+25 9 * 5,6 * node /scripts/jd_adolf_oneplus.js >> /scripts/logs/jd_adolf_oneplus.log 2>&1
+# 京东超级盒子
+15 9,20 * 5,6 * node /scripts/jd_adolf_superbox.js >> /scripts/logs/jd_adolf_superbox.log 2>&1
+# 领现金兑换红包
+0,1,2 0 * * * node /scripts/jd_cash_exchange.js >> /scripts/logs/jd_cash_exchange.log 2>&1
+# 财富岛提现
+# 京享值PK
+15 0,6,13,19,21 * * * node /scripts/jd_ddo_pk.js >> /scripts/logs/jd_ddo_pk.log 2>&1
+# 半点京豆雨
+30 16-23/1 * * * node /scripts/jd_half_redrain.js >> /scripts/logs/jd_half_redrain.log 2>&1
+# 柠檬是兄弟就砍我
+# interCenter渠道店铺签到
+0 0 * * * node /scripts/jd_monk_inter_shop_sign.js >> /scripts/logs/jd_monk_inter_shop_sign.log 2>&1
+# 有机牧场
+0 0,1-22/2 1-31 4-7 * node /scripts/jd_monk_pasture.js >> /scripts/logs/jd_monk_pasture.log 2>&1
+# 关注有礼
+15 15 * * * node /scripts/jd_monk_shop_follow_sku.js >> /scripts/logs/jd_monk_shop_follow_sku.log 2>&1
+# 店铺大转盘
+3 0,10,23 * * * node /scripts/jd_monk_shop_lottery.js >> /scripts/logs/jd_monk_shop_lottery.log 2>&1
+# 整点京豆雨，每天8*16豆
+1 0-23/1 * * * node /scripts/jd_super_redrain.js >> /scripts/logs/jd_super_redrain.log 2>&1
+# 压岁钱
+0 0 9,12,16,20 * * * node /scripts/jd_try.js >> /scripts/logs/jd_try.log 2>&1
+# 粉丝互动
+3 10 * * * node /scripts/jd_z_fanslove.js >> /scripts/logs/jd_z_fanslove.log 2>&1
+# 健康社区
+25 10-22/3 * * * node /scripts/jd_z_health_community.js >> /scripts/logs/jd_z_health_community.log 2>&1
+# 健康社区-收能量
+25 * * * * node /scripts/jd_z_health_energy.js >> /scripts/logs/jd_z_health_energy.log 2>&1
+# 超级无线组队分奖品
+25 3 * * 2 node /scripts/jd_z_shop_captain.js >> /scripts/logs/jd_z_shop_captain.log 2>&1
+
 ##############长期活动##############
 # 签到
 7 0,17 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
@@ -107,6 +146,7 @@
 38 8,12,18 * * * node /scripts/jd_bookshop.js >> /scripts/logs/jd_bookshop.log 2>&1
 # 京喜农场
 30 9,12,18 * * * node /scripts/jd_jxnc.js >> /scripts/logs/jd_jxnc.log 2>&1
+30 9,12,18 * * * node /scripts/jd_jxnc2.js >> /scripts/logs/jd_jxnc2.log 2>&1
 # 签到领现金
 10 */4 * * * node /scripts/jd_cash.js >> /scripts/logs/jd_cash.log 2>&1
 # 闪购盲盒
