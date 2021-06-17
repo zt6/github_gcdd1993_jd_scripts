@@ -40,6 +40,7 @@ if ($.isNode()) {
 }
 
 const JD_API_HOST = `https://api.m.jd.com/client.action`;
+let joyToken = '';
 !(async () => {
   $.ckToken = "joyytoken=50084MDFMYlpVdDAxMQ==.fVRoZkx1UGNsTHxXaStHBFRqHEd8DTIYCn1ObHlAYFMkZwp9HCQ=.a0228a38";
   joyToken = "MDFMYlpVdDAxMQ==.fVRoZkx1UGNsTHxXaStHBFRqHEd8DTIYCn1ObHlAYFMkZwp9HCQ=.a0228a38";
