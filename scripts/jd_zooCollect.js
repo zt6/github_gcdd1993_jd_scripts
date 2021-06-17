@@ -42,6 +42,7 @@ if ($.isNode()) {
 const JD_API_HOST = `https://api.m.jd.com/client.action`;
 !(async () => {
   $.ckToken = "joyytoken=50084MDFMYlpVdDAxMQ==.fVRoZkx1UGNsTHxXaStHBFRqHEd8DTIYCn1ObHlAYFMkZwp9HCQ=.a0228a38";
+  joyToken = "MDFMYlpVdDAxMQ==.fVRoZkx1UGNsTHxXaStHBFRqHEd8DTIYCn1ObHlAYFMkZwp9HCQ=.a0228a38";
   await injectCKToken();
   console.log($.ckToken);
   cookiesArr = cookiesArr.map(ck => $.ckToken + ck);
@@ -85,6 +86,7 @@ async function injectCKToken() {
     $.post(myRequest, (err, resp, data) => {
       try {
         const {joyytoken} = JSON.parse(data);
+        joyToken = joyytoken;
         $.ckToken = `joyytoken=50084${joyytoken}; `;
       } catch (e) {
         $.logErr(e, resp)
