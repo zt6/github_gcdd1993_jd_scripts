@@ -46,8 +46,11 @@ if ($.isNode()) {
     $.getdata("CookieJD2"),
     ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
+let joyToken = ''
 !(async () => {
   $.ckToken = "joyytoken=50084MDFMYlpVdDAxMQ==.fVRoZkx1UGNsTHxXaStHBFRqHEd8DTIYCn1ObHlAYFMkZwp9HCQ=.a0228a38";
+
+  joyToken = "MDFMYlpVdDAxMQ==.fVRoZkx1UGNsTHxXaStHBFRqHEd8DTIYCn1ObHlAYFMkZwp9HCQ=.a0228a38";
   await injectCKToken();
   console.log($.ckToken);
   cookiesArr = cookiesArr.map(ck => $.ckToken + ck);
@@ -149,13 +152,13 @@ if ($.isNode()) {
     $.done();
   })
 
-
 async function injectCKToken() {
   let myRequest = {url: 'https://bh.m.jd.com/gettoken', method: 'POST', headers: {'Content-Type': 'text/plain;charset=UTF-8'}, body: `content={"appname":"50084","whwswswws":"","jdkey":"","body":{"platform":"1"}}`};
   return new Promise(async resolve => {
     $.post(myRequest, (err, resp, data) => {
       try {
         const {joyytoken} = JSON.parse(data);
+        joyToken = joyytoken;
         $.ckToken = `joyytoken=50084${joyytoken}; `;
       } catch (e) {
         $.logErr(e, resp)
