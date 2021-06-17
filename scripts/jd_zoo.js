@@ -663,9 +663,12 @@ async function dealReturn(type, data) {
           console.log(`助力次数已用光`);
           $.canHelp = false;
           break;
-        default:
+        case -1002:
           console.log(`怪兽大作战助力失败：${JSON.stringify(data)}`);
           $.canHelp = false;
+          break;
+        default:
+          console.log(`怪兽大作战助力失败：${JSON.stringify(data)}`);
       }
       break;
     case 'zoo_pk_getHomeData':
