@@ -18,16 +18,6 @@
 
 #手机狂欢城
 0 0,12,18,21 * * * node /scripts/jd_carnivalcity.js >> /scripts/logs/jd_carnivalcity.log 2>&1
-#618动物联萌
-33 0,6-23/2 * * * node /scripts/jd_zoo.js >> /scripts/logs/jd_zoo.log 2>&1
-#618动物联萌专门收集金币(每小时的第30分运行一次)
-0-59/30 * * * * node /scripts/jd_zooCollect.js >> /scripts/logs/jd_zooCollect.log 2>&1
-# 618动物联萌，只做图鉴里的店铺任务
-0-59/30 * * * * node /scripts/jd_zooMap.js >> /scripts/logs/jd_zooMap.log 2>&1
-#家电星推官 活动时间：2021年5月27日 00:00:00-2021年6月18日 23:59:59
-0 0 * * * node /scripts/jd_xtg.js >> /scripts/logs/jd_xtg.log 2>&1
-#家电星推官好友互助 活动时间：2021年5月27日 00:00:00-2021年6月18日 23:59:59
-0 0 * * * node /scripts/jd_xtg_help.js >> /scripts/logs/jd_xtg_help.log 2>&1
 #金榜创造营 活动时间：2021-05-21至2021-12-31
 0 1,22 * * * node /scripts/jd_gold_creator.js >> /scripts/logs/jd_gold_creator.log 2>&1
 #5G超级盲盒(活动时间：2021-06-2到2021-07-31)
@@ -40,10 +30,6 @@
 30 1,6,12,21 * * * node /scripts/jd_jxlhb.js >> /scripts/logs/jd_jxlhb.log 2>&1
 #省钱大赢家之翻翻乐
 10,40 * * * * node /scripts/jd_big_winner.js >> /scripts/logs/jd_big_winner.log 2>&1
-# 飞利浦电视成长记
-15 9 * 5,6 * node /scripts/jd_adolf_flp.js >> /scripts/logs/jd_adolf_flp.log 2>&1
-# 京喜阶梯红包
-15 9 * 5,6 * node /scripts/jd_adolf_jxhb.js >> /scripts/logs/jd_adolf_jxhb.log 2>&1
 # 618大势新品赏
 15 9,20 * 5,6 * node /scripts/jd_adolf_newInteraction.js >> /scripts/logs/jd_adolf_newInteraction.log 2>&1
 # 赢一加新品手机
@@ -77,6 +63,10 @@
 25 10-22/3 * * * node /scripts/jd_z_health_community.js >> /scripts/logs/jd_z_health_community.log 2>&1
 # 健康社区-收能量
 25 * * * * node /scripts/jd_z_health_energy.js >> /scripts/logs/jd_z_health_energy.log 2>&1
+# 东东电竞经理
+15 10 * * * node /scripts/jd_djjl.js >> /scripts/logs/jd_djjl.log 2>&1
+# 柠檬全民挖现金
+0 10 * * * node /scripts/jd_wxj.js >> /scripts/logs/jd_wxj.log 2>&1
 
 ##############长期活动##############
 # 签到
@@ -145,7 +135,6 @@
 38 8,12,18 * * * node /scripts/jd_bookshop.js >> /scripts/logs/jd_bookshop.log 2>&1
 # 京喜农场
 30 9,12,18 * * * node /scripts/jd_jxnc.js >> /scripts/logs/jd_jxnc.log 2>&1
-30 9,12,18 * * * node /scripts/jd_jxnc2.js >> /scripts/logs/jd_jxnc2.log 2>&1
 # 签到领现金
 10 */4 * * * node /scripts/jd_cash.js >> /scripts/logs/jd_cash.log 2>&1
 # 闪购盲盒
