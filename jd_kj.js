@@ -16,8 +16,8 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
-let actId = ''; //你要参加砍价的商品ID
-let packetId = 'b5c67b502104477dbddb4df7819843bb';//你要参加砍价的邀请码
+let actId = 'c50d6379ad3b4782bfc05940e358ace3'; //你要参加砍价的商品ID
+let packetId = '707c1bd84bea484a877a99b427256b38';//你要参加砍价的邀请码
 //c50d6379ad3b4782bfc05940e358ace3
 //ac4a4b0b300e4fc6a2fdb88412f51e94-amRfTFBtdnNBVGdyQ0t1
 // if (process.env.actId) {
@@ -96,7 +96,6 @@ function list() {
 
         let options = {
             url: `https://api.m.jd.com`,
-
             body: `functionId=HomeZeroBuy&body={"pageNum":1,"channel":"speed_app"}&appid=megatron&client=megatron&clientVersion=1.0.0`,
             headers: {
                 "Origin": "https://mfn.jd.com",
@@ -108,11 +107,7 @@ function list() {
 
         $.post(options, async (err, resp, data) => {
             try {
-
                 data = JSON.parse(data);
-
-
-
                 if (data.code == 0) {
                     console.log("商品：" + data.data[0].goodsName + "\n商品ID：" + data.data[0].actId)
                     await listyqm(data.data[0].actId)
@@ -124,7 +119,6 @@ function list() {
                     await listyqm(data.data[3].actId)
                     console.log("\n商品：" + data.data[4].goodsName + "\n商品ID：" + data.data[4].actId)
                     await listyqm(data.data[4].actId)
-
                 }
             } catch (e) {
                 $.logErr(e, resp);
@@ -188,15 +182,9 @@ function kanjia() {
 
         $.post(options, async (err, resp, data) => {
             try {
-
                 data = JSON.parse(data);
-
-
-
                 if (data.code == 0) {
-
                     console.log('\n已帮砍：' + data.msg)
-
                 } else
                     console.log('\n已帮砍：' + data.msg)
             } catch (e) {
