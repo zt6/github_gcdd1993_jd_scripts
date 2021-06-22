@@ -66,16 +66,6 @@
       }
     },
     {
-      "name": "京东汽车兑换",
-      "type": "cron",
-      "time": "0 0 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_car_exchange.js"
-      }
-    },
-    {
       "name": "签到领现金",
       "type": "cron",
       "time": "5 0,6-23/4 * * *",
@@ -625,36 +615,6 @@
       }
     },
     {
-      "name": "京喜领88元红包",
-      "type": "cron",
-      "time": "8 10,19 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_jxlhb.js"
-      }
-    },
-    {
-      "name": "新潮品牌狂欢",
-      "type": "cron",
-      "time": "13 10 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_mcxhd.js"
-      }
-    },
-    {
-      "name": "星店长",
-      "type": "cron",
-      "time": "26 7,21 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_star_shop.js"
-      }
-    },
-    {
       "name": "5G超级盲盒",
       "type": "cron",
       "time": "0 0,6-23/3 * * *",
@@ -705,9 +665,9 @@
       }
     },
     {
-      "name": "京享值PK",
+      "name": "ddo京享值PK",
       "type": "cron",
-      "time": "10 0,6-23/4 * * *",
+      "time": "18 0,6-21/6 * * *",
       "running": true,
       "job": {
         "type": "runjs",
