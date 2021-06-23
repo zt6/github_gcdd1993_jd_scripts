@@ -34,7 +34,7 @@ if ($.isNode()) {Object.keys(jdCookieNode).forEach((item) => {cookiesArr.push(jd
   $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
   await requestAlgo();
   await getTuanActiveId();
-  if(!tuanActiveId){console.log(`获取团活动ID失败`);return ;}
+  if(!tuanActiveId){console.log(`未能获取到有效的团活动ID`);return ;}
   let nowTime = getCurrDate();
   let jdFactoryTime = $.getdata('jdFactoryTime');
   if (!jdFactoryTime || nowTime !== jdFactoryTime) {$.setdata(nowTime, 'jdFactoryTime');$.setdata({}, 'jdFactoryHelpList');}
@@ -137,9 +137,25 @@ async function getTuanActiveId() {
     $.get(myRequest, (err, resp, data) => {
       try {
         data = data && data.match(/window\._CONFIG = (.*) ;var __getImgUrl/);
-        if(data){
-          data = JSON.parse(data[1]);const link = data[0].skinConfig[0].adConfig[0].link;
-          if(link.match(/activeId=(.*),/) && link.match(/activeId=(.*),/)[1]){tuanActiveId = link.match(/activeId=(.*),/)[1];console.log('获取到的团活动ID：'+tuanActiveId);}
+        if (data) {
+          data = JSON.parse(data[1]);
+          const tuanConfigs = (data[0].skinConfig[0].adConfig || []).filter(vo => !!vo && vo['channel'] === 'h5');
+          if (tuanConfigs && tuanConfigs.length) {
+            for (let item of tuanConfigs) {
+              const start = item.start;
+              const end = item.end;
+              const link = item.link;
+              if (new Date(item.end).getTime() > Date.now()) {
+                if (link && link.match(/activeId=(.*),/) && link.match(/activeId=(.*),/)[1]) {
+                  console.log(`\n获取团活动ID成功: ${link.match(/activeId=(.*),/)[1]}\n有效时段：${start} - ${end}`);
+                  tuanActiveId = link.match(/activeId=(.*),/)[1];
+                  break
+                }
+              } else {
+                  tuanActiveId = '';
+              }
+            }
+          }
         }
       } catch (e) {
         console.log(data);$.logErr(e, resp);
