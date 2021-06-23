@@ -36,10 +36,7 @@ let cookiesArr = [], cookie = '', message;
 
 const randomCount = $.isNode() ? 0 : 5;
 let cash_exchange = false;//是否消耗2元红包兑换200京豆，默认否
-const inviteCodes = [
-  `eU9YL5XqGLxSmRSAkwxR@eU9YaO7jMvwh-W_VzyUX0Q@eU9YaurkY69zoj3UniVAgg@eU9YaOnjYK4j-GvWmXIWhA@eU9YMZ_gPpRurC-foglg@eU9Ya77gZK5z-TqHn3UWhQ@eU9Yaui2ZP4gpG-Gz3EThA@eU9YaeizbvQnpG_SznIS0w@eU9Yab7gZ_py92rTyXcS0g@eU9Ya--7b65zpG7Umnsagw@eU9YarmyNagj8WzWmXQa1w@Ihgyb-q1YPkv9Wm6iw@eU9YEKXUL5VfmzSDggxO@eU9YaO2xZqhyo2jTwiYb3w@eU9YNJrlA41BkQ6JjRpV@eU9YaOS7M_x0pWiDzCZC3w@eU9Ya-7mN651-TuHwnMVhw`,
-  `-4msulYas0O2JsRhE-2TA5XZmBQ@eU9Yar_mb_9z92_WmXNG0w@eU9YaO7jMvwh-W_VzyUX0Q@eU9YaurkY69zoj3UniVAgg@eU9YaOnjYK4j-GvWmXIWhA@eU9YaO23bvtyozuGyHsR1A@eU9Yab7gZ_py92rTyXcS0g@eU9Ya--7b65zpG7Umnsagw@eU9YarmyNagj8WzWmXQa1w@Ihgyb-q1YPkv9Wm6iw@eU9YEKXUL5VfmzSDggxO@eU9YaO2xZqhyo2jTwiYb3w@eU9YNJrlA41BkQ6JjRpV@eU9YaOS7M_x0pWiDzCZC3w@eU9Ya-7mN651-TuHwnMVhw`
-]
+const cashinviteCode = 'eU9YGqvDP61wrDGIggdN'
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -297,87 +294,35 @@ function exchange2(node) {
     })
   })
 }
-function showMsg() {
-  return new Promise(resolve => {
-    if (!jdNotify) {
-      $.msg($.name, '', `${message}`);
-    } else {
-      $.log(`京东账号${$.index}${$.nickName}\n${message}`);
-    }
-    resolve()
-  })
-}
-
-//格式化助力码
-function shareCodesFormat() {
-  return new Promise(async resolve => {
-    // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
-    $.newShareCodes = [];
-    if ($.shareCodesArr[$.index - 1]) {
-      $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
-    }
-   // const readShareCodeRes = await readShareCode();
-   // if (readShareCodeRes && readShareCodeRes.code === 200) {
-    //  $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
-    //}
-    //$.newShareCodes.map((item, index) => $.newShareCodes[index] = { "inviteCode": item, "shareDate": $.shareDate })
-    console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
-    resolve();
-  })
-}
-
-
-
-
-
-
-
-
-
-function ShareInfo() {
+function helpFriend() {
   return new Promise((resolve) => {
-    $.get(taskUrl("cash_getJDMobShareInfo", {"source":3}), (err, resp, data) => {
+    $.get(taskUrl("cash_mob_assist", `{"source":3,"inviteCode":"${cashinviteCode}","shareDate":"IRs1bey0ZP4"}`), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
-          shareCodes = process.env.JD_CASH_SHARECODES.split('&');
+          if (safeGet(data)) {
+            data = JSON.parse(data);
+            if( data.code === 0 && data.data.bizCode === 0){
+              console.log(`助力成功，获得${data.data.result.cashStr}`)
+              // console.log(data.data.result.taskInfos)
+            } else if (data.data.bizCode===207){
+              console.log(data.data.bizMsg)
+              $.canHelp = false
+
+            } else{
+              console.log(data.data.bizMsg)
+            }
+          }
         }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve(data);
       }
-    }
-    console.log(`共${cookiesArr.length}个京东账号\n`);
-    $.shareCodesArr = [];
-    if ($.isNode()) {
-      Object.keys(shareCodes).forEach((item) => {
-        if (shareCodes[item]) {
-          $.shareCodesArr.push(shareCodes[item])
-        }
-      })
-    } else {
-      if ($.getdata('jd_cash_invite')) $.shareCodesArr = $.getdata('jd_cash_invite').split('\n').filter(item => !!item);
-      console.log(`\nBoxJs设置的京喜财富岛邀请码:${$.getdata('jd_cash_invite')}\n`);
-    }
-    console.log(`您提供了${$.shareCodesArr.length}个账号的${$.name}助力码\n`);
-    resolve()
+    })
   })
-}
-function deepCopy(obj) {
-  let objClone = Array.isArray(obj) ? [] : {};
-  if (obj && typeof obj === "object") {
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        //判断ojb子元素是否为对象，如果是，递归复制
-        if (obj[key] && typeof obj[key] === "object") {
-          objClone[key] = deepCopy(obj[key]);
-        } else {
-          //如果不是，简单复制
-          objClone[key] = obj[key];
-        }
-      }
-    }
-  }
-  return objClone;
 }
 function taskUrl(functionId, body = {}) {
     //https://api.m.jd.com/client.action?functionId=cash_mob_assist&body={"source":3,"inviteCode":"eU9YEIzvIL9XlTmXuAhW","shareDate":"IRs1bey0ZP4"}&appid=CashReward&client=m&clientVersion=9.2.8
@@ -394,48 +339,6 @@ function taskUrl(functionId, body = {}) {
       'Accept-Encoding': 'gzip, deflate, br',
     }
   }
-}
-
-function getAuthorShareCode(url = "http://cdn.annnibb.me/jd_cash.json") {
-  return new Promise(resolve => {
-    $.get({url, headers:{
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-      }, timeout: 200000,}, async (err, resp, data) => {
-      $.authorCode = [];
-      try {
-        if (err) {
-        } else {
-          $.authorCode = JSON.parse(data)
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve();
-      }
-    })
-  })
-}
-function getAuthorShareCode2(url = "https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_updateCash.json") {
-  return new Promise(resolve => {
-    $.get({url, headers:{
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-      }, timeout: 200000,}, async (err, resp, data) => {
-      $.authorCode2 = [];
-      try {
-        if (err) {
-        } else {
-          $.authorCode2 = JSON.parse(data)
-          if ($.authorCode2 && $.authorCode2.length) {
-            $.authorCode.push(...$.authorCode2);
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve();
-      }
-    })
-  })
 }
 function TotalBean() {
   return new Promise(async resolve => {
