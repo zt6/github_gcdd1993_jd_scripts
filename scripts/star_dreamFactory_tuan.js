@@ -35,10 +35,10 @@ if ($.isNode()) {Object.keys(jdCookieNode).forEach((item) => {cookiesArr.push(jd
   await requestAlgo();
   await getTuanActiveId();
   if(!tuanActiveId){console.log(`未能获取到有效的团活动ID`);return ;}
-  let nowTime = getCurrDate();
-  let jdFactoryTime = $.getdata('jdFactoryTime');
-  if (!jdFactoryTime || nowTime !== jdFactoryTime) {$.setdata(nowTime, 'jdFactoryTime');$.setdata({}, 'jdFactoryHelpList');}
-  $.jdFactoryHelpList = $.getdata('jdFactoryHelpList');
+  //let nowTime = getCurrDate();
+  // let jdFactoryTime = $.getdata('jdFactoryTime');
+  // if (!jdFactoryTime || nowTime !== jdFactoryTime) {$.setdata(nowTime, 'jdFactoryTime');$.setdata({}, 'jdFactoryHelpList');}
+  // $.jdFactoryHelpList = $.getdata('jdFactoryHelpList');
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
@@ -80,10 +80,10 @@ if ($.isNode()) {Object.keys(jdCookieNode).forEach((item) => {cookiesArr.push(jd
       $.index = i + 1;
       cookie = cookiesArr[i];
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-      if($.jdFactoryHelpList[$.UserName]){
-        console.log(`${$.UserName},参团次数已用完`)
-        continue;
-      }
+      // if($.jdFactoryHelpList[$.UserName]){
+      //   console.log(`${$.UserName},参团次数已用完`)
+      //   continue;
+      // }
       $.isLogin = true;
       $.canHelp = true;//能否参团
       await TotalBean();
@@ -386,14 +386,14 @@ function JoinTuan(tuanId, stk = '_time,activeId,tuanId') {
             data = JSON.parse(data);
             if (data['ret'] === 0) {
               console.log(`参团成功：${JSON.stringify(data)}\n`);
-              $.jdFactoryHelpList[$.UserName] = $.UserName;
-              $.setdata($.jdFactoryHelpList, 'jdFactoryHelpList');
+              //$.jdFactoryHelpList[$.UserName] = $.UserName;
+              //$.setdata($.jdFactoryHelpList, 'jdFactoryHelpList');
               $.canHelp = false;
             } else if (data['ret'] === 10005 || data['ret'] === 10206) {
               //火爆，或者今日参团机会已耗尽
               console.log(`参团失败：${JSON.stringify(data)}\n`);
-              $.jdFactoryHelpList[$.UserName] = $.UserName;
-              $.setdata($.jdFactoryHelpList, 'jdFactoryHelpList');
+              //$.jdFactoryHelpList[$.UserName] = $.UserName;
+              //$.setdata($.jdFactoryHelpList, 'jdFactoryHelpList');
               $.canHelp = false;
             } else if(data['ret'] === 10209){
               $.tuanMax = true;
