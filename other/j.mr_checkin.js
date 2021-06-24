@@ -1,6 +1,6 @@
 // 几鸡签到
 // https://freemycloud.pw
-const HOST_NAME = 'https://j.srl'
+const HOST_NAME = 'https://j05.space/'
 const $ = new Env('几鸡签到')
 const notify = $.isNode() ? require('../sendNotify') : '';
 
