@@ -5,6 +5,11 @@
 更新时间：2021-06-07
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
+
+自行添加变量设置邀请码 格式如下 默认10个
+export cashinviteCode="eU9YarjmN_l0-GaDzHIVgA"
+export cashinviteCode2="eU9YEIzvIL9XlTmXuAhW"
+export cashinviteCode3="eU9YEIzvIL9XlTmXuAhW"
 ============Quantumultx===============
 [task_local]
 #签到领现金
@@ -126,7 +131,7 @@ function ShareInfo() {
             data = JSON.parse(data);
             if( data.code === 0 && data.data.bizCode === 0){
               console.log(`你的inviteCode: ${data.data.result.inviteCode}`)
-
+shareDate=data.data.result.shareDate
               console.log(`你的shareDate: ${data.data.result.shareDate}`)
                let helpInfo = {
                 'inviteCode': data.data.result.inviteCode,
@@ -227,7 +232,9 @@ async function helpFriends() {
 }
 function helpFriend(helpInfo) {
   return new Promise((resolve) => {
-    $.get(taskUrl("cash_mob_assist", {...helpInfo,"source":3,"shareDate":"IRs1bey0ZPg"}), (err, resp, data) => {
+      //{...helpInfo,"source":3,"shareDate":"IRs1bey0ZPg"}
+
+    $.get(taskUrl("cash_mob_assist", {...helpInfo,"source":3,"shareDate":`"${shareDate}"`}), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
