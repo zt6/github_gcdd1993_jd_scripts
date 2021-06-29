@@ -26,8 +26,6 @@
 0 1,21 * * * node /scripts/jd_star_shop.js >> /scripts/logs/jd_star_shop.log 2>&1
 #新潮品牌狂欢（6.18过期）
 20 1,21 * * * node /scripts/jd_mcxhd.js >> /scripts/logs/jd_mcxhd.log 2>&1
-#省钱大赢家之翻翻乐
-10,40 * * * * node /scripts/jd_big_winner.js >> /scripts/logs/jd_big_winner.log 2>&1
 # 618大势新品赏
 15 9,20 * 5,6 * node /scripts/jd_adolf_newInteraction.js >> /scripts/logs/jd_adolf_newInteraction.log 2>&1
 # 赢一加新品手机
