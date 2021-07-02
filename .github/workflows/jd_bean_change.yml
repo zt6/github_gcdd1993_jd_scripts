@@ -6,7 +6,7 @@ name: 京东资产变动通知
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *' #北京时间0点运行，action会有延迟
+    - cron: '0 16 * * *' #北京时间0点运行，action会有延迟
   watch:
     types: started
   repository_dispatch:
