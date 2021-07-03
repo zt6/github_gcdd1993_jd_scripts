@@ -500,7 +500,7 @@ function totalBean() {
               return;
             }
             $.isLogin = true;
-            $.nickName = data['base'].nickname;
+            if(data['base']) $.nickName = data['base'].nickname;
           } else {
             console.log(`京东服务器返回空数据`);
           }
