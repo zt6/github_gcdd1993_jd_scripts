@@ -99,6 +99,13 @@ if ($.isNode()) {
         continue
       }
       await jdDreamFactory()
+      console.log(`💰京喜工厂-开始提交互助码💰`);
+      const submitCodeRes = await submitCode();
+      if (submitCodeRes && submitCodeRes.code === 200) {
+        console.log(`💰京喜工厂-互助码提交成功！💰`);
+      }else if (submitCodeRes.code === 300) {
+        console.log(`💰京喜工厂-互助码已提交！💰`);
+      }
     }
   }
   for (let i = 0; i < cookiesArr.length; i++) {
@@ -636,13 +643,6 @@ function userInfo() {
                 console.log(`当前等级：${data.user.currentLevel}`)
                 console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.user.encryptPin}`);
                 myInviteCode = data.user.encryptPin;
-                console.log(`💰京喜工厂-开始提交互助码💰`);
-                const submitCodeRes = await submitCode();
-                if (submitCodeRes && submitCodeRes.code === 200) {
-                  console.log(`💰京喜工厂-互助码提交成功！💰`);
-                }else if (submitCodeRes.code === 300) {
-                  console.log(`💰京喜工厂-互助码已提交！💰`);
-                }
                 console.log(`已投入电力：${production.investedElectric}`);
                 console.log(`所需电力：${production.needElectric}`);
                 console.log(`生产进度：${((production.investedElectric / production.needElectric) * 100).toFixed(2)}%`);
@@ -1437,8 +1437,8 @@ function requireConfig() {
         }
       })
     } else {
-      if ($.getdata('jd_jxFactory')) $.shareCodesArr = $.getdata('jd_jxFactory').split('\n').filter(item => item !== "" && item !== null && item !== undefined);
-      console.log(`\nBoxJs设置的${$.name}好友邀请码:${$.getdata('jd_jxFactory')}\n`);
+      if ($.getdata('DREAM_FACTORY_SHARE_CODES')) $.shareCodesArr = $.getdata('DREAM_FACTORY_SHARE_CODES').split('\n').filter(item => item !== "" && item !== null && item !== undefined);
+      console.log(`\nBoxJs设置的${$.name}好友邀请码:${$.getdata('DREAM_FACTORY_SHARE_CODES')}\n`);
     }
     // console.log(`\n种豆得豆助力码::${JSON.stringify($.shareCodesArr)}`);
     console.log(`您提供了${$.shareCodesArr.length}个账号的${$.name}助力码\n`);

@@ -177,3 +177,5 @@
 30 11 * * * node /scripts/jd_superBrand.js >> /scripts/logs/jd_superBrand.log 2>&1
 # 柠檬京东零食街
 0 11 * * * node /scripts/jd_lsj.js >> /scripts/logs/jd_lsj.log 2>&1
+# 欧洲狂欢杯
+0 10 * * * node /scripts/jd_europeancup.js >> /scripts/logs/jd_europeancup.log 2>&1
