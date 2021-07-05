@@ -40,21 +40,12 @@
 15 0,6,13,19,21 * * * node /scripts/jd_ddo_pk.js >> /scripts/logs/jd_ddo_pk.log 2>&1
 # 半点京豆雨
 30 16-23/1 * * * node /scripts/jd_half_redrain.js >> /scripts/logs/jd_half_redrain.log 2>&1
-# 柠檬是兄弟就砍我
-# interCenter渠道店铺签到
-0 0 * * * node /scripts/jd_monk_inter_shop_sign.js >> /scripts/logs/jd_monk_inter_shop_sign.log 2>&1
 # 有机牧场
 0 0,1-22/2 1-31 4-7 * node /scripts/jd_monk_pasture.js >> /scripts/logs/jd_monk_pasture.log 2>&1
-# 关注有礼
-15 15 * * * node /scripts/jd_monk_shop_follow_sku.js >> /scripts/logs/jd_monk_shop_follow_sku.log 2>&1
-# 店铺大转盘
-3 0,10,23 * * * node /scripts/jd_monk_shop_lottery.js >> /scripts/logs/jd_monk_shop_lottery.log 2>&1
 # 整点京豆雨，每天8*16豆
 1 0-23/1 * * * node /scripts/jd_super_redrain.js >> /scripts/logs/jd_super_redrain.log 2>&1
 # 试用
 # 0 0 9,12,16,20 * * * node /scripts/jd_try.js >> /scripts/logs/jd_try.log 2>&1
-# 粉丝互动
-3 10 * * * node /scripts/jd_z_fanslove.js >> /scripts/logs/jd_z_fanslove.log 2>&1
 # 健康社区
 25 10-22/3 * * * node /scripts/jd_z_health_community.js >> /scripts/logs/jd_z_health_community.log 2>&1
 # 健康社区-收能量
