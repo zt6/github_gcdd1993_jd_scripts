@@ -5,7 +5,65 @@
 const $ = new Env('燃动夏季');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-const MovementFaker = require('./MovementFaker.js');
+const https = require('https');
+const fs = require('fs/promises');
+const { R_OK } = require('fs').constants;
+const vm = require('vm');
+const URL = 'https://wbbny.m.jd.com/babelDiy/Zeus/2rtpffK8wqNyPBH6wyUDuBKoAbCt/index.html';
+// const REG_MODULE = /(\d+)\:function\(.*(?=smashUtils\.get_risk_result)/gm;
+const SYNTAX_MODULE = '!function(n){var r={};function o(e){if(r[e])';
+const REG_SCRIPT = /<script type="text\/javascript" src="([^><]+\/(app\.\w+\.js))\">/gm;
+const REG_ENTRY = /(__webpack_require__\(__webpack_require__.s=)(\d+)(?=\)})/;
+const needModuleId = 355
+const DATA = {appid:'50085',sceneid:'OY217hPageh5'};
+let smashUtils;
+class MovementFaker {
+  constructor(cookie) {this.cookie = cookie;this.ua = require('./USER_AGENTS.js').USER_AGENT;}
+  async run() {if (!smashUtils) {await this.init();}
+    var t = Math.floor(1e7 + 9e7 * Math.random()).toString();
+    var e = smashUtils.get_risk_result({id: t,data: {random: t}}).log;
+    var o = JSON.stringify({extraData: {log:  e || -1,sceneid: DATA.sceneid,},random: t});
+    return o;
+  }
+  async init() {
+    try {
+      console.time('MovementFaker');process.chdir(__dirname);const html = await MovementFaker.httpGet(URL);const script = REG_SCRIPT.exec(html);
+      if (script) {const [, scriptUrl, filename] = script;const jsContent = await this.getJSContent(filename, scriptUrl);const fnMock = new Function;const ctx = {window: { addEventListener: fnMock },document: {addEventListener: fnMock,removeEventListener: fnMock,cookie: this.cookie,},navigator: { userAgent: this.ua },};vm.createContext(ctx);vm.runInContext(jsContent, ctx);smashUtils = ctx.window.smashUtils;smashUtils.init(DATA);
+      }
+      console.timeEnd('MovementFaker');
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  async getJSContent(cacheKey, url) {
+    try {await fs.access(cacheKey, R_OK);const rawFile = await fs.readFile(cacheKey, { encoding: 'utf8' });return rawFile;
+    } catch (e) {
+      let jsContent = await MovementFaker.httpGet(url);
+      const moduleIndex = jsContent.indexOf(SYNTAX_MODULE, 1);
+      const findEntry = REG_ENTRY.test(jsContent);
+      console.log(jsContent)
+      if (!(moduleIndex && findEntry)) {
+        throw new Error('Module not found.');
+      }
+      jsContent = jsContent.replace(REG_ENTRY, `$1${needModuleId}`);
+      fs.writeFile(cacheKey, jsContent);
+      return jsContent;
+      REG_ENTRY.lastIndex = 0;
+      const entry = REG_ENTRY.exec(jsContent);
+      console.log(moduleIndex, needModuleId);
+      console.log(entry[1], entry[2]);
+    }
+  }
+  static httpGet(url) {
+    return new Promise((resolve, reject) => {
+      const protocol = url.indexOf('http') !== 0 ? 'https:' : '';
+      const req = https.get(protocol + url, (res) => {res.setEncoding('utf-8');let rawData = '';res.on('error', reject);res.on('data', chunk => rawData += chunk);res.on('end', () => resolve(rawData));});
+      req.on('error', reject);
+      req.end();
+    });
+  }
+}
+
 $.inviteList = [];
 let uuid = 8888;
 let cookiesArr = [];
@@ -113,6 +171,8 @@ async function main(){
   console.log(`开始做任务`)
   await doTask();
 }
+
+async function getBody($) {const zf = new MovementFaker($.cookie);const ss = await zf.run();return ss;}
 
 async function doTask(){
   //做任务
@@ -426,7 +486,7 @@ async function getPostBody(type) {
   return new Promise(async resolve => {
     let taskBody = '';
     try {
-      const log = await MovementFaker.getBody($)
+      const log = await getBody($)
       if (type === 'help') {
         taskBody = `functionId=olympicgames_assist&body=${JSON.stringify({"inviteId":$.inviteId,"type": "confirm","ss" :log})}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`
       } else if (type === 'olympicgames_collectCurrency') {
