@@ -1,6 +1,6 @@
 /**
  *  燃动夏季
- *  25 0,6-23/2 * * *
+ *  25 0,6-23/3 * * *
  * */
 const $ = new Env('燃动夏季');
 const notify = $.isNode() ? require('./sendNotify') : '';
