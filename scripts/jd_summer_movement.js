@@ -10,7 +10,6 @@ const fs = require('fs/promises');
 const { R_OK } = require('fs').constants;
 const vm = require('vm');
 const URL = 'https://wbbny.m.jd.com/babelDiy/Zeus/2rtpffK8wqNyPBH6wyUDuBKoAbCt/index.html';
-// const REG_MODULE = /(\d+)\:function\(.*(?=smashUtils\.get_risk_result)/gm;
 const SYNTAX_MODULE = '!function(n){var r={};function o(e){if(r[e])';
 const REG_SCRIPT = /<script type="text\/javascript" src="([^><]+\/(app\.\w+\.js))\">/gm;
 const REG_ENTRY = /(__webpack_require__\(__webpack_require__.s=)(\d+)(?=\)})/;
@@ -41,7 +40,6 @@ class MovementFaker {
       let jsContent = await MovementFaker.httpGet(url);
       const moduleIndex = jsContent.indexOf(SYNTAX_MODULE, 1);
       const findEntry = REG_ENTRY.test(jsContent);
-      console.log(jsContent)
       if (!(moduleIndex && findEntry)) {
         throw new Error('Module not found.');
       }
@@ -50,8 +48,6 @@ class MovementFaker {
       return jsContent;
       REG_ENTRY.lastIndex = 0;
       const entry = REG_ENTRY.exec(jsContent);
-      console.log(moduleIndex, needModuleId);
-      console.log(entry[1], entry[2]);
     }
   }
   static httpGet(url) {
