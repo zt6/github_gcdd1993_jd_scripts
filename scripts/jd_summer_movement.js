@@ -1,3 +1,7 @@
+/**
+ *  燃动夏季
+ *  25 0,6-23/2 * * *
+ * */
 const $ = new Env('燃动夏季');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -79,6 +83,12 @@ async function main(){
     console.log(`满足升级条件，去升级`);
     await $.wait(1000);
     await takePostRequest('olympicgames_receiveCash');
+  }
+  if($.homeData.result.trainingInfo.state === 0 && !$.homeData.result.trainingInfo.finishFlag){
+    console.log(`开始运动`)
+    await takePostRequest('olympicgames_startTraining');
+  }else if($.homeData.result.trainingInfo.state === 0 && $.homeData.result.trainingInfo.finishFlag){
+    console.log(`已完成今日运动`)
   }
   bubbleInfos = $.homeData.result.bubbleInfos;
   let runFlag = false;
@@ -172,8 +182,6 @@ async function doTask(){
   }
 }
 
-
-
 async function takePostRequest(type) {
   let body = ``;
   let myRequest = ``;
@@ -207,6 +215,10 @@ async function takePostRequest(type) {
       myRequest = await getPostRequest(body);
       break;
     case 'help':
+      body = await getPostBody(type);
+      myRequest = await getPostRequest( body);
+      break;
+    case 'olympicgames_startTraining':
       body = await getPostBody(type);
       myRequest = await getPostRequest( body);
       break;
@@ -314,11 +326,18 @@ async function dealReturn(type, data) {
       if (data.code === 0 && data.data && data.data.result) {
         console.log(`收取成功，获得：${data.data.result.poolCurrency}`);
       }else{
-        console.log(result);
+        console.log(JSON.stringify(data));
       }
       if(data.code === 0 && data.data && data.data.bizCode === -1002){
-        //$.hotFlag = true;
+        //$.hotFlag = true;:wq
         //console.log(`该账户脚本执行任务火爆，暂停执行任务，请手动做任务或者等待解决脚本火爆问题`)
+      }
+      break;
+    case 'olympicgames_startTraining':
+      if (data.code === 0 && data.data && data.data.result) {
+        console.log(`执行运动成功`);
+      }else{
+        console.log(JSON.stringify(data));
       }
       break;
     default:
@@ -414,6 +433,8 @@ async function getPostBody(type) {
         taskBody = `functionId=olympicgames_collectCurrency&body=${JSON.stringify({"type":$.collectId,"ss" : log})}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`;
       } else if(type === 'add_car'){
         taskBody = `functionId=olympicgames_doTaskDetail&body=${JSON.stringify({"taskId": $.taskId,"taskToken":$.taskToken,"ss" : log})}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`
+      }else if(type === 'olympicgames_startTraining'){
+        taskBody = `functionId=olympicgames_startTraining&body=${JSON.stringify({"ss" : log})}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`
       }else{
         taskBody = `functionId=${type}&body=${JSON.stringify({"taskId": $.oneTask.taskId,"actionType":1,"taskToken" : $.oneActivityInfo.taskToken,"ss" : log})}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`
       }

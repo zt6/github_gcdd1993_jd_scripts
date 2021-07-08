@@ -87,7 +87,7 @@ class MovementFaker {
       let jsContent = await MovementFaker.httpGet(url);
       const moduleIndex = jsContent.indexOf(SYNTAX_MODULE, 1);
       const findEntry = REG_ENTRY.test(jsContent);
-      console.log(jsContent)
+      //console.log(jsContent)
       if (!(moduleIndex && findEntry)) {
         throw new Error('Module not found.');
       }
@@ -99,8 +99,8 @@ class MovementFaker {
       REG_ENTRY.lastIndex = 0;
       const entry = REG_ENTRY.exec(jsContent);
 
-      console.log(moduleIndex, needModuleId);
-      console.log(entry[1], entry[2]);
+      //(moduleIndex, needModuleId);
+      //console.log(entry[1], entry[2]);
     }
   }
 
