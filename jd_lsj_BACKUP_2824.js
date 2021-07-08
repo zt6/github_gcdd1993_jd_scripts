@@ -3,11 +3,19 @@
 
 后续添加自动兑换功能 如入会失败 自行去入会
 入口 京东 频道 美食馆
+<<<<<<< HEAD
 零食街自动兑换变量
+export ljsdh="jdAward1" ##兑换5豆
+export ljsdh="jdAward2" ##兑换10豆
+export ljsdh="jdAward3" ##兑换100豆
+export ljsdh="jdAward4" ##兑换牛奶
+=======
+零食街自动兑换变量 
 export lsjdh="jdAward1" ##兑换5豆
 export lsjdh="jdAward2" ##兑换10豆
 export lsjdh="jdAward3" ##兑换100豆
 export lsjdh="jdAward4" ##兑换牛奶
+>>>>>>> 5667d54fbe5c87d96fdc88ee6bc1c004788f5833
 [task_local]
 0 11 * * *
 */
@@ -19,6 +27,7 @@ let useInfo = {};
 
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
+<<<<<<< HEAD
 let newShareCodes = [
   '8112C4988F9139EAFCECE38F9B4572E7B7940F6F8C4BA49D53FE6BDCC86E30F649336DE54E26AA8F2834B248E6398CB7A755DF4FDAE585EC3E1ABE26F3DD3CFFC956D12974FF00A045D8E31A84FE84C18A8357DE96A1F617B8AC4D64BC24B689',
   '38091E1DB46B677872B1E2DEA116694CDC8D7ECB4A4683F03E915D16E923B21B74D05EDAD17077AFFA80DAD7387DD28B3BEE5701143FCA11A003164F79A3ADAEDDDA672BF446E2FCC0D1D6B4E52826D1',
@@ -26,9 +35,15 @@ let newShareCodes = [
   'D5DE0F3B2E1500AACB89E967B2A0DA71EF242D7E92C1D70CA641421808222C0074D05EDAD17077AFFA80DAD7387DD28B3BEE5701143FCA11A003164F79A3ADAEDDDA672BF446E2FCC0D1D6B4E52826D1',
   '3F2B245172AEBCF760C94D235031255658AD7F7770B94B222976665245E38C3D49336DE54E26AA8F2834B248E6398CB7A755DF4FDAE585EC3E1ABE26F3DD3CFFC956D12974FF00A045D8E31A84FE84C18A8357DE96A1F617B8AC4D64BC24B689'
 ];
+let ljsdh = 'jdAward3';
+if ($.isNode() && process.env.ljsdh) {
+  ljsdh = process.env.ljsdh;
+=======
+let newShareCodes = [];
 let lsjdh = '';
 if (process.env.lsjdh) {
   lsjdh = process.env.lsjdh;
+>>>>>>> 5667d54fbe5c87d96fdc88ee6bc1c004788f5833
 }
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -94,60 +109,115 @@ if ($.isNode()) {
     $.done();
   })
 async function star() {
+<<<<<<< HEAD
   await gettoken()
   $.log("开始入会任务")
   await dojoinMember(1000101562)
-  await $.wait(3000)
+  await $.wait(5000)
   await dojoinMember(1000077335)
-  await $.wait(3000)
+  await $.wait(5000)
   await dojoinMember(1000008814)
-  await $.wait(3000)
+  await $.wait(5000)
   await dojoinMember(1000014803)
   $.log("开始领取首页水滴")
   await dotree(1)
-  await $.wait(3000)
+  await $.wait(5000)
   await dotree(2)
-  await $.wait(3000)
+  await $.wait(5000)
   await dotree(3)
-  await $.wait(3000)
+  await $.wait(5000)
   $.log("开始浏览会场")
   await doliulan(1)
-  await $.wait(3000)
+  await $.wait(5000)
   await doliulan(2)
-  await $.wait(3000)
+  await $.wait(5000)
   await doliulan(3)
 //await gettask()
 
   $.log("开始浏览会场")
-  await doshop(1000014803)
-await $.wait(3000)
-await doshop(10299171)
-  await $.wait(3000)
+  await doshop(10299171)
+  await $.wait(5000)
   await doshop(1000077335)
-  await $.wait(3000)
+  await $.wait(5000)
   await doshop(1000008814)
-  await $.wait(3000)
-  await doshop(1000101562)
+  await $.wait(5000)
+  await doshop(1000014803)
   $.log("开始浏览推荐食品商品")
   await doGoods(1)
-  await $.wait(3000)
+  await $.wait(5000)
   await doGoods(2)
-  await $.wait(3000)
+  await $.wait(5000)
   await doGoods(3)
-  await $.wait(3000)
+  await $.wait(5000)
   await doGoods(4)
   $.log("开始加购商品")
   await doadd(1)
-  await $.wait(3000)
+  await $.wait(5000)
   await doadd(2)
-  await $.wait(3000)
+  await $.wait(5000)
   await doadd(3)
-  await $.wait(3000)
+  await $.wait(5000)
   await doadd(4)
   $.log("开始游戏刷分")
   await playgame()
   $.log("开始兑换")
   await duihuan()
+=======
+await gettoken()
+$.log("开始入会任务")
+await dojoinMember(1000101562)
+await $.wait(3000)
+await dojoinMember(1000077335)
+await $.wait(3000)
+await dojoinMember(1000008814)
+await $.wait(3000)
+await dojoinMember(1000014803)
+$.log("开始领取首页水滴")
+await dotree(1)
+await $.wait(3000)
+await dotree(2)
+await $.wait(3000)
+await dotree(3)
+await $.wait(3000)
+$.log("开始浏览会场")
+await doliulan(1)
+await $.wait(3000)
+await doliulan(2)
+await $.wait(3000)
+await doliulan(3)
+//await gettask()  
+
+$.log("开始浏览会场")
+await doshop(1000014803)
+await $.wait(3000)
+await doshop(10299171)
+await $.wait(3000)
+await doshop(1000077335)
+await $.wait(3000)
+await doshop(1000008814)
+await $.wait(3000)
+await doshop(1000101562)
+$.log("开始浏览推荐食品商品")
+await doGoods(1)
+await $.wait(3000)
+await doGoods(2)
+await $.wait(3000)
+await doGoods(3)
+await $.wait(3000)
+await doGoods(4)
+$.log("开始加购商品")
+await doadd(1)
+await $.wait(3000)
+await doadd(2)
+await $.wait(3000)
+await doadd(3)
+await $.wait(3000)
+await doadd(4)
+$.log("开始游戏刷分")
+await playgame()
+$.log("开始兑换")
+await duihuan()
+>>>>>>> 5667d54fbe5c87d96fdc88ee6bc1c004788f5833
 }
 
 function gettoken() {
@@ -526,7 +596,11 @@ function ljd(awardId) {
         if(reust.errorCode == 200){
           jdbean = reust.data.data.msg
           $.log(`${reust.data.data.msg}`)
-            await showMsg()
+<<<<<<< HEAD
+          //   await showMsg()
+=======
+          await showMsg()
+>>>>>>> 5667d54fbe5c87d96fdc88ee6bc1c004788f5833
 
         }else if(reust.errorCode == 500) {
 
