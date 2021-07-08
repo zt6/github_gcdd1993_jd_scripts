@@ -170,3 +170,11 @@
 0 11 * * * node /scripts/jd_lsj.js >> /scripts/logs/jd_lsj.log 2>&1
 # 欧洲狂欢杯
 0 10 * * * node /scripts/jd_europeancup.js >> /scripts/logs/jd_europeancup.log 2>&1
+# 汪汪乐园养joy
+20 0-23/3 * * * node /scripts/jd_joy_park.js >> /scripts/logs/jd_joy_park.log 2>&1
+# 汪汪乐园每日任务
+0 0 9 * * * node /scripts/jd_joy_park_task.js >> /scripts/logs/jd_joy_park_task.log 2>&1
+# 京东签到图形验证
+14 10 * * * node /scripts/jd_sign.js >> /scripts/logs/jd_sign.log 2>&1
+# 燃动夏季
+25 0,6-23/2 * * * node /scripts/jd_summer_movement.js >> /scripts/logs/jd_summer_movement.log 2>&1
