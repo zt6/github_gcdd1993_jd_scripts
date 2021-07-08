@@ -84,6 +84,7 @@ if ($.isNode()) {
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       $.cookie = cookiesArr[i];
+      uuid = getUUID();
       $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
       $.index = i + 1;
       $.isLogin = true;
@@ -513,6 +514,16 @@ async function getPostBody(type) {
       resolve(taskBody);
     }
   })
+}
+function getUUID() {
+  var n = (new Date).getTime();
+  let uuid="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+  uuid = uuid.replace(/[xy]/g, function (e) {
+    var t = (n + 16 * Math.random()) % 16 | 0;
+    return n = Math.floor(n / 16),
+      ("x" == e ? t : 3 & t | 8).toString(16)
+  }).replace(/-/g, "")
+  return uuid
 }
 /**
  * 随机从一数组里面取
