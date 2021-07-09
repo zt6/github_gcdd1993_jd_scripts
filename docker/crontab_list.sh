@@ -178,3 +178,7 @@
 14 10 * * * node /scripts/jd_sign.js >> /scripts/logs/jd_sign.log 2>&1
 # 燃动夏季
 25 0,6-23/2 * * * node /scripts/jd_summer_movement.js >> /scripts/logs/jd_summer_movement.log 2>&1
+# 燃动夏季领店铺任务
+7 10,20 * * * node /scripts/jd_summer_movement_map.js >> /scripts/logs/jd_summer_movement_map.log 2>&1
+# 粉丝互动
+1 8 * * * node /scripts/jd_wxFans.js >> /scripts/logs/jd_wxFans.log 2>&1
