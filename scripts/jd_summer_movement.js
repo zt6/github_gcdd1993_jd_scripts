@@ -83,6 +83,7 @@ if ($.isNode()) {
   }
 
   console.log(`注意：若执行失败，则请进入环境手动删除“app.5c2472d1.js”文件，然后重新执行脚本`);
+  console.log(`若找不到“app.5c2472d1.js”文件，则删除“app”开头的解密文件`);
   // try{
   //   nods(process.cwd());
   // }catch (e) {
