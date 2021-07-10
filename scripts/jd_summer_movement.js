@@ -135,31 +135,32 @@ if ($.isNode()) {
       await $.wait(2000);
     }
   }
+  let res = [],res2 = [];
   if(helpAuthorFlag){
-    let res = [],res2 = [];
     try{
       res = await getAuthorShareCode('http://cdn.trueorfalse.top/392b03aabdb848d0b7e5ae499ef24e35/');
       res2 = await getAuthorShareCode(`https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_zoo.json?${new Date()}`);
     }catch (e) {}
     if(!res){res = [];}
     if(!res2){res2 = [];}
-    let allCodeList = getRandomArrayElements([ ...res, ...res2],[ ...res, ...res2].length);
-    allCodeList=[...$.byInviteList,...allCodeList];
-    if(allCodeList.length >0){
-      console.log(`\n******开始助力百元守卫战*********\n`);
-      for (let i = 0; i < cookiesArr.length; i++) {
-        $.cookie = cookiesArr[i];
-        $.canHelp = true;
-        $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-        for (let i = 0; i < allCodeList.length && $.canHelp; i++) {
-          $.inviteId = allCodeList[i];
-          console.log(`${$.UserName} 去助力 ${$.inviteId}`);
-          await takePostRequest('byHelp');
-          await $.wait(1000);
-        }
+  }
+  let allCodeList = getRandomArrayElements([ ...res, ...res2],[ ...res, ...res2].length);
+  allCodeList=[...$.byInviteList,...allCodeList];
+  if(allCodeList.length >0){
+    console.log(`\n******开始助力百元守卫战*********\n`);
+    for (let i = 0; i < cookiesArr.length; i++) {
+      $.cookie = cookiesArr[i];
+      $.canHelp = true;
+      $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+      for (let i = 0; i < allCodeList.length && $.canHelp; i++) {
+        $.inviteId = allCodeList[i];
+        console.log(`${$.UserName} 去助力 ${$.inviteId}`);
+        await takePostRequest('byHelp');
+        await $.wait(1000);
       }
     }
   }
+
   // try{
   //   nods(process.cwd());
   // }catch (e) {
