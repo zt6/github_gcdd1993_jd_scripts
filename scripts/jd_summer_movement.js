@@ -172,7 +172,7 @@ async function main(){
   $.userInfo =$.homeData.result.userActBaseInfo
   console.log(`\n待兑换金额：${Number($.userInfo.poolMoney)} 当前等级:${$.userInfo.medalLevel} \n`);
   await $.wait(1000);
-  if($.userInfo &&  $.userInfo.sex !== 1 && $.userInfo.sex !== 2){
+  if($.userInfo &&  $.userInfo.sex !== 1 && $.userInfo.sex !== 0){
     await takePostRequest('olympicgames_tiroGuide');
     await $.wait(1000);
   }
