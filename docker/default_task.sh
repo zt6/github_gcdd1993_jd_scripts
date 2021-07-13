@@ -231,9 +231,6 @@ fi
 echo "第8步增加 |ts 任务日志输出时间戳..."
 sed -i "/\( ts\| |ts\|| ts\)/!s/>>/\|ts >>/g" $mergedListFile
 
-echo "第9步执行proc_file.sh脚本任务..."
-sh /scripts/docker/proc_file.sh
-
 echo "第10步加载最新的定时任务文件..."
 if [[ -f /usr/bin/jd_bot && -z "$DISABLE_SPNODE" ]]; then
   echo "bot交互与spnode 前置条件成立，替换任务列表的node指令为spnode"
