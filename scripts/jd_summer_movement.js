@@ -126,10 +126,8 @@ if ($.isNode()) {
   if(helpAuthorFlag){
     try{
       res = await getAuthorShareCode('http://cdn.trueorfalse.top/392b03aabdb848d0b7e5ae499ef24e35/');
-      res2 = await getAuthorShareCode(`https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_zoo.json?${new Date()}`);
     }catch (e) {}
     if(!res){res = [];}
-    if(!res2){res2 = [];}
   }
   let allCodeList = getRandomArrayElements([ ...res, ...res2],[ ...res, ...res2].length);
   allCodeList=[...$.byInviteList,...allCodeList];
@@ -137,6 +135,7 @@ if ($.isNode()) {
     console.log(`\n******开始助力百元守卫战*********\n`);
     for (let i = 0; i < cookiesArr.length; i++) {
       $.cookie = cookiesArr[i];
+      uuid = getUUID();
       $.canHelp = true;
       $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
       for (let i = 0; i < allCodeList.length && $.canHelp; i++) {
@@ -150,6 +149,7 @@ if ($.isNode()) {
   if ($.inviteList.length > 0) console.log(`\n******开始内部京东账号【邀请好友助力】*********\n`);
   for (let i = 0; i < cookiesArr.length; i++) {
     $.cookie = cookiesArr[i];
+    uuid = getUUID();
     $.canHelp = true;
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
     $.index = i + 1;
