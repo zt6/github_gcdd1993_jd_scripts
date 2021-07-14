@@ -351,7 +351,13 @@ async function dealReturn(type, data) {
   }
 }
 
-
+function randomString(e) {
+  e = e || 32;
+  let t = "abcdefhijkmnprstwxyz2345678", a = t.length, n = "";
+  for (i = 0; i < e; i++)
+    n += t.charAt(Math.floor(Math.random() * a));
+  return n
+}
 
 async function getPostRequest(body) {
   const method = `POST`;
