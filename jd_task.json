@@ -96,13 +96,13 @@
       }
     },
     {
-      "name": "京喜财富岛提现",
+      "name": "京喜财富岛热气球挂机",
       "type": "cron",
-      "time": "0-5/1 0 0 * * *",
+      "time": "20 0,6-23 * * *",
       "running": true,
       "job": {
         "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_cfdtx.js"
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_cfd_loop.js"
       }
     },
     {
@@ -595,13 +595,33 @@
       }
     },
     {
-      "name": "超级无线组队分京豆",
+      "name": "早起福利",
       "type": "cron",
-      "time": "15 6 * * 2",
+      "time": "35 6 * * *",
       "running": true,
       "job": {
         "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_z_shop_captain.js"
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_zqfl.js"
+      }
+    },
+    {
+      "name": "天天优惠大乐透",
+      "type": "cron",
+      "time": "50 7 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_DrawEntrance.js"
+      }
+    },
+    {
+      "name": "店铺签到",
+      "type": "cron",
+      "time": "20 8 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_dpqd.js"
       }
     }
   ]

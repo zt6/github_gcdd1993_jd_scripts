@@ -176,5 +176,17 @@
 25 0,6-23/2 * * * node /scripts/jd_summer_movement.js >> /scripts/logs/jd_summer_movement.log 2>&1
 # 燃动夏季领店铺任务
 7 10,20 * * * node /scripts/jd_summer_movement_map.js >> /scripts/logs/jd_summer_movement_map.log 2>&1
+# 燃动夏季_SH助力
+12 7-14 * * * node /scripts/jd_summer_movement_help.js >> /scripts/logs/jd_summer_movement_help.log 2>&1
 # 粉丝互动
 1 8 * * * node /scripts/jd_wxFans.js >> /scripts/logs/jd_wxFans.log 2>&1
+# 京喜财富岛热气球挂机
+1 8 * * * node /scripts/jd_cfd_loop.js >> /scripts/logs/jd_cfd_loop.log 2>&1
+# 店铺签到
+1 8 * * * node /scripts/jd_dpqd.js >> /scripts/logs/jd_dpqd.log 2>&1
+# 天天优惠大乐透
+15 6 * * * node /scripts/jd_DrawEntrance.js >> /scripts/logs/jd_DrawEntrance.log 2>&1
+# 送豆得豆
+45 4 * * * node /scripts/jd_sddd.js >> /scripts/logs/jd_sddd.log 2>&1
+# 早起福利
+30 6 * * * node /scripts/jd_zqfl.js >> /scripts/logs/jd_zqfl.log 2>&1
