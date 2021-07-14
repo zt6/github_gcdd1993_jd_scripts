@@ -17,7 +17,7 @@ const { R_OK } = require('fs').constants;
 const vm = require('vm');
 let smashUtils;
 
-let summer_movement_joinjoinjoinhui = true;//是否入会  true 入会，false 不入会
+let summer_movement_joinjoinjoinhui = false;//是否入会  true 入会，false 不入会
 if ($.isNode() && process.env.summer_movement_joinjoinjoinhui) {
   summer_movement_joinjoinjoinhui = process.env.summer_movement_joinjoinjoinhui;
 }
@@ -43,9 +43,9 @@ $.inviteList = [];
 $.secretpInfo = {};
 $.ShInviteList = [];
 $.innerShInviteList = [
-  'H8mphLbwLgz3e4GeFdc0g9GS9KyvaS3S',
-  'H8mphLbwLn_LHtvAULB0thOUapqKwhU',
-  'H8mphLbwLnPnJ8L9XqdUv7O1wfsqrXQ'
+  'HcmphLbwLg6heNWfH9Ey1sOTDzQk8uXveZcec4wCrKaitvsEYabGL6QFKctcRgLv2nSBFHF6RlRIRDH41j-ZYw',
+  'HcmphLbwLnzkD9rLQYlsi0R7uXZiI59jlacIrmIrzfS14c5vnr8USttvT6-MKochaA_TqOKZ2MlTiW_WOA',
+  'HcmphLbwLg_2e9GSHtZngohdpkEZXigtNN9owOheh-Ngpq4BpFL1byja5q5taJZSKx6SwAR3ox16KnZpXLQAGA'
 ];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -73,28 +73,28 @@ function randomString(e) {
     return;
   }
   console.log('活动入口：京东APP-》 首页-》 右边小窗口（点我赢千元）\n' +
-      '邀请好友助力：内部账号自行互助(排名靠前账号得到的机会多)\n' +
-      'SH互助：内部账号自行互助(排名靠前账号得到的机会多),多余的助力次数会默认助力作者内置助力码\n' +
-      '店铺任务 已添加\n' +
-      '新增 入会环境变量 默认不入会\n' +
-      '新增 微信任务\n' +
-      '新增活动火爆不做任务处理\n' +
-      '活动时间：2021-07-08至2021-08-08\n' +
-      '脚本更新时间：2021年7月13日 18点00分\n'
-      );
-      if(`${summer_movement_joinjoinjoinhui}` === "true") console.log('您设置了入会\n')
-      if(`${summer_movement_HelpHelpHelpFlag}` === "true") console.log('您设置了只执行邀请助力\n')
-      if(Number(summer_movement_ShHelpFlag) === 1){
-        console.log('您设置了 【百元守卫战SH】✅ || 互助✅')
-      }else if(Number(summer_movement_ShHelpFlag) === 2){
-        console.log('您设置了 【百元守卫战SH】✅ || 互助❌')
-      }else if(Number(summer_movement_ShHelpFlag) === 0){
-        console.log('您设置了 【百元守卫战SH】❌ || 互助❌')
-      }else{
-        console.log('原 summer_movement_ShHelpFlag 变量不兼容请修改 0不开启也不助力 1开启并助力 2开启但不助力')
-      }
+    '邀请好友助力：内部账号自行互助(排名靠前账号得到的机会多)\n' +
+    'SH互助：内部账号自行互助(排名靠前账号得到的机会多),多余的助力次数会默认助力作者内置助力码\n' +
+    '店铺任务 已添加\n' +
+    '新增 入会环境变量 默认不入会\n' +
+    '新增 微信任务\n' +
+    '新增活动火爆不做任务处理\n' +
+    '活动时间：2021-07-08至2021-08-08\n' +
+    '脚本更新时间：2021年7月13日 18点00分\n'
+  );
+  if(`${summer_movement_joinjoinjoinhui}` === "true") console.log('您设置了入会\n')
+  if(`${summer_movement_HelpHelpHelpFlag}` === "true") console.log('您设置了只执行邀请助力\n')
+  if(Number(summer_movement_ShHelpFlag) === 1){
+    console.log('您设置了 【百元守卫战SH】✅ || 互助✅')
+  }else if(Number(summer_movement_ShHelpFlag) === 2){
+    console.log('您设置了 【百元守卫战SH】✅ || 互助❌')
+  }else if(Number(summer_movement_ShHelpFlag) === 0){
+    console.log('您设置了 【百元守卫战SH】❌ || 互助❌')
+  }else{
+    console.log('原 summer_movement_ShHelpFlag 变量不兼容请修改 0不开启也不助力 1开启并助力 2开启但不助力')
+  }
 
-      console.log('\n\n该脚本启用了[正道的光]模式\n执行 做任务、做店铺任务 会有几率不执行\n本脚本不让任务一次全部做完\n您可以多跑几次\n北京时间18时后是正常模式\n\n🐸\n')
+  console.log('\n\n该脚本启用了[正道的光]模式\n执行 做任务、做店铺任务 会有几率不执行\n本脚本不让任务一次全部做完\n您可以多跑几次\n北京时间18时后是正常模式\n\n🐸\n')
 
 
   console.log(`注意：若执行失败，则请手动删除脚本目录下的“app.*.js”文件，然后重新执行脚本`);
@@ -261,7 +261,7 @@ async function movement() {
             }else if(data.data && data.data.bizMsg){
               console.log(data.data.bizMsg);
             }else{
-            console.log(JSON.stringify($.callbackInfo));
+              console.log(JSON.stringify($.callbackInfo));
             }
             await $.wait(getRndInteger(1000, 2000));
           } else {
@@ -511,7 +511,7 @@ async function dealReturn(type, res) {
   }
   switch (type) {
     case 'olympicgames_home':
-    if (data.code === 0 && data.data && data.data.result) {
+      if (data.code === 0 && data.data && data.data.result) {
         if (data.data['bizCode'] === 0) {
           $.homeData = data.data;
           $.secretpInfo[$.UserName] = true
@@ -850,7 +850,7 @@ function joinjoinjoinhui(url,Referer) {
  * @param count
  * @returns {Buffer}
  */
- function getRandomArrayElements(arr, count) {
+function getRandomArrayElements(arr, count) {
   var shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;
   while (i-- > min) {
     index = Math.floor((i + 1) * Math.random());
