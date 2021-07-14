@@ -95,7 +95,7 @@ if ($.isNode()) {
   //
   // }
 
-  for (let i = 3; i < cookiesArr.length; i++) {
+  for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       $.cookie = cookiesArr[i];
       uuid = getUUID();
