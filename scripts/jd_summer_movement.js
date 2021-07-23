@@ -68,7 +68,7 @@ let hotInfo = {};
     }
   }
   if ($.inviteList.length > 0) console.log(`\n******开始内部京东账号【邀请好友助力】*********\n`);
-  for (let i = 37; i < 39; i++) {
+  for (let i = 0; i < cookiesArr; i++) {
     $.cookie = cookiesArr[i];
     $.canHelp = true;
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
