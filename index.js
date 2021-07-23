@@ -1,5 +1,27 @@
 //'use strict';
 exports.main_handler = async (event, context, callback) => {
+  ['log', 'warn', 'error', 'debug','info'].forEach((methodName) => {
+    const originalMethod = console[methodName];
+    console[methodName] = (...args) => {
+        try {
+            throw new Error();
+        } catch (error) {
+            let stack = error
+                .stack // Grabs the stack trace
+                .split('\n')[2] // Grabs third line
+                .split("/").slice(-1)[0] // Grabs third file name and line number
+                .replace('.js','')
+            stack = `${stack.substring(0, stack.lastIndexOf(':'))}:`
+            originalMethod.apply(
+                console,
+                [
+                    stack,
+                    ...args
+                ]
+            );
+        }
+    };
+  });
   try {
     const { TENCENTSCF_SOURCE_TYPE, TENCENTSCF_SOURCE_URL } = process.env
     //如果想在一个定时触发器里面执行多个js文件需要在定时触发器的【附加信息】里面填写对应的名称，用 & 链接
@@ -8,11 +30,6 @@ exports.main_handler = async (event, context, callback) => {
       console.log(v);
       var request = require('request');
       switch (TENCENTSCF_SOURCE_TYPE) {
-        case 'local':
-          //1.执行自己上传的js文件
-          delete require.cache[require.resolve('./'+v+'.js')];
-          require('./'+v+'.js')
-          break;
         case 'git':
           //2.执行github远端的js文件(因github的raw类型的文件被墙,此方法云函数不推荐)
           request(`https://raw.githubusercontent.com/LXK9301/jd_scripts/master/${v}.js`, function (error, response, body) {
@@ -27,11 +44,10 @@ exports.main_handler = async (event, context, callback) => {
           })
           break;
         default:
-          //4.执行国内gitee远端的js文件(如果部署在国内节点，选择1或3。默认使用gitee的方式)
-          request(`https://gitee.com/lxk0301/jd_scripts/raw/master/${v}.js`, function (error, response, body) {
-            eval(response.body)
-          })
-          break;
+          //执行自己上传的js文件
+          const script = './'+v+'.js'
+          delete require.cache[require.resolve(script)];
+          require(script)
       }
     }
   } catch (e) {
