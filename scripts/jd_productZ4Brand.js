@@ -44,7 +44,11 @@ if ($.isNode()) {
       }
       continue
     }
-    await main();
+    try{
+      await main();
+    }catch (e) {
+      console.log(JSON.stringify(e));
+    }
     await $.wait(1000);
   }
   for (let i = 0; i < cookiesArr.length; i++) {
