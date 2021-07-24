@@ -75,6 +75,10 @@ async function main() {
     return ;
   }
   console.log(`获取活动详情成功`);
+  if(!$.activityInfo.activityUserInfo || !$.activityInfo.activityBaseInfo){
+    console.log(`活动信息异常`);
+    return;
+  }
   console.log(`当前call值：${$.activityInfo.activityUserInfo.userStarNum}`);
   $.encryptProjectId = $.activityInfo.activityBaseInfo.encryptProjectId;
   useInfo[$.nickName] = $.encryptProjectId;
