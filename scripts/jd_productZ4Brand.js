@@ -163,7 +163,7 @@ function dealReturn(type, data) {
   }
   switch (type) {
     case 'showSecondFloorRunInfo':
-      if(data.code === '0'){
+      if(data.code === '0' &&  data.data && data.data.result){
         $.activityInfo = data.data.result;
       }
       break;
