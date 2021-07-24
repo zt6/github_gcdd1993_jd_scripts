@@ -1,6 +1,7 @@
 /*
 特务Zx佳沛
 cron 23 0,9 24-27 7 *
+第一个CK会为作者助力，暂不知助力上限（貌似没上限）
 */
 const $ = new Env('特务Zx佳沛');
 const notify = $.isNode() ? require('./sendNotify') : '';
