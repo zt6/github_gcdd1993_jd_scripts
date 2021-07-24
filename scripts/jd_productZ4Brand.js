@@ -53,9 +53,10 @@ if ($.isNode()) {
   }
   for (let i = 0; i < cookiesArr.length; i++) {
     $.cookie = cookiesArr[i];
+    $.canHelp = true;
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
     $.encryptProjectId = useInfo[$.nickName];
-    for (let j = 0; j < $.allInvite.length; j++) {
+    for (let j = 0; j < $.allInvite.length && $.canHelp; j++) {
       $.codeInfo = $.allInvite[j];
       $.code = $.codeInfo.code;
       if($.UserName ===  $.codeInfo.userName){
@@ -209,6 +210,9 @@ function dealReturn(type, data) {
       }else if (data.code === '0' && data.data.bizCode === '104'){
         $.codeInfo.time ++;
         console.log(`已助力过`);
+      }else if (data.code === '0' && data.data.bizCode === '108'){
+        $.canHelp = false;
+        console.log(`助力次数已用完`);
       }else{
         console.log(JSON.stringify(data));
       }
