@@ -2,6 +2,7 @@
 特务Zx佳沛
 cron 23 0,9 24-27 7 *
 要跑2次，第一次做任务和脚本内互助，第二次才够币抽奖
+第一个CK会为作者助力，暂不知助力上限（貌似没上限）
 */
 const $ = new Env('特务Zx佳沛');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -10,6 +11,7 @@ let cookiesArr = [];
 let UA = ``;
 $.allInvite = [];
 let useInfo = {};
+$.helpEncryptAssignmentId = '';
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -122,7 +124,8 @@ async function doTask(){
         'userName':$.UserName,
         'code':$.oneTask.ext.assistTaskDetail.itemId,
         'time':0
-      })
+      });
+      $.helpEncryptAssignmentId = $.oneTask.encryptAssignmentId;
     }
   }
 }
@@ -144,7 +147,7 @@ async function takePostRequest(type) {
       url = `https://api.m.jd.com/api?uuid=${UA.split(";")[4]}&client=wh5&area=&appid=ProductZ4Brand&functionId=superBrandDoTask&t=${Date.now()}&body=%7B%22source%22:%22run%22,%22activityId%22:${$.activityId},%22encryptProjectId%22:%22${$.encryptProjectId}%22,%22encryptAssignmentId%22:%22${$.oneTask.encryptAssignmentId}%22,%22assignmentType%22:${$.oneTask.assignmentType},%22itemId%22:%22${$.runInfo.itemId}%22,%22actionType%22:0%7D`;
       break;
     case 'help':
-      url = `https://api.m.jd.com/api?uuid=${UA.split(";")[4]}&client=wh5&area=&appid=ProductZ4Brand&functionId=superBrandDoTask&t=${Date.now()}&body=%7B%22source%22:%22run%22,%22activityId%22:${$.activityId},%22encryptProjectId%22:%22${$.encryptProjectId}%22,%22encryptAssignmentId%22:%223R4U1Zucma2H3d8cprsCXftSFU8k%22,%22assignmentType%22:2,%22itemId%22:%22${$.code}%22,%22actionType%22:0%7D`;
+      url = `https://api.m.jd.com/api?uuid=${UA.split(";")[4]}&client=wh5&area=&appid=ProductZ4Brand&functionId=superBrandDoTask&t=${Date.now()}&body=%7B%22source%22:%22run%22,%22activityId%22:${$.activityId},%22encryptProjectId%22:%22${$.encryptProjectId}%22,%22encryptAssignmentId%22:%22${$.helpEncryptAssignmentId}%22,%22assignmentType%22:2,%22itemId%22:%22${$.code}%22,%22actionType%22:0%7D`;
       break;
     default:
       console.log(`错误${type}`);
@@ -175,16 +178,12 @@ function dealReturn(type, data) {
     case 'showSecondFloorRunInfo':
       if(data.code === '0' &&  data.data && data.data.result){
         $.activityInfo = data.data.result;
-      }else{
-        console.log(JSON.stringify(data));
       }
       break;
     case 'superBrandTaskList':
       //console.log(JSON.stringify(data));
       if(data.code === '0'){
         $.taskList = data.data.result.taskList;
-      }else{
-        console.log(JSON.stringify(data));
       }
       break;
     case 'superBrandTaskLottery':
@@ -225,6 +224,44 @@ function dealReturn(type, data) {
     default:
       console.log(JSON.stringify(data));
   }
+}
+
+function getAuthorShareCode(url) {
+  return new Promise(async resolve => {
+    const options = {
+      "url": `${url}`,
+      "timeout": 10000,
+      "headers": {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      }
+    };
+    if ($.isNode() && process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {
+      const tunnel = require("tunnel");
+      const agent = {
+        https: tunnel.httpsOverHttp({
+          proxy: {
+            host: process.env.TG_PROXY_HOST,
+            port: process.env.TG_PROXY_PORT * 1
+          }
+        })
+      }
+      Object.assign(options, { agent })
+    }
+    $.get(options, async (err, resp, data) => {
+      try {
+        if (err) {
+        } else {
+          if (data) data = JSON.parse(data)
+        }
+      } catch (e) {
+        // $.logErr(e, resp)
+      } finally {
+        resolve(data || []);
+      }
+    })
+    await $.wait(10000)
+    resolve();
+  })
 }
 
 function getPostRequest(url) {
