@@ -1,10 +1,10 @@
 /*
-特务Zx佳沛
+特务Z
 cron 23 0,9 24-27 7 *
 要跑2次，第一次做任务和脚本内互助，第二次才够币抽奖
 第一个CK会为作者助力，暂不知助力上限（貌似没上限）
 */
-const $ = new Env('特务Zx佳沛');
+const $ = new Env('特务Z');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let cookiesArr = [];
