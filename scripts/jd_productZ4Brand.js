@@ -79,11 +79,13 @@ async function main() {
     return ;
   }
   console.log(`获取活动详情成功`);
-  if(!$.activityInfo.activityUserInfo || !$.activityInfo.activityBaseInfo){
+  if(!$.activityInfo.activityUserInfo || !$.activityInfo.activityBaseInfo || !$.activityInfo.activityBaseInfo.activityId){
     console.log(`活动信息异常`);
     return;
   }
-  console.log(`当前call值：${$.activityInfo.activityUserInfo.userStarNum}`);
+  $.activityId = $.activityInfo.activityBaseInfo.activityId;
+  console.log(`当前活动ID：${$.activityId},call值：${$.activityInfo.activityUserInfo.userStarNum}`);
+  $.callNumber = $.activityInfo.activityUserInfo.userStarNum;
   $.encryptProjectId = $.activityInfo.activityBaseInfo.encryptProjectId;
   useInfo[$.nickName] = $.encryptProjectId;
   await $.wait(2000);
@@ -93,7 +95,7 @@ async function main() {
   await doTask();
   await $.wait(2000);
   $.runFlag = true;
-  for (let i = 0; i < 4 && $.runFlag; i++) {
+  for (let i = 0; i < 4 && $.runFlag && Number($.callNumber) > 200; i++) {
     console.log(`进行抽奖`);
     await takePostRequest('superBrandTaskLottery');//抽奖
     await $.wait(2000);
@@ -133,16 +135,16 @@ async function takePostRequest(type) {
       url = `https://api.m.jd.com/api?uuid=${UA.split(";")[4]}&client=wh5&area=&appid=ProductZ4Brand&functionId=showSecondFloorRunInfo&t=${Date.now()}&body=%7B%22source%22:%22run%22%7D`;
       break;
     case 'superBrandTaskList':
-      url = `https://api.m.jd.com/api?uuid=${UA.split(";")[4]}&client=wh5&area=&appid=ProductZ4Brand&functionId=superBrandTaskList&t=${Date.now()}&body=%7B%22source%22:%22run%22,%22activityId%22:1000035,%22assistInfoFlag%22:1%7D`;
+      url = `https://api.m.jd.com/api?uuid=${UA.split(";")[4]}&client=wh5&area=&appid=ProductZ4Brand&functionId=superBrandTaskList&t=${Date.now()}&body=%7B%22source%22:%22run%22,%22activityId%22:${$.activityId},%22assistInfoFlag%22:1%7D`;
       break;
     case 'superBrandTaskLottery':
-      url = `https://api.m.jd.com/api?uuid=${UA.split(";")[4]}&client=wh5&area=&appid=ProductZ4Brand&functionId=superBrandTaskLottery&t=${Date.now()}&body=%7B%22source%22:%22run%22,%22activityId%22:1000035%7D`;
+      url = `https://api.m.jd.com/api?uuid=${UA.split(";")[4]}&client=wh5&area=&appid=ProductZ4Brand&functionId=superBrandTaskLottery&t=${Date.now()}&body=%7B%22source%22:%22run%22,%22activityId%22:${$.activityId}%7D`;
       break;
     case 'followShop':
-      url = `https://api.m.jd.com/api?uuid=${UA.split(";")[4]}&client=wh5&area=&appid=ProductZ4Brand&functionId=superBrandDoTask&t=${Date.now()}&body=%7B%22source%22:%22run%22,%22activityId%22:1000035,%22encryptProjectId%22:%22${$.encryptProjectId}%22,%22encryptAssignmentId%22:%22${$.oneTask.encryptAssignmentId}%22,%22assignmentType%22:${$.oneTask.assignmentType},%22itemId%22:%22${$.runInfo.itemId}%22,%22actionType%22:0%7D`;
+      url = `https://api.m.jd.com/api?uuid=${UA.split(";")[4]}&client=wh5&area=&appid=ProductZ4Brand&functionId=superBrandDoTask&t=${Date.now()}&body=%7B%22source%22:%22run%22,%22activityId%22:${$.activityId},%22encryptProjectId%22:%22${$.encryptProjectId}%22,%22encryptAssignmentId%22:%22${$.oneTask.encryptAssignmentId}%22,%22assignmentType%22:${$.oneTask.assignmentType},%22itemId%22:%22${$.runInfo.itemId}%22,%22actionType%22:0%7D`;
       break;
     case 'help':
-      url = `https://api.m.jd.com/api?uuid=${UA.split(";")[4]}&client=wh5&area=&appid=ProductZ4Brand&functionId=superBrandDoTask&t=${Date.now()}&body=%7B%22source%22:%22run%22,%22activityId%22:1000035,%22encryptProjectId%22:%22${$.encryptProjectId}%22,%22encryptAssignmentId%22:%223R4U1Zucma2H3d8cprsCXftSFU8k%22,%22assignmentType%22:2,%22itemId%22:%22${$.code}%22,%22actionType%22:0%7D`;
+      url = `https://api.m.jd.com/api?uuid=${UA.split(";")[4]}&client=wh5&area=&appid=ProductZ4Brand&functionId=superBrandDoTask&t=${Date.now()}&body=%7B%22source%22:%22run%22,%22activityId%22:${$.activityId},%22encryptProjectId%22:%22${$.encryptProjectId}%22,%22encryptAssignmentId%22:%223R4U1Zucma2H3d8cprsCXftSFU8k%22,%22assignmentType%22:2,%22itemId%22:%22${$.code}%22,%22actionType%22:0%7D`;
       break;
     default:
       console.log(`错误${type}`);
@@ -223,44 +225,6 @@ function dealReturn(type, data) {
     default:
       console.log(JSON.stringify(data));
   }
-}
-
-function getAuthorShareCode(url) {
-  return new Promise(async resolve => {
-    const options = {
-      "url": `${url}`,
-      "timeout": 10000,
-      "headers": {
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-      }
-    };
-    if ($.isNode() && process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {
-      const tunnel = require("tunnel");
-      const agent = {
-        https: tunnel.httpsOverHttp({
-          proxy: {
-            host: process.env.TG_PROXY_HOST,
-            port: process.env.TG_PROXY_PORT * 1
-          }
-        })
-      }
-      Object.assign(options, { agent })
-    }
-    $.get(options, async (err, resp, data) => {
-      try {
-        if (err) {
-        } else {
-          if (data) data = JSON.parse(data)
-        }
-      } catch (e) {
-        // $.logErr(e, resp)
-      } finally {
-        resolve(data || []);
-      }
-    })
-    await $.wait(10000)
-    resolve();
-  })
 }
 
 function getPostRequest(url) {
