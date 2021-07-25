@@ -2,7 +2,6 @@
 特务Z
 cron 23 0,9 24-27 7 *
 要跑2次，第一次做任务和脚本内互助，第二次才够币抽奖
-第一个CK会为作者助力，暂不知助力上限（貌似没上限）
 */
 const $ = new Env('特务Z');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -52,23 +51,23 @@ if ($.isNode()) {
     }
     await $.wait(1000);
   }
-  let res = [];
-  try{res = await getAuthorShareCode('https://raw.githubusercontent.com/star261/jd/main/code/ProductZ4Brand.json');}catch (e) {}
-  if(!res){
-    try{res = await getAuthorShareCode('https://gitee.com/star267/share-code/raw/master/ProductZ4Brand.json');}catch (e) {}
-    if(!res){res = [];}
-  }
-  for (let i = 0; i < 1; i++) {
-    $.cookie = cookiesArr[i];
-    $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-    $.encryptProjectId = useInfo[$.nickName];
-    for (let j = 0; j < res.length; j++) {
-      $.code = res[j];
-      console.log(`${$.UserName},去助力:${$.code}`);
-      await takePostRequest('help');
-      await $.wait(2000);
-    }
-  }
+  // let res = [];
+  // try{res = await getAuthorShareCode('https://raw.githubusercontent.com/star261/jd/main/code/ProductZ4Brand.json');}catch (e) {}
+  // if(!res){
+  //   try{res = await getAuthorShareCode('https://gitee.com/star267/share-code/raw/master/ProductZ4Brand.json');}catch (e) {}
+  //   if(!res){res = [];}
+  // }
+  // for (let i = 0; i < 1; i++) {
+  //   $.cookie = cookiesArr[i];
+  //   $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+  //   $.encryptProjectId = useInfo[$.nickName];
+  //   for (let j = 0; j < res.length; j++) {
+  //     $.code = res[j];
+  //     console.log(`${$.UserName},去助力:${$.code}`);
+  //     await takePostRequest('help');
+  //     await $.wait(2000);
+  //   }
+  // }
 
   for (let i = 0; i < cookiesArr.length; i++) {
     $.cookie = cookiesArr[i];
