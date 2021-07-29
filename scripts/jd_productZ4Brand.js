@@ -28,7 +28,7 @@ if ($.isNode()) {
   let res = [];
   try{res = await getAuthorShareCode('https://raw.githubusercontent.com/star261/jd/main/code/ProductZ4Brand.json');}catch (e) {}
   if(!res){
-    try{res = await getAuthorShareCode('https://gitee.com/star267/share-code/raw/master/ProductZ4Brand.json');}catch (e) {}
+    try{res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/star261/jd@main/code/ProductZ4Brand.json');}catch (e) {}
     if(!res){res = [];}
   }
   if(res.length === 0){console.log(`获取作者助力码失败或者作者已不需要助力，感谢`);return ;}
