@@ -32,7 +32,7 @@
       "running": true,
       "job": {
         "type": "runjs",
-        "target": "https://ghproxy.com/https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js"
+        "target": "https://raw.fastgit.org/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js"
       }
     },
     {
@@ -96,13 +96,13 @@
       }
     },
     {
-      "name": "京喜财富岛热气球挂机",
+      "name": "京喜财富岛提现",
       "type": "cron",
       "time": "20 0,6-23 * * *",
       "running": true,
       "job": {
         "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_cfd_loop.js"
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_cfdtx.js"
       }
     },
     {
@@ -263,6 +263,16 @@
       "job": {
         "type": "runjs",
         "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_kd.js"
+      }
+    },
+    {
+      "name": "领京豆",
+      "type": "cron",
+      "time": "10 9 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_ljd.js"
       }
     },
     {
@@ -596,16 +606,6 @@
       }
     },
     {
-      "name": "天天优惠大乐透",
-      "type": "cron",
-      "time": "50 7 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_DrawEntrance.js"
-      }
-    },
-    {
       "name": "发财大赢家",
       "type": "cron",
       "time": "30 8-23 * * *",
@@ -613,6 +613,36 @@
       "job": {
         "type": "runjs",
         "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_big_winner.js"
+      }
+    },
+    {
+      "name": "柠檬我是大老板",
+      "type": "cron",
+      "time": "30 0,6-23/4 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_wsdlb.js"
+      }
+    },
+    {
+      "name": "赚30",
+      "type": "cron",
+      "time": "40 0,7 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_earn30.js"
+      }
+    },
+    {
+      "name": "特务Z",
+      "type": "cron",
+      "time": "15 0,7 24-27 * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_tewuZ.js"
       }
     },
     {

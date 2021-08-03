@@ -46,7 +46,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
     return;
   }
   // await getAuthorShareCode('http://cdn.annnibb.me/jd_zz.json');
-  // await getAuthorShareCode('https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_zz.json');
+  // await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/jd_zz.json');
   await getRandomCode();
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
@@ -69,7 +69,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
       await main();
     }
   }
-  console.log(`\n\n内部互助 【赚京豆(微信小程序)-瓜分京豆】活动(优先内部账号互助(需内部cookie数量大于${$.assistNum || 4}个)，如有剩余助力次数则给作者lxk0301和随机团助力)\n`)
+  // console.log(`\n\n内部互助 【赚京豆(微信小程序)-瓜分京豆】活动(优先内部账号互助(需内部cookie数量大于${$.assistNum || 4}个)，如有剩余助力次数则给作者lxk0301和随机团助力)\n`)
   // for (let i = 0; i < cookiesArr.length; i++) {
   //   $.canHelp = true
   //   if (cookiesArr[i]) {
@@ -724,7 +724,7 @@ function getAuthorShareCode(url) {
   })
 }
 async function getRandomCode() {
-  await $.http.get({url: `https://ghproxy.com/https://raw.githubusercontent.com/zero205/updateTeam/master/shareCodes/jd_zz.json`, timeout: 10000}).then(async (resp) => {
+  await $.http.get({url: `https://raw.fastgit.org/zero205/updateTeam/master/shareCodes/jd_zz.json`, timeout: 10000}).then(async (resp) => {
     if (resp.statusCode === 200) {
       try {
         let { body } = resp;
