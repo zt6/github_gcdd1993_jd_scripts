@@ -1,6 +1,6 @@
 /*
 特务Z
-cron 23 8,9 3 8 *
+cron 23 8,9 5 8 *
 要跑2次
 */
 const $ = new Env('特务Z');
@@ -27,8 +27,6 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-  console.log(`暂时没有特务活动`);
-  return ;
   for (let i = 0; i < cookiesArr.length; i++) {
     UA = `jdapp;iPhone;10.0.8;14.6;${randomWord(false,40,40)};network/wifi;JDEbook/openapp.jdreader;model/iPhone9,2;addressid/2214222493;appBuild/168841;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16E158;supportJDSHWK/1`;
     $.index = i + 1;
