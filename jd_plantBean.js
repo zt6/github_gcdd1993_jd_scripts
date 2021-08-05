@@ -34,10 +34,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
 //此此内容是IOS用户下载脚本到本地使用，填写互助码的地方，同一京东账号的好友互助码请使用@符号隔开。
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
 let shareCodes = [ // IOS本地脚本用户这个列表填入你要助力的好友的shareCode
-                   //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开
-  'mlrdw3aw26j3xc6xycqtc74umufg2kphl3yfaxy@4npkonnsy7xi3ii7u6y52byc4urucexhl2wh2pq@olmijoxgmjutydymkyc56wollvia4yorekjt5ky@q7knrx5fitalyburqkflsm4jjq3h7wlwy7o5jii@4npkonnsy7xi2dkkbvl643342m5of4rpapky3ha@u72q4vdn3zes3byfckc62jqcbkxq3wtymnzrz2i@e7lhibzb3zek3ziaj5fstdr2qbxofrnt63pxzpq@fn5sjpg5zdejmpxw4mttxyyppqmy3t6eveppesy@hjkb2bbfm2bdr7lxto2hvcagyq3h7wlwy7o5jii',
-  //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开
-  'mlrdw3aw26j3xc6xycqtc74umufg2kphl3yfaxy@4npkonnsy7xi3ii7u6y52byc4urucexhl2wh2pq@olmijoxgmjutydymkyc56wollvia4yorekjt5ky@q7knrx5fitalyburqkflsm4jjq3h7wlwy7o5jii@4npkonnsy7xi2dkkbvl643342m5of4rpapky3ha@u72q4vdn3zes3byfckc62jqcbkxq3wtymnzrz2i@e7lhibzb3zek3ziaj5fstdr2qbxofrnt63pxzpq@fn5sjpg5zdejmpxw4mttxyyppqmy3t6eveppesy@hjkb2bbfm2bdr7lxto2hvcagyq3h7wlwy7o5jii',
+  'mlrdw3aw26j3xptn5guhjxd7u2kpuzuvl56jl3a@e7lhibzb3zek2oioxerjozsro55orxh2yys4ula@4npkonnsy7xi3vmhxsl6abhoobgac24a6ygwozq@iu237u55hwjiogp3xjbrlxlnr63rsvuwinz5jfi@4npkonnsy7xi3okqqrl2kyhnwr2jx7crssyde3y@y6rc3yckuh5thtbjl7uhgrmz7qorfldntko6qoy@xooz5rk4vgwfnhkdbvkkbd37iw7vfugseyxb2sq@4npkonnsy7xi3utpy37pb3qc2vwdg4im4ts6rfa@q74cnfebbilqdntxbtix6cx5a4@vrkyr554jaqaoz42txxzfpnmflvugxjqnwvab2a'
 ]
 let allMessage = ``;
 let currentRoundId = null;//本期活动id
@@ -589,7 +586,7 @@ function shareCodesFormat() {
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > shareCodes.length ? (shareCodes.length - 1) : ($.index - 1);
-      newShareCodes = shareCodes[tempIndex].split('@');
+      newShareCodes = shareCodes[0].split('@');
     }
     // const readShareCodeRes = await readShareCode();
     // if (readShareCodeRes && readShareCodeRes.code === 200) {

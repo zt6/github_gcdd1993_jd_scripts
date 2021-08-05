@@ -49,7 +49,9 @@ if ($.isNode()) {
 }
 let wantProduct = ``;//心仪商品名称
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-const inviteCodes = ['T0225KkcRUxL9FKDJh7ylvMLcACjVWnYaS5kRrbA@T0225KkcRx0Q_AaCdRr1xf8DIQCjVWnYaS5kRrbA@T0225KkcRksZpgDSIBj3xvADdQCjVWnYaS5kRrbA@T018v_52Qxge81HeJB2b1ACjVWnYaS5kRrbA@T0205KkcPFd_vD2uSkCi3YhXCjVWnYaS5kRrbA@T018v_hzQhwZ8FbUIRib1ACjVWnYaS5kRrbA'];
+const inviteCodes = [
+  ' T0225KkcRUscp1zeIk6gxvAPIQCjVWnYaS5kRrbA@T0225KkcRBwfo1HfJRv0x6ZYcgCjVWnYaS5kRrbA@T0225KkcR01MoVfUJEj3x6EKcQCjVWnYaS5kRrbA@T0205KkcI1tMpzOKQE6W6aJeCjVWnYaS5kRrbA@T0225KkcRxYR9weFchKix_cKcQCjVWnYaS5kRrbA@T020v_1xQBwc91bKIhj2k_AJCjVWnYaS5kRrbA@T0205KkcE3ljsSy1Yl-C5ZdpCjVWnYaS5kRrbA@T0225KkcRx5N9VXWKBr3lqUMIgCjVWnYaS5kRrbA@T008aXnOl5-KCjVWnYaS5kRrbA@T019-akHCV9AgyOKYV-g3LcCjVWnYaS5kRrbA'
+];
 let myInviteCode;
 !(async () => {
   await requireConfig();
@@ -694,7 +696,7 @@ function shareCodesFormat() {
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
+      $.newShareCodes = inviteCodes[0].split('@');
     }
     const readShareCodeRes = await readShareCode();
     if (readShareCodeRes && readShareCodeRes.code === 200) {

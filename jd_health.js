@@ -24,9 +24,7 @@ const jdCookieNode = $.isNode() ? require("./jdCookie.js") : "";
 const notify = $.isNode() ? require('./sendNotify') : "";
 let cookiesArr = [], cookie = "", allMessage = "", message;
 const inviteCodes = [
-  `T0225KkcRh9P9FbRKUygl_UJcgCjVfnoaW5kRrbA@T0159KUiH11Mq1bSKBoCjVfnoaW5kRrbA@T018v_hzQhwZ8FbUIRib1ACjVfnoaW5kRrbA`,
-  `T0225KkcRh9P9FbRKUygl_UJcgCjVfnoaW5kRrbA@T0159KUiH11Mq1bSKBoCjVfnoaW5kRrbA@T018v_hzQhwZ8FbUIRib1ACjVfnoaW5kRrbA`,
-  `T0225KkcRh9P9FbRKUygl_UJcgCjVfnoaW5kRrbA@T0159KUiH11Mq1bSKBoCjVfnoaW5kRrbA@T018v_hzQhwZ8FbUIRib1ACjVfnoaW5kRrbA`,
+  'T0225KkcRUscp1zeIk6gxvAPIQCjVfnoaW5kRrbA@T0225KkcRBwfo1HfJRv0x6ZYcgCjVfnoaW5kRrbA@T0225KkcR01MoVfUJEj3x6EKcQCjVfnoaW5kRrbA@T0205KkcI1tMpzOKQE6W6aJeCjVfnoaW5kRrbA@T0225KkcRxYR9weFchKix_cKcQCjVfnoaW5kRrbA@T020v_1xQBwc91bKIhj2k_AJCjVfnoaW5kRrbA@T0205KkcE3ljsSy1Yl-C5ZdpCjVfnoaW5kRrbA@T0225KkcRx5N9VXWKBr3lqUMIgCjVfnoaW5kRrbA@T008aXnOl5-KCjVfnoaW5kRrbA@T019-akHCV9AgyOKYV-g3LcCjVfnoaW5kRrbA'
 ]
 let reward = process.env.JD_HEALTH_REWARD_NAME ? process.env.JD_HEALTH_REWARD_NAME : ''
 const randomCount = $.isNode() ? 20 : 5;
@@ -365,7 +363,7 @@ function shareCodesFormat() {
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
+      $.newShareCodes = inviteCodes[0].split('@');
     }
     // const readShareCodeRes = await readShareCode();
     // if (readShareCodeRes && readShareCodeRes.code === 200) {
