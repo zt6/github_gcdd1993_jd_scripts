@@ -34,7 +34,17 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
 //此此内容是IOS用户下载脚本到本地使用，填写互助码的地方，同一京东账号的好友互助码请使用@符号隔开。
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
 let shareCodes = [ // IOS本地脚本用户这个列表填入你要助力的好友的shareCode
-  'mlrdw3aw26j3xptn5guhjxd7u2kpuzuvl56jl3a@e7lhibzb3zek2oioxerjozsro55orxh2yys4ula@4npkonnsy7xi3vmhxsl6abhoobgac24a6ygwozq@iu237u55hwjiogp3xjbrlxlnr63rsvuwinz5jfi@4npkonnsy7xi3okqqrl2kyhnwr2jx7crssyde3y@y6rc3yckuh5thtbjl7uhgrmz7qorfldntko6qoy@xooz5rk4vgwfnhkdbvkkbd37iw7vfugseyxb2sq@4npkonnsy7xi3utpy37pb3qc2vwdg4im4ts6rfa@q74cnfebbilqdntxbtix6cx5a4@vrkyr554jaqaoz42txxzfpnmflvugxjqnwvab2a'
+  'mlrdw3aw26j3xptn5guhjxd7u2kpuzuvl56jl3a@' +
+  'bknudbr7e4sqwbhh4kxjg7vthwtj3ctybaw66uy@' +
+  'e7lhibzb3zek2oioxerjozsro55orxh2yys4ula@' +
+  '4npkonnsy7xi3vmhxsl6abhoobgac24a6ygwozq@' +
+  'iu237u55hwjiogp3xjbrlxlnr63rsvuwinz5jfi@' +
+  '4npkonnsy7xi3okqqrl2kyhnwr2jx7crssyde3y@' +
+  'y6rc3yckuh5thtbjl7uhgrmz7qorfldntko6qoy@' +
+  'xooz5rk4vgwfnhkdbvkkbd37iw7vfugseyxb2sq@' +
+  '4npkonnsy7xi3utpy37pb3qc2vwdg4im4ts6rfa@' +
+  'q74cnfebbilqdntxbtix6cx5a4@' +
+  'vrkyr554jaqaoz42txxzfpnmflvugxjqnwvab2a'
 ]
 let allMessage = ``;
 let currentRoundId = null;//本期活动id

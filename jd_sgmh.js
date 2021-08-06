@@ -29,7 +29,16 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let appId = '1EFRXxg' , homeDataFunPrefix = 'interact_template', collectScoreFunPrefix = 'harmony', message = ''
 let lotteryResultFunPrefix = homeDataFunPrefix, browseTime = 6
 const inviteCodes = [
-  'T0225KkcRUscp1zeIk6gxvAPIQCjVQmoaT5kRrbA@T0225KkcRBwfo1HfJRv0x6ZYcgCjVQmoaT5kRrbA@T0225KkcR01MoVfUJEj3x6EKcQCjVQmoaT5kRrbA@T0205KkcI1tMpzOKQE6W6aJeCjVQmoaT5kRrbA@T0225KkcRxYR9weFchKix_cKcQCjVQmoaT5kRrbA@T020v_1xQBwc91bKIhj2k_AJCjVQmoaT5kRrbA@T0205KkcE3ljsSy1Yl-C5ZdpCjVQmoaT5kRrbA@T0225KkcRx5N9VXWKBr3lqUMIgCjVQmoaT5kRrbA@T008aXnOl5-KCjVQmoaT5kRrbA@T019-akHCV9AgyOKYV-g3LcCjVQmoaT5kRrbA'
+  'T0225KkcRUscp1zeIk6gxvAPIQCjVQmoaT5kRrbA@' +
+  'T0225KkcRBwfo1HfJRv0x6ZYcgCjVQmoaT5kRrbA@' +
+  'T0225KkcR01MoVfUJEj3x6EKcQCjVQmoaT5kRrbA@' +
+  'T0205KkcI1tMpzOKQE6W6aJeCjVQmoaT5kRrbA@' +
+  'T0225KkcRxYR9weFchKix_cKcQCjVQmoaT5kRrbA@' +
+  'T020v_1xQBwc91bKIhj2k_AJCjVQmoaT5kRrbA@' +
+  'T0205KkcE3ljsSy1Yl-C5ZdpCjVQmoaT5kRrbA@' +
+  'T0225KkcRx5N9VXWKBr3lqUMIgCjVQmoaT5kRrbA@' +
+  'T008aXnOl5-KCjVQmoaT5kRrbA@' +
+  'T019-akHCV9AgyOKYV-g3LcCjVQmoaT5kRrbA'
 ];
 const randomCount = $.isNode() ? 10 : 5;
 const notify = $.isNode() ? require('./sendNotify') : '';
