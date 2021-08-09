@@ -98,7 +98,7 @@
     {
       "name": "京喜财富岛提现",
       "type": "cron",
-      "time": "20 0,6-23 * * *",
+      "time": "59 11,12,23 * * *",
       "running": true,
       "job": {
         "type": "runjs",
@@ -643,6 +643,16 @@
       "job": {
         "type": "runjs",
         "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_tewuZ.js"
+      }
+    },
+    {
+      "name": "七夕情报局",
+      "type": "cron",
+      "time": "30 0,9,21 4-15 8 *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://gitee.com/zero205/JD_tencent_scf/raw/main/jd_qixi.js"
       }
     },
     {
