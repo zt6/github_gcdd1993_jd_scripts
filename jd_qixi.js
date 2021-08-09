@@ -29,7 +29,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
-let qixi_addcar = false
+let qixi_addcar = true
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -214,7 +214,7 @@ async function run() {
       $.levelUpgrade = false
       await task('get_home_info')
       if($.homeInfo && $.homeInfo.is_coins_enough){
-        
+
         $.levelUpgrade = true
         await taskPost(`user_level_upgrade`)
         if($.resTask && $.resTask.letter_info){
@@ -308,7 +308,7 @@ function taskPost(type) {
             console.log(data)
           }
         }
-        
+
       } catch (e) {
         $.logErr(e, resp)
       } finally {
@@ -406,7 +406,7 @@ function userInfo() {
             console.log(data)
           }
         }
-        
+
       } catch (e) {
         $.logErr(e, resp)
       } finally {
