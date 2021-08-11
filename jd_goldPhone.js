@@ -18,33 +18,20 @@ if ($.isNode()) {
 }
 $.authorizationInfo = {};
 $.joinTeamLsit = [];
-$.inviteList = [];
+$.inviteList = [
+    '6113400ad852714770',
+    "611340b46523d47012",
+    "611340ce95b4a64684"
+];
 $.authorCode = '';
-let res = [], res2 = [];
 !(async () => {
     if (!cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
-
-    try { res = await getAuthorShareCode('https://raw.githubusercontent.com/star261/jd/main/code/goldPhone.json'); } catch (e) { }
-    if (!res) {
-        try { res = await getAuthorShareCode('https://gitee.com/star267/share-code/raw/master/goldPhone.json'); } catch (e) { }
-        if (!res) { res = []; }
-    }
-    if (res && res.length > 0) {
-        $.authorCode = getRandomArrayElements(res, 1)[0];
-    }
-    let res2 = await getAuthorShareCode('https://raw.githubusercontent.com/zero205/updateTeam/main/shareCodes/jd_jinji.json')
-    if (!res2) {
-      await $.wait(1000)
-      res2 = await getAuthorShareCode('https://raw.fastgit.org/zero205/updateTeam/main/shareCodes/jd_jinji.json')
-    }
-    if (res2 && res2.length > 0) {
-        $.tuanId = getRandomArrayElements(res2, 1)[0];
-        console.log(`zero205的组队码：${$.tuanId}`);
-    }
     for (let i = 0; i < cookiesArr.length; i++) {
+        $.tuanId = getRandomArrayElements($.inviteList,1)[0]
+        console.log(`组队码：${$.tuanId}`)
         await getUA();
         $.index = i + 1;
         $.cookie = cookiesArr[i];
