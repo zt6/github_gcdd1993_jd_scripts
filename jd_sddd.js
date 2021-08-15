@@ -72,7 +72,7 @@ $.activityId = 1604;
     await helpMain();
   }
   console.log(`\n开始帮【zero205】助力，感谢！\n`);
-  await getShareCode()
+  // await getShareCode()
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=(.+?);/) && $.cookie.match(/pt_pin=(.+?);/)[1])
