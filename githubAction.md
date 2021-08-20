@@ -20,7 +20,7 @@
 |    `PUSH_KEY`     |                       微信server酱推送                       | 非必须 | server酱的微信通知[官方文档](http://sc.ftqq.com/3.version)，已兼容 [Server酱·Turbo版](https://sct.ftqq.com/)   |
 |    `BARK_PUSH`    | [BARK推送](https://apps.apple.com/us/app/bark-customed-notifications/id1403753865) | 非必须 | IOS用户下载BARK这个APP,填写内容是app提供的`设备码`，例如：https://api.day.app/123 ，那么此处的设备码就是`123`，再不懂看 [这个图](icon/bark.jpg)（注：支持自建填完整链接即可） |
 |   `BARK_SOUND`    | [BARK推送](https://apps.apple.com/us/app/bark-customed-notifications/id1403753865) | 非必须 | bark推送声音设置，例如`choo`,具体值请在`bark`-`推送铃声`-`查看所有铃声` |
-|   `BARK_GROUP`    | [BARK推送](https://apps.apple.com/us/app/bark-customed-notifications/id1403753865) | 非必须 | bark推送消息分组，默认`JDHelloWorld`,推送成功后可以在`bark`-`历史消息`-`右上角文件夹图标查看` |
+|   `BARK_GROUP`    | [BARK推送](https://apps.apple.com/us/app/bark-customed-notifications/id1403753865) | 非必须 | bark推送消息分组，例如`jd_scripts` |
 |  `TG_BOT_TOKEN`   |                         telegram推送                         | 非必须 | tg推送(需设备可连接外网),`TG_BOT_TOKEN`和`TG_USER_ID`两者必需,填写自己申请[@BotFather](https://t.me/BotFather)的Token,如`10xxx4:AAFcqxxxxgER5uw` , [具体教程](./backUp/TG_PUSH.md) |
 |   `TG_USER_ID`    |                         telegram推送                         | 非必须 | tg推送(需设备可连接外网),`TG_BOT_TOKEN`和`TG_USER_ID`两者必需,填写[@getuseridbot](https://t.me/getuseridbot)中获取到的纯数字ID, [具体教程](./backUp/TG_PUSH.md) |
 |  `DD_BOT_TOKEN`   |                           钉钉推送                           | 非必须 | 钉钉推送(`DD_BOT_TOKEN`和`DD_BOT_SECRET`两者必需)[官方文档](https://developers.dingtalk.com/document/app/custom-robot-access) ,只需`https://oapi.dingtalk.com/robot/send?access_token=XXX` 等于`=`符号后面的XXX即可 |
@@ -51,8 +51,9 @@
 |    `JD_CASH_SHARECODES`     |  签到领现金<br>互助码  | 非必须 |            10/            | 填写规则和上面类似，或见下方[互助码的填写规则](#互助码的填写规则) |
 |    `JDSGMH_SHARECODES`      |  闪购盲盒<br>互助码  | 非必须 |            10/            | 填写规则和上面类似，或见下方[互助码的填写规则](#互助码的填写规则) |
 |    `JDCFD_SHARECODES`      |  京喜财富岛<br>互助码  | 非必须 |            未知/未知            | 填写规则和上面类似，或见下方[互助码的填写规则](#互助码的填写规则) |
-|    `JDHEALTH_SHARECODES`      |  东东健康社区<br>互助码  | 非必须 |            未知/未知            | 填写规则和上面类似，或见下方[互助码的填写规则](#互助码的填写规则) |
-|    `CITY_SHARECODES`      |  城城领现金<br>互助码  | 非必须 |            未知/未知            | 填写规则和上面类似，或见下方[互助码的填写规则](#互助码的填写规则) |
+|    `dyjCode`      |  大赢家<br>互助码  | 非必须 |            未知/未知            | 仅支持单个互助码，，暂不支持多号。格式：redEnvelopeId@markedPin |
+|    `TYT_PACKETID`      |  推一推<br>互助码  | 非必须 |            未知/未知            | 仅支持单个互助码，暂不支持多号 |
+|    `MONEYTREE_SHARECODES`     |  摇钱树<br>互助码  | 非必须 |            未知/未知            | 填写规则和上面类似，或见下方[互助码的填写规则](#互助码的填写规则) |
 
 ##### 控制脚本功能环境变量
 
@@ -92,11 +93,9 @@
 | `DREAMFACTORY_FORBID_ACCOUNT`|    京喜工厂<br>控制哪个京东账号不运行此脚本     | 非必须 | 输入`1`代表第一个京东账号不运行，多个使用`&`连接，例：`1&3`代表账号1和账号3不运行京喜工厂脚本，注：输入`0`，代表全部账号不运行京喜工厂脚本 |
 | `JDFACTORY_FORBID_ACCOUNT`|    东东工厂<br>控制哪个京东账号不运行此脚本     | 非必须 | 输入`1`代表第一个京东账号不运行，多个使用`&`连接，例：`1&3`代表账号1和账号3不运行东东工厂脚本，注：输入`0`，代表全部账号不运行东东工厂脚本 |
 |    `CFD_NOTIFY_CONTROL`      |    京喜财富岛<br>控制是否运行脚本后通知     | 非必须 | 输入`true`为通知,不填则为不通知 |
-|    `JXNC_NOTIFY_LEVEL`      |    京喜农场通知控制<br>推送开关,默认1     | 非必须 | 通知级别 0=只通知成熟;1=本次获得水滴>0;2=任务执行;3=任务执行+未种植种子 |
-|    `PURCHASE_SHOPS`      |    执行`jd_scripts`仓库的脚本是否做加物品至购物车任务。默认关闭不做加购物车任务     | 非必须 | 如需做此类型任务。请设置`true`，目前东东小窝(jd_small_home.js)脚本会有加购任务 |
-|    `TUAN_ACTIVEID`      |    京喜工厂拼团瓜分电力活动的`activeId`<br>默认读取作者设置的     | 非必须 | 如出现脚本开团提示失败：`活动已结束，请稍后再试~`，可自行抓包替换(开启抓包，进入拼团瓜分电力页面，寻找带有`tuan`的链接里面的`activeId=`) |
-|    `HELP_AUTHOR`      |    是否给作者助力 免费拿,极速版拆红包,省钱大赢家等活动.<br>默认是     | 非必须 | 填`false`可关闭此助力 |
-
+|    `JD_JOY_PARK`      |    汪汪乐园<br>控制是否运行此脚本,默认是     | 非必须 | 输入`false`为不运行 |
+|    `JD_TRY`      |    京东试用<br>控制是否运行此脚本,默认否     | 非必须 | 输入`true`为运行 |
+|    `NOT_RUN`      |    禁止运行某脚本<br>控制是否运行此脚本     | 非必须 | 输入`对应脚本名称，多个脚本用&连接` |
 
 ##### 互助码的填写规则
 
@@ -111,7 +110,7 @@
   ```
 
  两个账号各两个互助码的真实示例：
-  ``` 
+  ```
 0a74407df5df4fa99672a037eec61f7e@dbb21614667246fabcfd9685b6f448f3&6fbd26cc27ac44d6a7fed34092453f77@61ff5c624949454aa88561f2cd721bf6&6fbd26cc27ac44d6a7fed34092453f77@61ff5c624949454aa88561f2cd721bf6
   ```
 
@@ -121,7 +120,7 @@
 
  > 环境变量内容的意思依次是`是否取关全部商品(0表示一个都不)`,`是否取关全部店铺数(0表示一个都不)`,`遇到此商品不再进行取关`,`遇到此店铺不再进行取关`
 
-例如1：不要取关任何商品和店铺，则输入`0&0` 
+例如1：不要取关任何商品和店铺，则输入`0&0`
 例如2：我想商品遇到关键字 `iPhone12` 停止取关，店铺遇到 `Apple京东自营旗舰店` 不再取关，则输入`10&10&iPhone12&Apple京东自营旗舰店`(前面两个参数非0即可)
 
 #### 关于脚本推送通知频率
@@ -131,6 +130,6 @@
   > 目前默认只有jd_fruit.js,jd_pet.js,jd_bean_sign.js,jd_bean_change.js,jd_jxnc.js这些脚本(默认)每次运行后都通知
 
   ```
-其余的脚本平常运行都是不通知，只有在京东cookie失效以及达到部分条件后，才会推送通知    
+其余的脚本平常运行都是不通知，只有在京东cookie失效以及达到部分条件后，才会推送通知
   ```
 
