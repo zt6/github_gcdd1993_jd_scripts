@@ -4,7 +4,7 @@
 const $ = new Env('科技玩家签到')
 // const notify = $.isNode() ? require('./sendNotify') : '';
 
-const checkin = async (token) => {
+async function checkin(token) {
   return new Promise(resolve => {
     const option = {
       url: `https://www.kejiwanjia.com/wp-json/b2/v1/userMission`,
