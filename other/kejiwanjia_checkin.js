@@ -1,14 +1,13 @@
 /*
  * 科技玩家签到
 */
-const HOST_NAME = 'https://www.kejiwanjia.com/'
 const $ = new Env('科技玩家签到')
 // const notify = $.isNode() ? require('./sendNotify') : '';
 
 const checkin = async (token) => {
   return new Promise(resolve => {
     const option = {
-      url: `${HOST_NAME}/wp-json/b2/v1/userMission`,
+      url: `https://www.kejiwanjia.com/wp-json/b2/v1/userMission`,
       headers: {
         'accept': '*/*',
         'accept-encoding': 'gzip, deflate, br',
