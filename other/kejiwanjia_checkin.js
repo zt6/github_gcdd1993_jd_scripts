@@ -7,19 +7,17 @@ const $ = new Env('科技玩家签到')
 let token = process.env.KJWJ_TOKEN
 !(async () => {
   if (token) {
-    checkin(token)
-      .then(data => {
-        if (data) {
-          let credit = Number(data)
-          if (!isNaN(credit)) {
-            console.log(`您今天已经签到过了，获得${data}点积分，明天再来试试吧~`)
-          } else {
-            console.log(`恭喜您签到成功，获得${data.credit}点积分，连续签到${mission.tk.days}，剩余积分${mission.my_credit}`)
-          }
-        } else {
-          console.log(`签到失败，原因${data}`)
-        }
-      })
+    let data = await checkin(token)
+    if (data) {
+      let credit = Number(data)
+      if (!isNaN(credit)) {
+        console.log(`您今天已经签到过了，获得${data}点积分，明天再来试试吧~`)
+      } else {
+        console.log(`恭喜您签到成功，获得${data.credit}点积分，连续签到${mission.tk.days}，剩余积分${mission.my_credit}`)
+      }
+    } else {
+      console.log(`签到失败，原因${data}`)
+    }
   } else {
     console.log("您未提供科技玩家的登录token，请先前往https://www.kejiwanjia.com/登录获取")
   }
