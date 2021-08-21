@@ -3,7 +3,7 @@
 */
 const HOST_NAME = 'https://www.kejiwanjia.com/'
 const $ = new Env('科技玩家签到')
-const notify = $.isNode() ? require('../sendNotify') : '';
+// const notify = $.isNode() ? require('./sendNotify') : '';
 
 const checkin = async (token) => {
   return new Promise(resolve => {
