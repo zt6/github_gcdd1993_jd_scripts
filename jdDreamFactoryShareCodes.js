@@ -21,8 +21,8 @@ if (process.env.DREAM_FACTORY_SHARE_CODES) {
   } else {
     shareCodes = process.env.DREAM_FACTORY_SHARE_CODES.split();
   }
-} else {
-  console.log(`去设置变量(DREAM_FACTORY_SHARE_CODES)不同好友中间用@符号隔开`)
+} else if (process.env.DREAM_FACTORY_SHARE_CODES) {
+  console.log(`您secret里面未提供助力码，优先进行自己账号内互助，然后再给脚本内置的码进行助力，请知晓！`)
 }
 for (let i = 0; i < shareCodes.length; i++) {
   const index = (i + 1 === 1) ? '' : (i + 1);
