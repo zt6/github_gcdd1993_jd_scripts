@@ -81,7 +81,7 @@ async function run() {
     $.Biztask = []
     $.Aggrtask = []
     $.Employtask = []
-    
+
     await GetHomePageInfo()
 
     if($.HomeInfo){
@@ -333,7 +333,7 @@ async function sign(){
         }
       }
     }
-    
+
     if($.Aggrtask && $.Aggrtask.Data && $.Aggrtask.Data.Employee && $.Aggrtask.Data.Employee.EmployeeList){
         if($.Aggrtask.Data && $.Aggrtask.Data.Employee && $.Aggrtask.Data.Employee.EmployeeList){
         console.log(`\n领取邀请奖励(${$.Aggrtask.Data.Employee.EmployeeList.length || 0}/${$.Aggrtask.Data.Employee.dwNeedTotalPeople || 0})`)
@@ -521,7 +521,7 @@ async function Guide(){
         }
       }
     }
-    
+
   }catch (e) {
     $.logErr(e);
   }
@@ -782,7 +782,7 @@ function taskGet(type, stk, additional){
 }
 function getGetRequest(type, stk='', additional='') {
   let url = ``;
-  let dwEnv = 7;
+  let dwEnv = 3;
   if(type == 'user/ComposeGameState'){
     url = `https://m.jingxi.com/jxbfd/${type}?__t=${Date.now()}&strZone=jxbfd&dwFirst=1&_=${Date.now()}&sceneval=2`
   }else if(type == 'user/RealTmReport'){
